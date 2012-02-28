@@ -51,17 +51,6 @@ class Ret:
     def values(self):
         return self.__dict__.values()
 
-    # FIXME, remove these~~
-    def show(self):
-        for i in zip(*(self.a, self.s)):
-            print( "  %.03f ± %.03f     " % i, end='')
-        print("   chi2 %.03f" % self.chi2)
-    def aands(self, index):
-        return array((self.a, self.s)).T[index]
-    def stras(self, index):
-        return str("  %.03f ± %.03f  " % tuple(self.aands(index)))
-
-
 def a_pm_s(a_s, unit=''):
     try:
         a = a_s.a
