@@ -20,7 +20,15 @@ class Ret:
         except KeyError:
             raise AttributeError(key)
     def __setattr__(self, key, value):
-        self.__dict__[key] = value
+        if key == '__dict__':
+            raise AttributeError('__dict__')
+        try:
+            object.__getattribute__(self, key)
+            object.__setattr__(self, key, value)
+        except AttributeError:
+            self.__dict__[key] = value
+    def __delattr__(self, name):
+        pass
     def __getitem__(self, keys):
         if issubclass(type(keys), str):
             return self.__dict__[keys]
@@ -39,6 +47,8 @@ class Ret:
                 setattr(self, keys[i], items[i])
             except IndexError:
                 break
+    def __delitem__(self, name):
+        pass
     def __repr__(self):
         return "Ret(%s)" % self.__dict__
     def __str__(self):
