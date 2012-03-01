@@ -2,6 +2,7 @@
 
 import os
 from os import path
+from pylab import *
 
 default_temp = r'''
 \usepackage{amsmath}
@@ -76,7 +77,7 @@ class Tex():
         fname = path.basename(fname)
         if dir_name == '':
             dir_name = '.'
-        if fname.endwith('.pdf'):
+        if fname.endswith('.pdf'):
             jname = fname[:-4]
         else:
             jname = fname
@@ -92,4 +93,5 @@ def print_array(fname, table, head=None):
         head = array(head)
         head = head.reshape(head.size)
         f_table = array([head.tolist()] + f_table.T.tolist()).T
-    tex.addform()
+    tex.addform(f_table)
+    tex.pdf_w(fname)
