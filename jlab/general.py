@@ -5,7 +5,7 @@ from scipy.interpolate import spline #for smooth plot
 import inspect
 
 # http://utcc.utoronto.ca/~cks/space/blog/python/EmulatingStructsInPython
-class Ret:
+class Ret(object):
     def __init__(self, *args, **kwargs):
         object.__setattr__(self, '__dict__', {})
         for arg in args:
