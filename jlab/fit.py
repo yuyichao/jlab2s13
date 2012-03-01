@@ -49,7 +49,7 @@ def fitlin(x, y, sig=None):
     Da[0, 0] = Da[1, 1] * x2a
     s = sqrt(array([Da[0, 0], Da[1, 1]]))
     Da[1, 0] = Da[0, 1] = -Da[1, 1] * xa
-    return Ret(a=a, s=s, yfit=yfit, chi2=chi2, cov=Da)
+    return Ret('a', 's', 'yfit', 'chi2', cov=Da)
 
 def fitpow(x, y, n, sig=None):
     x = array(x)
@@ -97,7 +97,7 @@ def fitpow(x, y, n, sig=None):
     a = array(a).T[0]
     s = sqrt(array([D2[i, i] for i in range(0, n + 1)]))
 
-    return Ret(a=a, s=s, yfit=yfit, chi2=chi2, cov=D2)
+    return Ret('a', 's', 'yfit', 'chi2', cov=D2)
 
 def curve_fit_wrapper(fitfun):
     # http://www.physics.utoronto.ca/~phy326/python/curve_fit_to_data.py
