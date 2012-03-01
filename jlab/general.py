@@ -44,7 +44,7 @@ class Ret:
             res += (getattr(self, k, None),)
         return res
     def __setitem__(self, keys, items):
-        if type(keys) == type([]):
+        if type(keys) == type(()):
             for i in range(0, len(keys)):
                 setattr(self, keys[i], items[i])
             return
