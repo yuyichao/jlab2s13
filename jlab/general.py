@@ -97,6 +97,8 @@ def a_pm_s(a_s, unit=''):
 
     if len(unit) < l:
         unit += [''] * (l - len(unit))
+    if l == 1:
+        return _a_pm_s(a[0], s[0], unit[0])
     return array([_a_pm_s(a[i], s[i], unit[i]) for i in range(0, l)])
 
 def _a_pm_s(a, s, unit):
