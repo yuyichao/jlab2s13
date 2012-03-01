@@ -63,7 +63,7 @@ class Ret(object):
     def values(self):
         return self.__dict__.values()
 
-def a_pm_s(a_s, unit=''):
+def a_pm_s(a_s, unit='', sci=None):
     try:
         a = a_s.a
         s = a_s.s
@@ -98,17 +98,18 @@ def a_pm_s(a_s, unit=''):
     if len(unit) < l:
         unit += [''] * (l - len(unit))
     if l == 1:
-        return _a_pm_s(a[0], s[0], unit[0])
-    return array([_a_pm_s(a[i], s[i], unit[i]) for i in range(0, l)])
+        return _a_pm_s(a[0], s[0], unit[0], sci)
+    return array([_a_pm_s(a[i], s[i], unit[i], sci) for i in range(0, l)])
 
-def _a_pm_s(a, s, unit):
+def _a_pm_s(a, s, unit, sci):
     if s <= 0:
         return '%f%s' % (a, unit)
 
-    if s < 100 and (abs(a) > 1 or s > 1):
-        sci = False
-    else:
-        sci = True
+    if sci == None:
+        if s < 100 and (abs(a) > 1 or s > 1):
+            sci = False
+        else:
+            sci = True
 
     la = int(floor(log10(abs(a))))
     ls = int(floor(log10(s)))
