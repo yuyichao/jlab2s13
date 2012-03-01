@@ -2,7 +2,7 @@
 
 import os
 from os import path
-from pylab import *
+from .general import *
 
 default_temp = r'''
 \usepackage{amsmath}
