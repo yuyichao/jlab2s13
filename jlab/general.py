@@ -105,7 +105,7 @@ def _a_pm_s(a, s, unit):
     if s <= 0:
         return '%f%s' % (a, unit)
 
-    if s < 100 and (a > 0 or s > 0):
+    if s < 100 and (abs(a) > 1 or s > 1):
         sci = False
     else:
         sci = True
