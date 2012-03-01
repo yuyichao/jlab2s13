@@ -2,17 +2,23 @@
 from __future__ import print_function
 from pylab import *
 from scipy.interpolate import spline #for smooth plot
+import inspect
 
 # http://utcc.utoronto.ca/~cks/space/blog/python/EmulatingStructsInPython
 class Ret:
     def __init__(self, *args, **kwargs):
         object.__setattr__(self, '__dict__', {})
         for arg in args:
-            self._a(**arg)
+            try:
+                self._a(**arg)
+            except:
+                frame = inspect.currentframe().f_back
+                pair = {arg: eval(arg, frame.f_globals, frame.f_locals)}
+                self._a(**pair)
         self._a(**kwargs)
     def _a(self, **kwargs):
         for k, v in kwargs.items():
-            self.__dict__[k] = v
+            self[k] = v
         return self
     def __getattr__(self, key):
         try:
@@ -20,13 +26,14 @@ class Ret:
         except KeyError:
             raise AttributeError(key)
     def __setattr__(self, key, value):
-        if key == '__dict__':
-            raise AttributeError('__dict__')
+        real = False
         try:
             object.__getattribute__(self, key)
-            object.__setattr__(self, key, value)
+            real = True
         except AttributeError:
             self.__dict__[key] = value
+        if real:
+            raise AttributeError
     def __delattr__(self, name):
         pass
     def __getitem__(self, keys):
@@ -37,16 +44,11 @@ class Ret:
             res += (getattr(self, k, None),)
         return res
     def __setitem__(self, keys, items):
-        try:
-            items.__getitem__
-        except:
-            setattr(self, keys[0], items)
-            return
-        for i in range(0, len(keys)):
-            try:
+        if type(keys) == type([]):
+            for i in range(0, len(keys)):
                 setattr(self, keys[i], items[i])
-            except IndexError:
-                break
+            return
+        setattr(self, keys, items)
     def __delitem__(self, name):
         pass
     def __repr__(self):
