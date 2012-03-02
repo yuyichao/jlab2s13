@@ -110,10 +110,13 @@ def a_pm_s(a_s, unit='', sci=None):
     if len(s) < l:
         s += [0] * (l - len(s))
 
-    try:
-        unit = [u for u in unit]
-    except TypeError:
-        unit = [unit]
+    if type(unit) == type(''):
+        unit = [unit] * l
+    else:
+        try:
+            unit = [u for u in unit]
+        except TypeError:
+            unit = [unit] * l
 
     if len(unit) < l:
         unit += [''] * (l - len(unit))
