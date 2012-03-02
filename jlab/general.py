@@ -122,6 +122,8 @@ def a_pm_s(a_s, unit='', sci=None):
     return array([_a_pm_s(a[i], s[i], unit[i], sci) for i in range(0, l)])
 
 def _a_pm_s(a, s, unit, sci):
+    '''input: observable,error
+       output: formatted observable +- error in scientific notation'''
     if s <= 0:
         return '%f%s' % (a, unit)
 
@@ -153,6 +155,7 @@ def _a_pm_s(a, s, unit, sci):
         return ('%.' + ('%d' % dl) + 'f(%s)%s') % (fa, ss, unit)
 
 def smoothplot(x, y, *args, **kwargs):
+    '''because pylab doesn't know how to plot smoothly out of the box yet'''
     # http://stackoverflow.com/questions/5283649/plot-smooth-line-with-pyplot
     # wrapper for plot to make it smooth
     xnew = np.linspace(x.min(), x.max(), 300)
@@ -164,4 +167,5 @@ def chi2sigma(y, expectedy, sig):
     return sum(((y - expectedy) / sig) ** 2)
 
 def redchi2(delta, sigma, n):
+    '''chi2/dof'''
     return sum((delta / sigma)**2) / (delta.size - n)
