@@ -27,6 +27,16 @@ from os import path
 import sys
 import inspect
 
+#stolen from https://github.com/gak/automain
+#note: BDFL hates this http://www.python.org/dev/peps/pep-0299/
+def automain(func):
+    import inspect
+    parent = inspect.stack()[1][0]
+    name = parent.f_locals.get('__name__', None)
+    if name == '__main__':
+        func()
+    return func
+
 # http://utcc.utoronto.ca/~cks/space/blog/python/EmulatingStructsInPython
 class Ret(object):
     def __init__(self, *args, **kwargs):
