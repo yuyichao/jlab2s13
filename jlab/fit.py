@@ -68,7 +68,7 @@ def fitlin(x, y, sig=None):
     Da[0, 0] = Da[1, 1] * x2a
     s = sqrt(array([Da[0, 0], Da[1, 1]]))
     Da[1, 0] = Da[0, 1] = -Da[1, 1] * xa
-    return Ret('a', 's', 'yfit', 'chi2', cov=Da)
+    return Ret('a', 's', 'x', 'yfit', 'chi2', cov=Da)
 
 def fitpow(x, y, n, sig=None):
     x = array(x)
@@ -116,7 +116,57 @@ def fitpow(x, y, n, sig=None):
     a = array(a).T[0]
     s = sqrt(array([D2[i, i] for i in range(0, n + 1)]))
 
-    return Ret('a', 's', 'yfit', 'chi2', cov=D2)
+    return Ret('a', 's', 'x', 'yfit', 'chi2', cov=D2)
+
+def fitmlin(x, y, sig=None):
+    x = matrix(x)
+    y = matrix(y)
+    l = y.size
+    n = len(x)
+
+    if sig is None:
+        w = ones(l)
+    else:
+        w = (ones(l) / sig)**2
+
+    W = sum(w)
+    wx = multiply(w, x)
+    wy = multiply(w, y)
+
+    #sx = x.sum(axis=1)
+    #sy = y.sum(axis=1)
+    swx = wx.sum(axis=1)
+    swy = wy.sum(axis=1)
+    swxy = wx * y.T
+    swxx = wx * x.T
+
+    mxx = W * swxx - swx * swx.T
+    mxy = W * swxy - swx * swy.T
+
+    a = mxx**-1 * mxy
+    b = (swy - a.T * swx) / W
+
+    pright = W * wx - swx * w
+    dady = mxx**-1 * pright
+    dbdy = (w - swx.T * dady) / W
+
+    yfit = array(a.T * x + b)[0]
+    epsilon2 = (array(y)[0] - yfit)**2
+
+    if sig is None:
+        chi2 = None
+        w = ones(l) * (l - n - 1) / sum(epsilon2)
+    else:
+        chi2 = sum(epsilon2 * w) / (l - n - 1)
+
+    dbady = r_[dbdy, dady]
+    D2 = dbady * diag(w) * dbady.T
+
+    a = array(r_[b, a].T)[0]
+    s = sqrt(diag(D2))
+
+    return Ret('a', 's', 'yfit', 'chi2', x=array(x), cov=D2)
+
 
 def curve_fit_wrapper(fitfun):
     # http://www.physics.utoronto.ca/~phy326/python/curve_fit_to_data.py
