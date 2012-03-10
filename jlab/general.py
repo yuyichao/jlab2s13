@@ -180,7 +180,10 @@ def smoothplot(x, y, *args, **kwargs):
 
 def chi2sigma(y, expectedy, sig):
     '''chi2 but with sigma instead of expected value as denominator'''
-    return sum(((y - expectedy) / sig) ** 2)
+    if sig is None:
+        return None
+    else:
+        return sum(((y - expectedy) / sig) ** 2)
 
 def redchi2(delta, sigma, n):
     '''chi2/dof'''
