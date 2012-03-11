@@ -61,7 +61,7 @@ def try_start_daemon(preload, name):
         s_path = '\0' + name
         s.bind(s_path)
     except socket.error as error:
-        if error.errno == 2:
+        if error.errno == os.errno.ENOENT:
             # POSIX
             s_dir = '/tmp/autod/'
             s_path = s_dir + name
@@ -73,7 +73,7 @@ def try_start_daemon(preload, name):
             try:
                 s.bind(s_path)
             except socket.error as error:
-                if error.errno == 98:
+                if error.errno == os.errno.EADDRINUSE:
                     try:
                         pid = int(os.readlink(s_path + '.pid'))
                     except:
@@ -93,7 +93,7 @@ def try_start_daemon(preload, name):
                     os.unlink(s_path + '.lck')
                     return -1
             os.unlink(s_path + '.lck')
-        elif error.errno == 98:
+        elif error.errno == os.errno.EADDRINUSE:
             return -1
     s.listen(20)
     s.setblocking(1)

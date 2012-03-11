@@ -10,16 +10,16 @@ def try_start(name, argv, fname, cwd, env):
         s_path = '\0' + name
         s.connect(s_path)
     except socket.error as error:
-        if error.errno == 111:
+        if error.errno == os.errno.ECONNREFUSED:
             return -1
-        elif error.errno == 2:
+        elif error.errno == os.errno.ENOENT:
             # POSIX
             s_dir = '/tmp/autod/'
             s_path = s_dir + name
             try:
                 s.connect(s_path)
             except socket.error as error:
-                if error.errno in [2, 61, 111]:
+                if error.errno in [os.errno.ENOENT, os.errno.ECONNREFUSED]:
                     return -1
                 else:
                     exit(-1)

@@ -34,4 +34,3 @@ def check_a_start(preload, name, argv, fname=None, cwd=None, env=None):
         sleep(.1)
         try_start(name, argv, fname, cwd, env)
     print("Fail to connect.")
-    exit(1)
