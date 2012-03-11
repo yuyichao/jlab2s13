@@ -21,6 +21,7 @@
 
 from __future__ import print_function
 from pylab import *
+from numpy import power
 from scipy.interpolate import spline #for smooth plot
 import os
 from os import path
