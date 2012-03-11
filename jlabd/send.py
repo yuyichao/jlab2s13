@@ -19,8 +19,12 @@ def try_start(name, argv, fname, cwd, env):
             try:
                 s.connect(s_path)
             except socket.error as error:
-                if error.errno == 111:
+                if error.errno == 2 or error.errno == 61:
                     return -1
+                else:
+                    exit(-1)
+        else:
+            exit(-1)
 
     sd_str(s, repr(argv))
     sd_str(s, fname)

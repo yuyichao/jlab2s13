@@ -6,12 +6,15 @@ from .read import *
 
 '''
 # Errr, used for debug only (since stdout/stderr are already redirected.)
-def print(*args):
-    fd = os.open('/dev/pts/2', os.O_WRONLY)
-    for arg in args:
-        os.write(fd, str(arg).encode('utf-8'))
-        os.write(fd, b'\n')
-    os.close(fd)
+def mprint(*args):
+    try:
+        fd = os.open('/dev/pts/2', os.O_WRONLY)
+        for arg in args:
+            os.write(fd, str(arg).encode('utf-8'))
+            os.write(fd, b'\n')
+        os.close(fd)
+    except:
+        pass
 '''
 
 def rmsock(s_path):
@@ -66,6 +69,7 @@ def try_start_daemon(preload, name):
                 os.symlink('%d' % os.getpid(), s_path + '.lck')
             except:
                 return -1
+            os.makedirs(s_dir)
             try:
                 s.bind(s_path)
             except socket.error as error:
@@ -125,6 +129,8 @@ def try_start_daemon(preload, name):
 def main_listen(s):
     while True:
         conn, addr = s.accept()
+        mprint(conn)
+        mprint(addr)
         if not conn:
             exit(0)
         pid = fork()
@@ -134,6 +140,7 @@ def main_listen(s):
             # Child.
             s.close()
             return conn
+        conn.close()
 
 def close_quit(fds):
     for fd in fds:
@@ -151,6 +158,8 @@ def redirect(s, pipes):
     while True:
         events = poll.poll()
         for fileno, event in events:
+            mprint("Pid: %d, Fileno: %d, Event: %d" %
+                   (os.getpid(), fileno, event))
             if fileno == s_fn:
                 if event & select.POLLIN:
                     os.write(pipes[0], rd_package(s))
