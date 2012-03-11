@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, sys, socket, select, struct, signal
+import os, sys, socket, select, struct, signal, time
 from os import fork, path
 try:
     from .read import *
@@ -198,15 +198,24 @@ def main_listen(s):
             return conn
         conn.close()
 
-def close_quit(fds):
+def close_kill_quit(fds, pid):
     for fd in fds:
         try:
             os.close(fd)
         except OSError:
             pass
+    try:
+        os.kill(pid, signal.SIGTERM)
+    except OSError:
+        pass
+    time.sleep(.5)
+    try:
+        os.kill(pid, signal.SIGKILL)
+    except OSError:
+        pass
     exit()
 
-def redirect(s, pipes):
+def redirect(s, pipes, pid):
     poll = select.poll()
     s_fn = s.fileno()
     for fd in [s_fn, pipes[1], pipes[2]]:
@@ -217,20 +226,25 @@ def redirect(s, pipes):
             mprint("Pid: %d, Fileno: %d, Event: %d" %
                    (os.getpid(), fileno, event))
             if fileno == s_fn:
+                if event & select.POLLHUP:
+                    close_kill_quit([s_fn] + pipes, pid)
                 if event & select.POLLIN:
                     os.write(pipes[0], rd_package(s))
-                if event & select.POLLHUP:
-                    close_quit([s_fn] + pipes)
             if fileno in pipes:
                 i = pipes.index(fileno)
                 if event & select.POLLIN:
-                    sd_int_pkg(s, i, os.read(fileno, 65536))
+                    try:
+                        sd_int_pkg(s, i, os.read(fileno, 65536))
+                    except OSError:
+                        pass
+                    except socket.error:
+                        pass
                 if event & select.POLLHUP:
                     try:
                         sd_int_str(s, -1, 'FINISH')
                     except socket.error:
                         pass
-                    close_quit([s_fn] + pipes)
+                    close_kill_quit([s_fn] + pipes, pid)
 
 def fork_sub(s):
     pipes = [os.pipe() for i in [0, 1, 2]]
@@ -246,6 +260,7 @@ def fork_sub(s):
         os.close(pipes[2][1])
         pipes[2] = pipes[2][0]
         sd_int_str(s, -1, 'START')
+        redirect(s, pipes, pid)
     else:
         # Child
         s.close()
@@ -260,8 +275,6 @@ def fork_sub(s):
         os.close(pipes[2][0])
         os.dup2(pipes[2][1], 2)
         os.close(pipes[2][1])
-        return
-    redirect(s, pipes)
 
 def main():
     import __main__
