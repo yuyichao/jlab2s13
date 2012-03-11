@@ -19,7 +19,7 @@ def try_start(name, argv, fname, cwd, env):
             try:
                 s.connect(s_path)
             except socket.error as error:
-                if error.errno == 2 or error.errno == 61:
+                if error.errno in [2, 61, 111]:
                     return -1
                 else:
                     exit(-1)
