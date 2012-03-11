@@ -160,7 +160,7 @@ def fitmlin(x, y, sig=None):
         chi2 = sum(epsilon2 * w) / (l - n - 1)
 
     dbady = r_[dbdy, dady]
-    D2 = dbady * diag(w) * dbady.T
+    D2 = dbady * diag(1 / w) * dbady.T
 
     a = array(r_[b, a].T)[0]
     s = sqrt(diag(D2))

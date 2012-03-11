@@ -1,3 +1,5 @@
+import os
+import os.path
 import numpy
 import scipy
 import matplotlib

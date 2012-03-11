@@ -88,6 +88,8 @@ class Ret(object):
         return "Ret(%s)" % self.__dict__
     def __str__(self):
         return str(self.__dict__)
+    def __iter__(self):
+        return iter(self.__dict__)
 
     def keys(self):
         return self.__dict__.keys()
@@ -189,20 +191,14 @@ def redchi2(delta, sigma, n):
     '''chi2/dof'''
     return sum((delta / sigma)**2) / (delta.size - n)
 
-def obj2ret(obj):
-    ret = Ret()
-    for name in dir(obj):
-        if not name.startswith('__'):
-            ret[name] = getattr(obj, name)
-    return ret
-
 def py2ret(fname):
-    dir_name = path.dirname(path.abspath(fname))
-    name, ext = path.splitext(path.basename(fname))
-    if ext != '.py':
-        return None
-    if dir_name:
-        sys.path.insert(0, dir_name)
-        mod = __import__(name)
-        del sys.path[0]
-    return obj2ret(mod)
+    gs = {}
+    ls = {}
+    with open(fname, "r") as fh:
+        exec(fh.read() + "\n", gs, ls)
+    return Ret(ls)
+
+def saveiter(obj, fname):
+    with open(fname, "w") as fh:
+        for key in obj:
+            fh.write("%s = %s\n" % (key, repr(obj[key])))

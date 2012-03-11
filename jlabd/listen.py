@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 
 import os, sys, socket, select, struct, signal
-from os import fork
-from .read import *
+from os import fork, path
+try:
+    from .read import *
+except ValueError:
+    from read import *
 
+def mprint(*args):
+    pass
 '''
 # Errr, used for debug only (since stdout/stderr are already redirected.)
 def mprint(*args):
@@ -13,33 +18,73 @@ def mprint(*args):
             os.write(fd, str(arg).encode('utf-8'))
             os.write(fd, b'\n')
         os.close(fd)
-    except:
+    except OSError:
         pass
 '''
+def fake_func(*args, **kwargs):
+    pass
+
+def lock_opt(s_path):
+    if s_path[0] == '\0':
+        return True
+    try:
+        os.symlink('%d' % os.getpid(), s_path + '.lck')
+        return True
+    except OSError:
+        return False
+
+def unlock_opt(s_path):
+    if s_path[0] == '\0':
+        return
+    os.unlink(s_path + '.lck')
+
+def rd_pid(s_path):
+    if s_path[0] == '\0':
+        return
+    try:
+        pid = int(os.readlink(s_path + '.pid'))
+    except OSError:
+        pid = 0
+    return pid
+
+def rm_pid(s_path):
+    if s_path[0] == '\0':
+        return
+    try:
+        os.unlink(s_path + '.pid')
+    except OSError:
+        pass
+
+def save_pid(s_path):
+    if s_path[0] == '\0':
+        return True
+    try:
+        os.symlink('%d' % os.getpid(), s_path + '.pid')
+        return True
+    except OSError:
+        return False
 
 def rmsock(s_path):
     if s_path[0] != '\0':
-        os.unlink(s_path)
+        try:
+            os.unlink(s_path)
+        except OSError:
+            pass
 
 try:
     execfile
-except:
+except NameError:
     def execfile(file, globals=globals(), locals=locals()):
         with open(file, "r") as fh:
-            exec(fh.read()+"\n", globals, locals)
+            exec(fh.read() + "\n", globals, locals)
 
-def daemonlize(s_path, s):
+def daemonlize(s, s_path, preload):
     pid = os.fork()
     if pid < 0:
         rmsock(s_path)
         exit(1)
     elif pid:
         return pid
-    for fd in [0, 1, 2]:
-        try:
-            os.close(fd)
-        except:
-            pass
     os.setsid()
     pid = os.fork()
     if pid < 0:
@@ -50,60 +95,21 @@ def daemonlize(s_path, s):
     os.chdir('/')
     try:
         signal.signal(signal.SIGCHLD, signal.SIG_IGN)
-    except:
+    except AttributeError:
         pass
-    return 0
+    except OSError:
+        pass
+    ifposix = '0' if s_path[0] == '\0' else '1'
+    os.execv(__file__, [__file__, "%d" % s.fileno(),
+                        ifposix, s_path[1:], preload])
+    rmsock(s_path)
+    exit(-1)
 
-def try_start_daemon(preload, name):
-    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-    try:
-        # Linux
-        s_path = '\0' + name
-        s.bind(s_path)
-    except socket.error as error:
-        if error.errno == os.errno.ENOENT:
-            # POSIX
-            s_dir = '/tmp/autod/'
-            s_path = s_dir + name
-            try:
-                os.symlink('%d' % os.getpid(), s_path + '.lck')
-            except:
-                return -1
-            os.makedirs(s_dir)
-            try:
-                s.bind(s_path)
-            except socket.error as error:
-                if error.errno == os.errno.EADDRINUSE:
-                    try:
-                        pid = int(os.readlink(s_path + '.pid'))
-                    except:
-                        os.unlink(s_path + '.lck')
-                        return -1
-                    try:
-                        os.kill(pid, 0)
-                        os.unlink(s_path + '.lck')
-                        return -1
-                    except OSError as error:
-                        if error.errno == 3:
-                            os.unlink(s_path)
-                        else:
-                            os.unlink(s_path + '.lck')
-                            return -1
-                else:
-                    os.unlink(s_path + '.lck')
-                    return -1
-            os.unlink(s_path + '.lck')
-        elif error.errno == os.errno.EADDRINUSE:
-            return -1
-    s.listen(20)
-    s.setblocking(1)
-    if daemonlize(s_path, s):
-        s.close()
-        return 0
+def listen_func(s, s_path, preload):
     if s_path[0] != '\0':
         try:
             os.symlink('%d' % os.getpid(), s_path + '.pid')
-        except:
+        except OSError:
             os.unlink(s_path)
             exit(1)
     execfile(preload)
@@ -117,6 +123,7 @@ def try_start_daemon(preload, name):
     fork_sub(conn)
     sys.argv = argv
     os.chdir(cwd)
+    sys.path.insert(0, cwd)
     empty_globals = {'__builtins__': __builtins__,
                      '__file__': fname,
                      '__package__': None,
@@ -125,6 +132,55 @@ def try_start_daemon(preload, name):
                      '__doc__': None}
     execfile(fname, globals=empty_globals, locals=empty_globals)
     exit(0)
+
+def try_start_daemon(preload, name):
+    s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    try:
+        # Linux
+        s_path = '\0' + name
+        s.bind(s_path)
+    except socket.error as error:
+        if error.errno == os.errno.ENOENT:
+            # POSIX
+            s_dir = '/tmp/autod/'
+            s_path = s_dir + name
+            try:
+                os.makedirs(s_dir)
+            except OSError as error:
+                if error.errno != os.errno.EEXIST:
+                    return -1
+            if not lock_opt(s_path):
+                return -1
+            fail = False
+            try:
+                s.bind(s_path)
+            except socket.error as error:
+                if error.errno == os.errno.EADDRINUSE:
+                    pid = rd_pid(s_path)
+                    if not pid:
+                        unlock_opt(s_path)
+                        return -1
+                    try:
+                        os.kill(pid, 0)
+                    except OSError as error:
+                        if error.errno == os.errno.ESRCH:
+                            os.unlink(s_path)
+                            rm_pid(s_path)
+                        else:
+                            fail = True
+                else:
+                    fail = True
+            unlock_opt(s_path)
+            if fail:
+                return -1
+        elif error.errno == os.errno.EADDRINUSE:
+            return -1
+    s.listen(20)
+    s.setblocking(1)
+    if daemonlize(s, s_path, preload):
+        s.close()
+        return 0
+    listen_func(s, s_path, preload)
 
 def main_listen(s):
     while True:
@@ -146,7 +202,7 @@ def close_quit(fds):
     for fd in fds:
         try:
             os.close(fd)
-        except:
+        except OSError:
             pass
     exit()
 
@@ -172,7 +228,7 @@ def redirect(s, pipes):
                 if event & select.POLLHUP:
                     try:
                         sd_int_str(s, -1, 'FINISH')
-                    except:
+                    except socket.error:
                         pass
                     close_quit([s_fn] + pipes)
 
@@ -189,7 +245,7 @@ def fork_sub(s):
         pipes[1] = pipes[1][0]
         os.close(pipes[2][1])
         pipes[2] = pipes[2][0]
-        sd_int_str(s, -1,'START')
+        sd_int_str(s, -1, 'START')
     else:
         # Child
         s.close()
@@ -206,3 +262,30 @@ def fork_sub(s):
         os.close(pipes[2][1])
         return
     redirect(s, pipes)
+
+def main():
+    import __main__
+    __main__.__autod_started = True
+    for fd in [0, 1, 2]:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+    s_fd = int(sys.argv[1])
+    s = socket.socket(fileno=s_fd)
+    if int(sys.argv[2]):
+        prefix = '/'
+    else:
+        prefix = '\0'
+    s_path = prefix + sys.argv[3]
+    preload = sys.argv[4]
+    try:
+        signal.signal(signal.SIGCHLD, signal.SIG_IGN)
+    except AttributeError:
+        pass
+    except OSError:
+        pass
+    listen_func(s, s_path, preload)
+
+if __name__ == '__main__':
+    main()

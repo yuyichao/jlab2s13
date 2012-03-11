@@ -1,7 +1,10 @@
 # coding=utf-8
 
 from socket import *
-from .read import *
+try:
+    from .read import *
+except ValueError:
+    from read import *
 
 def check_a_start(preload, name, argv, fname=None, cwd=None, env=None):
     import sys, os, os.path
@@ -9,6 +12,8 @@ def check_a_start(preload, name, argv, fname=None, cwd=None, env=None):
     # Check if interactive.
     import __main__
     if not hasattr(__main__, '__file__'):
+        return
+    if hasattr(__main__, '__autod_started') and __main__.__autod_started:
         return
 
     if fname == None:
