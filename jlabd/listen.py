@@ -76,7 +76,8 @@ try:
 except NameError:
     def execfile(file, globals=globals(), locals=locals()):
         with open(file, "r") as fh:
-            exec(fh.read() + "\n", globals, locals)
+            code = compile(fh.read() + "\n", file, 'exec')
+        exec(code, globals, locals)
 
 def daemonlize(s, s_path, preload):
     pid = os.fork()
