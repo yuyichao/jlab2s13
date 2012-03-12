@@ -116,7 +116,7 @@ def listen_func(s, s_path, preload):
         except OSError:
             os.unlink(s_path)
             exit(1)
-    execfile(preload)
+    execfile(preload, {}, {})
     conn = main_listen(s)
     conn.settimeout(20)
     argv = eval(rd_str(conn))
