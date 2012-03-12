@@ -1,4 +1,4 @@
-from .autod import check_a_start
+from .autod import def_init
 
 from os import path
 import sys
@@ -8,5 +8,4 @@ dname = path.dirname(__file__)
 if dname != '':
     prename = dname + '/' + prename
 
-def init():
-    check_a_start(prename, 'jlabd.socket', sys.argv)
+def_init(prename, 'jlabd.socket')

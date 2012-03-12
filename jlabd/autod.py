@@ -6,7 +6,7 @@ try:
 except ValueError:
     from read import *
 
-def check_a_start(preload, name, argv, fname=None, cwd=None, env=None):
+def check_a_start(preload, name, argv=None, fname=None, cwd=None, env=None):
     import sys, os, os.path
 
     # Check if interactive.
@@ -16,6 +16,8 @@ def check_a_start(preload, name, argv, fname=None, cwd=None, env=None):
     if hasattr(__main__, '__autod_started') and __main__.__autod_started:
         return
 
+    if argv == None:
+        argv = sys.argv
     if fname == None:
         fname = argv[0]
     fname = os.path.abspath(fname)
@@ -39,3 +41,10 @@ def check_a_start(preload, name, argv, fname=None, cwd=None, env=None):
         sleep(.1)
         try_start(name, argv, fname, cwd, env)
     print("Fail to connect.")
+
+def def_init(preload, name, argv=None, fname=None, cwd=None, env=None):
+    import inspect
+    f = inspect.currentframe().f_back
+    def init():
+        check_a_start(preload, name, argv=argv, fname=fname, cwd=cwd, env=env)
+    f.f_locals['init'] = init
