@@ -21,7 +21,7 @@ def check_a_start(preload, name, argv=None, fname=None, cwd=None, env=None):
     if fname == None:
         fname = argv[0]
     fname = os.path.abspath(fname)
-    preload = os.path.abspath(preload)
+    preload = os.path.realpath(preload)
     if cwd == None:
         cwd = os.getcwd()
     if env == None:

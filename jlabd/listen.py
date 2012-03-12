@@ -101,12 +101,16 @@ def daemonlize(s, s_path, preload):
     except OSError:
         pass
     ifposix = '0' if s_path[0] == '\0' else '1'
-    os.execv(__file__, [__file__, "%d" % s.fileno(),
+    filename = path.realpath(__file__)
+    basename = path.basename(filename)
+    os.execv(filename, [basename, "%d" % s.fileno(),
                         ifposix, s_path[1:], preload])
     rmsock(s_path)
     exit(-1)
 
 def listen_func(s, s_path, preload):
+    import __main__
+    __main__.__autod_started = True
     if s_path[0] != '\0':
         try:
             os.symlink('%d' % os.getpid(), s_path + '.pid')
@@ -278,8 +282,6 @@ def fork_sub(s):
         os.close(pipes[2][1])
 
 def main():
-    import __main__
-    __main__.__autod_started = True
     for fd in [0, 1, 2]:
         try:
             os.close(fd)
