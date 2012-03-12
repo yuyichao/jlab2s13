@@ -42,10 +42,9 @@ def rd_pid(s_path):
     if s_path[0] == '\0':
         return
     try:
-        pid = int(os.readlink(s_path + '.pid'))
+        return int(os.readlink(s_path + '.pid'))
     except OSError:
-        pid = 0
-    return pid
+        return 0
 
 def rm_pid(s_path):
     if s_path[0] == '\0':
