@@ -1,10 +1,14 @@
-import os
-import os.path
 import numpy
 import scipy
 import matplotlib
 import matplotlib.mpl
 import matplotlib.mlab
 import matplotlib.dates
+import scipy.misc
+import scipy.fftpack
+import scipy.constants
+import scipy.stats
+import scipy.signal
+import scipy.special
 import scipy.optimize
 import scipy.interpolate
