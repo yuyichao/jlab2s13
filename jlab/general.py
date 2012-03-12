@@ -196,7 +196,8 @@ def py2ret(fname):
     gs = {}
     ls = {}
     with open(fname, "r") as fh:
-        exec(fh.read() + "\n", gs, ls)
+        code = compile(fh.read() + "\n", fname, 'exec')
+    exec(code, gs, ls)
     return Ret(ls)
 
 def saveiter(obj, fname):
