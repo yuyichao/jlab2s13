@@ -131,7 +131,7 @@ def listen_func(s, s_path, preload):
                      '__cached__': None,
                      '__name__': '__main__',
                      '__doc__': None}
-    execfile(fname, globals=empty_globals, locals=empty_globals)
+    execfile(fname, empty_globals, empty_globals)
     exit(0)
 
 def try_start_daemon(preload, name):
@@ -286,7 +286,10 @@ def main():
         except OSError:
             pass
     s_fd = int(sys.argv[1])
-    s = socket.socket(fileno=s_fd)
+    try:
+        s = socket.socket(fileno=s_fd)
+    except TypeError:
+        s = socket.fromfd(s_fd, socket.AF_UNIX, socket.SOCK_STREAM)
     if int(sys.argv[2]):
         prefix = '/'
     else:
