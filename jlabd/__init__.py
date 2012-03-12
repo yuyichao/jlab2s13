@@ -4,10 +4,9 @@ from os import path
 import sys
 
 prename = 'jlabd_preload.py'
-
 dname = path.dirname(__file__)
-
 if dname != '':
     prename = dname + '/' + prename
 
-check_a_start(prename, 'jlabd.socket', sys.argv)
+def init():
+    check_a_start(prename, 'jlabd.socket', sys.argv)
