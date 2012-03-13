@@ -31,6 +31,9 @@ import inspect
 #stolen from https://github.com/gak/automain
 #note: BDFL hates this http://www.python.org/dev/peps/pep-0299/
 def automain(func):
+    '''
+    Limitation: the main function can only be define at the end of the file.
+    '''
     import inspect
     parent = inspect.stack()[1][0]
     name = parent.f_locals.get('__name__', None)
@@ -38,7 +41,6 @@ def automain(func):
         func()
     return func
 
-# http://utcc.utoronto.ca/~cks/space/blog/python/EmulatingStructsInPython
 class Ret(object):
     def __init__(self, *args, **kwargs):
         object.__setattr__(self, '__dict__', {})
@@ -173,6 +175,8 @@ def _a_pm_s(a, s, unit, sci):
     else:
         return ('%.' + ('%d' % dl) + 'f(%s)%s') % (fa, ss, unit)
 
+# Don't use when plotting a function.
+# And probably don't need to use when plotting data.
 def smoothplot(x, y, *args, **kwargs):
     '''because pylab doesn't know how to plot smoothly out of the box yet'''
     # http://stackoverflow.com/questions/5283649/plot-smooth-line-with-pyplot
@@ -193,6 +197,9 @@ def redchi2(delta, sigma, n):
     return sum((delta / sigma)**2) / (delta.size - n)
 
 def py2ret(fname):
+    '''
+    Read the namespace of a pyfile to a Ret object.
+    '''
     gs = {}
     ls = {}
     with open(fname, "r") as fh:
@@ -201,11 +208,18 @@ def py2ret(fname):
     return Ret(ls)
 
 def saveiter(obj, fname):
+    '''
+    Save members of a iterable object to a .py file.
+    '''
     with open(fname, "w") as fh:
         for key in obj:
             fh.write("%s = %s\n" % (key, repr(obj[key])))
 
 def frel2abs(rel_fname):
+    '''
+    Turn a filename relative to caller's file location to absolute path.
+    Directly return if it is already an absolute path.
+    '''
     if path.isabs(rel_fname):
         return rel_fname
     import inspect
