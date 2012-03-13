@@ -204,3 +204,15 @@ def saveiter(obj, fname):
     with open(fname, "w") as fh:
         for key in obj:
             fh.write("%s = %s\n" % (key, repr(obj[key])))
+
+def frel2abs(rel_fname):
+    if path.isabs(rel_fname):
+        return rel_fname
+    import inspect
+    f = inspect.currentframe().f_back
+    try:
+        caller_f = eval('__file__', f.f_globals, f.f_locals)
+        dirname = path.dirname(path.abspath(caller_f))
+    except NameError:
+        dirname = '.'
+    return path.abspath('%s/%s' % (dirname, rel_fname))
