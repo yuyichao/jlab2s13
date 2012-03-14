@@ -36,3 +36,9 @@ def uncp_add(a, s=None, cov=None):
     args = _uncp_prep_arg(a, s, cov)
     a = args.a
     cov = args.cov
+
+def abs2relcov(a, cov):
+    return (matrix(cov).T / a).T / a
+
+def rel2abscov(a, cov):
+    return matrix((array(cov).T * a).T * a)
