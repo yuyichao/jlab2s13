@@ -133,8 +133,6 @@ def fitmlin(x, y, sig=None):
     wx = multiply(w, x)
     wy = multiply(w, y)
 
-    #sx = x.sum(axis=1)
-    #sy = y.sum(axis=1)
     swx = wx.sum(axis=1)
     swy = wy.sum(axis=1)
     swxy = wx * y.T
@@ -167,6 +165,28 @@ def fitmlin(x, y, sig=None):
 
     return Ret('a', 's', 'yfit', 'chi2', x=array(x), cov=D2)
 
+def fittri(x, y, sig=None, omega=1, maxn=None, ns=None):
+    '''
+    y = a_0 + \sum_{j}(a_{2j+1}\sin n_jx+a_{2j+2}\cos n_jx)
+    '''
+
+    if ns == None:
+        if maxn == None:
+            ns = array([[1]])
+        else:
+            ns = array([range(n)]).T + 1
+
+    theta = array(x) * omega
+    l = len(theta)
+    n_l = len(ns)
+    ntheta = ns * theta
+    sins = sin(ntheta)
+    coss = cos(ntheta)
+    tris = array([(coss[(i - 1) / 2] if i % 2 else sins[i / 2])
+                  for i in range(n_l * 2)])
+    lin_fit_res = fitmlin(tris, y, sig)
+    lin_fit_res.x = x
+    return lin_fit_res
 
 def curve_fit_wrapper(fitfun):
     # http://www.physics.utoronto.ca/~phy326/python/curve_fit_to_data.py
@@ -176,10 +196,9 @@ def curve_fit_wrapper(fitfun):
     #               covariance and no parameter uncertainties, it may be
     #               because you have a redundant parameter;
     #               try fitting with a simpler function.
-    def curve_fitter(x, y, sig=None):
-        popt, pcov = curve_fit(fitfun, x, y, sigma=sig)
-        return Ret(a=popt, s=sqrt(diag(pcov)),
-                   chi2=chi2sigma(y, fitfun(x, *popt), sig),
-                   yfit=fitfun(x, *popt),
-                   cov=pcov)
+    def curve_fitter(x, y, sig=None, p0=None):
+        a, cov = curve_fit(fitfun, x, y, sigma=sig, p0=None)
+        yfit = fitfun(x, *a)
+        return Ret('a', 'yfit', 'cov', s=sqrt(diag(cov)),
+                   chi2=redchi2(y - yfit, sig, len(popt)))
     return curve_fitter

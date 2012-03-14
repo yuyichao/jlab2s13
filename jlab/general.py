@@ -63,13 +63,9 @@ class Ret(object):
             raise AttributeError(key)
     def __setattr__(self, key, value):
         real = False
-        try:
-            object.__getattribute__(self, key)
-            real = True
-        except AttributeError:
-            self.__dict__[key] = value
-        if real:
+        if hasattr(Ret, key):
             raise AttributeError
+        self.__dict__[key] = value
     def __delattr__(self, name):
         pass
     def __getitem__(self, keys):
@@ -185,15 +181,8 @@ def smoothplot(x, y, *args, **kwargs):
     ynew = spline(x, y, xnew)
     return plot(xnew, ynew, *args, **kwargs)
 
-def chi2sigma(y, expectedy, sig):
-    '''chi2 but with sigma instead of expected value as denominator'''
-    if sig is None:
-        return None
-    else:
-        return sum(((y - expectedy) / sig) ** 2)
-
 def redchi2(delta, sigma, n):
-    '''chi2/dof'''
+    '''chi2 / dof'''
     return sum((delta / sigma)**2) / (delta.size - n)
 
 def py2ret(fname):
