@@ -22,20 +22,30 @@
 from .general import *
 
 def _uncp_prep_arg(a, s=None, cov=None):
-    a = matrix(a)
+    a = array(a)
     l = a.size
-    covm = matrix(zero([4, 4]))
-    if cov:
-        covm[0:l, 0:l] = matrix(cov)[0:l, 0:l]
+    covm = matrix(zeros([l, l]))
+    if cov != None:
+        covm = matrix(cov)[0:l, 0:l]
     elif s:
-        covm[0:l, 0:l] = diag(a)[0:l, 0:l]
+        covm = matrix(diag(a))
 
-    return Ret(a=a, cov=covm)
+    return Ret('a', cov=covm)
 
 def uncp_add(a, s=None, cov=None):
     args = _uncp_prep_arg(a, s, cov)
     a = args.a
     cov = args.cov
+
+def uncp_div(a, s=None, cov=None):
+    args = _uncp_prep_arg(a, s, cov)
+    a0 = args.a
+    cov = args.cov
+
+    a = a0[0] / a0[1]
+    rel_s = sqrt(sum(abs2relcov(a0, cov)[:1, :1]))
+    s = rel_s * a
+    return Ret('a', 's')
 
 def abs2relcov(a, cov):
     return (matrix(cov).T / a).T / a
