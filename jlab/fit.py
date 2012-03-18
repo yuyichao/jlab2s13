@@ -158,7 +158,7 @@ def fitmlin(x, y, sig=None):
         chi2 = sum(epsilon2 * w) / (l - n - 1)
 
     dbady = r_[dbdy, dady]
-    D2 = dbady * diag(1 / w) * dbady.T
+    D2 = dbady / w * dbady.T
 
     a = array(r_[b, a].T)[0]
     s = sqrt(diag(D2))
@@ -174,7 +174,7 @@ def fittri(x, y, sig=None, omega=1, maxn=None, ns=None):
         if maxn == None:
             ns = array([[1]])
         else:
-            ns = array([range(n)]).T + 1
+            ns = array([range(maxn)]).T + 1
 
     theta = array(x) * omega
     l = len(theta)
