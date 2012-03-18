@@ -21,7 +21,7 @@
 
 from .general import *
 
-from scipy.optimize import curve_fit
+from scipy.optimize import curve_fit, leastsq
 
 def fitlin(x, y, sig=None):
     x = array(x)
@@ -200,5 +200,5 @@ def curve_fit_wrapper(fitfun):
         a, cov = curve_fit(fitfun, x, y, sigma=sig, p0=None)
         yfit = fitfun(x, *a)
         return Ret('a', 'yfit', 'cov', s=sqrt(diag(cov)),
-                   chi2=redchi2(y - yfit, sig, len(popt)))
+                   chi2=redchi2(y - yfit, sig, len(a)) if sig != None else None)
     return curve_fitter
