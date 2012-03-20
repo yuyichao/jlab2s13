@@ -44,7 +44,7 @@ def uncp_div(a, s=None, cov=None):
 
     a = a0[0] / a0[1]
     rel_s = sqrt(sum(abs2relcov(a0, cov)[:1, :1]))
-    s = rel_s * a
+    s = abs(rel_s * a)
     return Ret('a', 's')
 
 def abs2relcov(a, cov):
