@@ -23,7 +23,7 @@ from .general import *
 
 from scipy.optimize import curve_fit, leastsq
 
-def init_l_w_sig(x, sig0):
+def _init_l_w_sig(x, sig0):
     l = len(x)
     a = ones(l)
     if sig0 == None:
@@ -31,7 +31,7 @@ def init_l_w_sig(x, sig0):
     sig = a * sig0
     return (l, sig, 1 / sig**2, sig0)
 
-def init_l_w(x, sig0):
+def _init_l_w(x, sig0):
     l = len(x)
     a = ones(l)
     if sig0 == None:
@@ -42,7 +42,7 @@ def fitlin(x, y, sig=None):
     x = array(x)
     y = array(y)
 
-    l, w = init_l_w(x, sig)
+    l, w = _init_l_w(x, sig)
 
     wx = w * x
     wy = w * y
@@ -85,7 +85,7 @@ def fitpow(x, y, n, sig=None):
     x = array(x)
     y = array(y)
 
-    l, w = init_l_w(x, sig)
+    l, w = _init_l_w(x, sig)
 
     x_pow = ones([n + l + 1, l])
 
@@ -130,7 +130,7 @@ def fitmlin(x, y, sig=None):
     y = matrix(y)
     n = len(x)
 
-    l, w = init_l_w(y, sig)
+    l, w = _init_l_w(y, sig)
 
     W = sum(w)
     wx = multiply(w, x)
