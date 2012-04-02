@@ -126,11 +126,10 @@ def fitpow(x, y, n, sig=None):
     return Ret('a', 's', 'x', 'yfit', 'chi2', cov=D2)
 
 def fitmlin(x, y, sig=None):
+    l, w = _init_l_w(y, sig)
     x = matrix(x)
     y = matrix(y)
     n = len(x)
-
-    l, w = _init_l_w(y, sig)
 
     W = sum(w)
     wx = multiply(w, x)
@@ -202,6 +201,6 @@ def curve_fit_wrapper(fitfun):
     def curve_fitter(x, y, sig=None, p0=None):
         a, cov = curve_fit(fitfun, x, y, sigma=sig, p0=None)
         yfit = fitfun(x, *a)
-        return Ret('a', 'yfit', 'cov', s=sqrt(diag(cov)),
+        return Ret('x', 'a', 'yfit', 'cov', s=sqrt(diag(cov)),
                    chi2=redchi2(y - yfit, sig, len(a)) if sig != None else None)
     return curve_fitter
