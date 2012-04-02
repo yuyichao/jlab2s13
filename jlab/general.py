@@ -200,6 +200,8 @@ def saveiter(obj, fname):
     '''
     Save members of a iterable object to a .py file.
     '''
+    if not hasattr(obj, '__getitem__'):
+        return
     with open(fname, "w") as fh:
         for key in obj:
             fh.write("%s = %s\n" % (key, repr(obj[key])))
