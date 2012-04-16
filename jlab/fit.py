@@ -203,6 +203,7 @@ def curve_fit_wrapper(fitfun):
     def curve_fitter(x, y, sig=None, p0=None):
         a, cov = curve_fit(fitfun, x, y, sigma=sig, p0=None)
         yfit = fitfun(x, *a)
-        return Ret('x', 'a', 'yfit', 'cov', s=sqrt(diag(cov)),
+        func = lambda x: fitfun(x, *a)
+        return Ret('x', 'a', 'yfit', 'cov', 'func', s=sqrt(diag(cov)),
                    chi2=redchi2(y - yfit, sig, len(a)) if sig != None else None)
     return curve_fitter
