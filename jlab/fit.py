@@ -123,7 +123,7 @@ def fitpow(x, y, n, sig=None):
     a = array(a).T[0]
     s = sqrt(array([D2[i, i] for i in range(0, n + 1)]))
 
-    func = lambda x = sum([a[i] * pow(x, i) for i in range(0, n + 1)])
+    func = lambda x: sum([a[i] * pow(x, i) for i in range(0, n + 1)])
 
     return Ret('a', 's', 'x', 'yfit', 'chi2', 'func', cov=D2)
 
