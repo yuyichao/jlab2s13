@@ -167,6 +167,7 @@ def _a_pm_s(a, s, unit, sci):
         ss = '%.0f' % fs
 
     if sci:
+        # FIXME
         return ('%.' + ('%d' % dl) + r'f(%s)\times10^{%d}%s') % (fa, ss, la, unit)
     else:
         return ('%.' + ('%d' % dl) + 'f(%s)%s') % (fa, ss, unit)
@@ -222,7 +223,8 @@ def frel2abs(rel_fname):
         dirname = '.'
     return path.abspath('%s/%s' % (dirname, rel_fname))
 
-def showfit(data,fitobj):
+# FIXME also return lambda in fit functions
+def showfit(data, fitobj):
     '''
     Just because plotting scatter(data) and plot(x,yfit)
     simultaneously is a very often-used idiom

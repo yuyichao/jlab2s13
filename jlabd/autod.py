@@ -62,8 +62,11 @@ def check_a_start(preload, name, argv=None, fname=None, cwd=None, env=None):
     print("Fail to connect.")
 
 def def_init(preload, name, argv=None, fname=None, cwd=None, env=None):
-    import inspect
+    import inspect, os
     f = inspect.currentframe().f_back
+    # well, FIXME
     def init():
-        check_a_start(preload, name, argv=argv, fname=fname, cwd=cwd, env=env)
+        if os.uname()[0] == 'Linux':
+            check_a_start(preload, name, argv=argv,
+                          fname=fname, cwd=cwd, env=env)
     f.f_locals['init'] = init
