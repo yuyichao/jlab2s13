@@ -32,7 +32,7 @@ import inspect
 #note: BDFL hates this http://www.python.org/dev/peps/pep-0299/
 def automain(func):
     '''
-    Limitation: the main function can only be define at the end of the file.
+    Limitation: the main function can only be defined at the end of the file.
     '''
     import inspect
     parent = inspect.stack()[1][0]
@@ -221,3 +221,12 @@ def frel2abs(rel_fname):
     except NameError:
         dirname = '.'
     return path.abspath('%s/%s' % (dirname, rel_fname))
+
+def showfit(data,fitobj):
+    '''
+    Just because plotting scatter(data) and plot(x,yfit)
+    simultaneously is a very often-used idiom
+    '''
+    x, y, s = data
+    errorbar(x, y, s, fmt='o')
+    plot(fitobj.x, fitobj.yfit)
