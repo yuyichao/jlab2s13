@@ -23,3 +23,5 @@ from .general import *
 from .fit import *
 from .unc_prop import *
 from .tex import *
+__import__("matplotlib").rcParams.update({'axes.labelsize': 20,
+                                          'axes.titlesize': 30})
