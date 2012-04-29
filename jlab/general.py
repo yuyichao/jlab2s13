@@ -97,7 +97,7 @@ class Ret(object):
     def values(self):
         return self.__dict__.values()
 
-def a_pm_s(a_s, unit='', sci=None):
+def a_pm_s(a_s, unit='', sci=None, tex=False):
     try:
         a = a_s.a
         s = a_s.s
@@ -135,10 +135,10 @@ def a_pm_s(a_s, unit='', sci=None):
     if len(unit) < l:
         unit += [''] * (l - len(unit))
     if l == 1:
-        return _a_pm_s(a[0], s[0], unit[0], sci)
-    return array([_a_pm_s(a[i], s[i], unit[i], sci) for i in range(0, l)])
+        return _a_pm_s(a[0], s[0], unit[0], sci, tex)
+    return array([_a_pm_s(a[i], s[i], unit[i], sci, tex) for i in range(0, l)])
 
-def _a_pm_s(a, s, unit, sci):
+def _a_pm_s(a, s, unit, sci, tex):
     '''input: observable,error
        output: formatted observable +- error in scientific notation'''
     if s <= 0:
@@ -167,8 +167,11 @@ def _a_pm_s(a, s, unit, sci):
         ss = '%.0f' % fs
 
     if sci:
-        # FIXME
-        return ('%.' + ('%d' % dl) + r'f(%s)\times10^{%d}%s') % (fa, ss, la, unit)
+        if tex:
+            return (('%.' + ('%d' % dl) + r'f(%s)\times10^{%d}{%s}') %
+                    (fa, ss, la, unit))
+        else:
+            return ('%.' + ('%d' % dl) + 'f(%s)*10^%d%s') % (fa, ss, la, unit)
     else:
         return ('%.' + ('%d' % dl) + 'f(%s)%s') % (fa, ss, unit)
 
