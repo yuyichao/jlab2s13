@@ -201,7 +201,7 @@ def curve_fit_wrapper(fitfun):
     #               because you have a redundant parameter;
     #               try fitting with a simpler function.
     def curve_fitter(x, y, sig=None, p0=None):
-        a, cov = curve_fit(fitfun, x, y, sigma=sig, p0=None)
+        a, cov = curve_fit(fitfun, x, y, sigma=sig, p0=p0)
         yfit = fitfun(x, *a)
         func = lambda x: fitfun(x, *a)
         return Ret('x', 'a', 'yfit', 'cov', 'func', s=sqrt(diag(cov)),
