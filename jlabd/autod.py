@@ -66,7 +66,11 @@ def def_init(preload, name, argv=None, fname=None, cwd=None, env=None):
     f = inspect.currentframe().f_back
     # well, FIXME
     def init():
-        if os.uname()[0] == 'Linux':
-            check_a_start(preload, name, argv=argv,
-                          fname=fname, cwd=cwd, env=env)
+        if os.uname()[0] != 'Linux':
+            return
+        f = inspect.currentframe().f_back
+        if f.f_locals['__name__'] != '__main__':
+            return
+        check_a_start(preload, name, argv=argv,
+                      fname=fname, cwd=cwd, env=env)
     f.f_locals['init'] = init
