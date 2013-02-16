@@ -64,7 +64,7 @@ class Ret(dict):
     def __setattr__(self, key, value):
         self[key] = value
     def __delattr__(self, name):
-        pass
+        del self[name]
     def __getitem_iter__(self, keys):
         for k in keys:
             yield dict.__getitem__(self, k)
@@ -78,8 +78,6 @@ class Ret(dict):
             return
         for k, v in zip(keys, items):
             dict.__setitem__(self, k, v)
-    def __delitem__(self, name):
-        pass
 
 def a_pm_s(a_s, unit='', sci=None, tex=False):
     try:
