@@ -182,7 +182,7 @@ def load_pyfile(fname):
     Read the namespace of a file to a Ret object.
     '''
     with open(fname, "r") as fh:
-        return load_pyfh(fh)
+        return load_pyfh(fh, fname)
 
 def __numpy_repr(obj):
     if isscalar(obj):
