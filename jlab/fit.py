@@ -1,8 +1,11 @@
 # coding=utf-8
 
-# Copyright 2012 Yu Yichao, Rudy H Tanin
-# yyc1992@gmail.com
+# Copyright 2012~2012 by Rudy H Tanin
 # rudyht@gmail.com
+# Copyright 2012~2013 by Yu Yichao
+# yyc1992@gmail.com
+# Copyright 2013~2013 by Giacomo Resta
+# gresta@mit.edu
 #
 # This file is part of Jlab.
 #
