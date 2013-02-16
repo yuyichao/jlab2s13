@@ -31,74 +31,55 @@ from os import path
 import sys
 import inspect
 
-#stolen from https://github.com/gak/automain
-#note: BDFL hates this http://www.python.org/dev/peps/pep-0299/
+# stolen from https://github.com/gak/automain
 def automain(func):
     '''
     Limitation: the main function can only be defined at the end of the file.
     '''
-    import inspect
-    parent = inspect.stack()[1][0]
+    parent = inspect.currentframe().f_back
     name = parent.f_locals.get('__name__', None)
     if name == '__main__':
         func()
     return func
 
-class Ret(object):
+class Ret(dict):
     def __init__(self, *args, **kwargs):
-        object.__setattr__(self, '__dict__', {})
         for arg in args:
             try:
                 self._a(**arg)
             except:
                 frame = inspect.currentframe().f_back
-                pair = {arg: eval(arg, frame.f_globals, frame.f_locals)}
-                self._a(**pair)
+                try:
+                    self[arg] = frame.f_locals[arg]
+                except:
+                    self[arg] = frame.f_globals[arg]
         self._a(**kwargs)
     def _a(self, **kwargs):
-        for k, v in kwargs.items():
-            self[k] = v
-        return self
+        self.update(kwargs)
     def __getattr__(self, key):
         try:
-            return self.__dict__[key]
+            return self[key]
         except KeyError:
             raise AttributeError(key)
     def __setattr__(self, key, value):
-        real = False
-        if hasattr(Ret, key):
-            raise AttributeError
-        self.__dict__[key] = value
+        self[key] = value
     def __delattr__(self, name):
         pass
-    def __getitem__(self, keys):
-        if issubclass(type(keys), str):
-            return self.__dict__[keys]
-        res = ()
+    def __getitem_iter__(self, keys):
         for k in keys:
-            res += (getattr(self, k, None),)
-        return res
+            yield dict.__getitem__(self, k)
+    def __getitem__(self, keys):
+        if isscalar(keys):
+            return dict.__getitem__(self, keys)
+        return self.__getitem_iter__(keys)
     def __setitem__(self, keys, items):
-        if type(keys) == type(()):
-            for i in range(0, len(keys)):
-                setattr(self, keys[i], items[i])
+        if isscalar(keys):
+            dict.__setitem__(self, keys, items)
             return
-        setattr(self, keys, items)
+        for k, v in zip(keys, items):
+            dict.__setitem__(self, k, v)
     def __delitem__(self, name):
         pass
-    def __repr__(self):
-        return "Ret(%s)" % self.__dict__
-    def __str__(self):
-        return str(self.__dict__)
-    def __iter__(self):
-        return iter(self.__dict__)
-
-    def keys(self):
-        return self.__dict__.keys()
-    def items(self):
-        return self.__dict__.items()
-    def values(self):
-        return self.__dict__.values()
 
 def a_pm_s(a_s, unit='', sci=None, tex=False):
     try:
@@ -181,7 +162,7 @@ def _a_pm_s(a, s, unit, sci, tex):
 # Don't use when plotting a function.
 # And probably don't need to use when plotting data.
 def smoothplot(x, y, *args, **kwargs):
-    '''because pylab doesn't know how to plot smoothly out of the box yet'''
+    """because pylab doesn't know how to plot smoothly out of the box yet"""
     # http://stackoverflow.com/questions/5283649/plot-smooth-line-with-pyplot
     # wrapper for plot to make it smooth
     xnew = np.linspace(x.min(), x.max(), 300)
@@ -192,32 +173,44 @@ def redchi2(delta, sigma, n):
     '''chi2 / dof'''
     return sum((delta / sigma)**2) / (delta.size - n)
 
-def py2ret(fname):
-    '''
-    Read the namespace of a pyfile to a Ret object.
-    '''
+def load_pyfh(fh, fname=''):
     gs = {}
     ls = {}
-    with open(fname, "r") as fh:
-        code = compile(fh.read() + "\n", fname, 'exec')
-    exec(code, gs, ls)
+    exec(compile(fh.read() + "\n", fname, 'exec'), gs, ls)
     return Ret(ls)
 
-def saveiter(obj, fname):
+def load_pyfile(fname):
     '''
-    Save members of a iterable object to a .py file.
+    Read the namespace of a file to a Ret object.
     '''
-    if not hasattr(obj, '__getitem__'):
-        return
+    with open(fname, "r") as fh:
+        return load_pyfh(fh)
+
+def __numpy_repr(obj):
+    if isscalar(obj):
+        return repr(obj)
+    elif isinstance(obj, dict):
+        return '{%s}' % ', '.join((repr(key) + ': ' + __numpy_repr(value))
+                                  for (key, value) in obj.items())
+    else:
+        return '[%s]' % ', '.join(__numpy_repr(value) for value in obj)
+
+def save_pyfh(obj, fh):
+    for key in obj:
+        fh.write("%s = %s\n" % (key, __numpy_repr(obj[key])))
+
+def save_pyfile(obj, fname):
+    '''
+    Save members of a iterable object to a file.
+    '''
     with open(fname, "w") as fh:
-        for key in obj:
-            fh.write("%s = %s\n" % (key, repr(obj[key])))
+        save_fh(obj, fh)
 
 def frel2abs(rel_fname):
-    '''
+    """
     Turn a filename relative to caller's file location to absolute path.
     Directly return if it is already an absolute path.
-    '''
+    """
     if path.isabs(rel_fname):
         return rel_fname
     import inspect
@@ -232,7 +225,7 @@ def frel2abs(rel_fname):
 # FIXME also return lambda in fit functions
 def showfit(data, fitobj):
     '''
-    Just because plotting scatter(data) and plot(x,yfit)
+    Just because plotting scatter(data) and plot(x, yfit)
     simultaneously is a very often-used idiom
     '''
     x, y, s = data
