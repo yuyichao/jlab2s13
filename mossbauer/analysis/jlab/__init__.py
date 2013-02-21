@@ -432,12 +432,12 @@ def levmar(x, y, sig, fitfun, a0, lamda=0.001, dYda=None, print_dev=False):
     nparm = len(a)
     i = 0
     printd('Marquardt Gradient-Expansion Algorithm', print_dev)
-    printd(' \t '.join(['i', 'Chisqr', 'lamda', 'a1', 'a2', 'a3',
-                        'a4', 'a5']),
+    printd(' '.join(['i', 'Chisqr', 'lamda'] + ['a'+str(i) for i in
+        range(len(a0))]),
                  print_dev)
     while    abs(chi2-chi1) > chicut:
         i += 1
-        printd(((3+len(a))*'{:.3e}\t').format(i, chi2, lamda, *list(a)),
+        printd(((3+len(a))*'{:.3e} ').format(i, chi2, lamda, *list(a)),
                print_dev)
         chinew = chi2 + 1
         while chinew > chi2+chicut:
