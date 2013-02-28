@@ -202,7 +202,7 @@ def save_pyfile(obj, fname):
     Save members of a iterable object to a file.
     '''
     with open(fname, "w") as fh:
-        save_fh(obj, fh)
+        save_pyfh(obj, fh)
 
 def frel2abs(rel_fname):
     """
