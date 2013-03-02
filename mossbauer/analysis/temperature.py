@@ -61,13 +61,13 @@ de = j.fz(fe_cal.ca[1]*dch.m,
 de1,t1,t2 = j.var('de1 t1 t2')
 t_coeff = j.prop(de1/(t2-t1), de1 = de,
              t1=j.fz(tac[0].temp, 4.0), t2=j.fz(tac[1].temp, 4.0),
-             units='eV/^\circ C')
+             units='eV/{^\circ}C')
 
 figure()
 title('Temperature Induced Shift in Absorption Peak in Stainless Steel')
 c=['r','b','g','c','y','k']
 for i,x in enumerate(tac):
-    errorbar(x.E, x.y, x.ye, c=c[i+2], label=r'{} $\degree$ C'.format(x.temp),
+    errorbar(x.E, x.y, x.ye, c=c[i+2], label=r'{} $\degree C$'.format(x.temp),
             fmt='.')
     plot(x.E, x.yfit, c=c[i])
     #[axvline(x.peaks_E[0]+s*x.peaks_fwhm_E[0]/2, -10, 10, c=c[i]) for s in [-1,1]]

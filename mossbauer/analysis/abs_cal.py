@@ -95,7 +95,8 @@ class Vel:
         cPickle.dump(self.__dict__, open(filename, 'wb'))
 
 class FeData:
-    def __init__(self, data_files, misc_data=None, channels_to_bin=4, peaks=6):
+    def __init__(self, data_files, misc_data=None, channels_to_bin=4, peaks=6,
+            bin_cutoff=bin_cutoff):
         # data_files should be list
         if misc_data == None:
             misc_data = misc
@@ -154,9 +155,11 @@ class FeData:
         self.peaks_fwhm_E = array(self.peaks_fwhm_E)
         self.peaks_fwhm_Ee = array(self.peaks_fwhm_Ee)
 
-    def gen_cal(self, fe):
+    def gen_cal(self, fe, peaks=None):
+        if peaks == None:
+            peaks = range(fe.peaks_E)
         self.ca,self.caerr,self.cchisq,self.cyfit = j.fitline(self.peaks_ch,
-                fe.peaks_E, fe.peaks_Ee)
+                fe.peaks_E[peaks], fe.peaks_Ee[peaks])
 
     def cal_ch_to_E(self, ch, che = None):
         if che == None:
