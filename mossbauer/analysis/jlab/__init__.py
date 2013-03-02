@@ -26,6 +26,10 @@ import re as _re
 
 __version__ = 'pre_release'
 
+class Bundle:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
 def greek(name):
     ''' Returns unicode for greek letters
     Example:
@@ -168,9 +172,9 @@ class fz:
         >>> x = fz(1.23, 0.020, u='kg*g**2/kg', error_type=None)
     '''
     def __init__(self, m, e=0, u='1', error_type='stat'):
-        self.m = m
-        self.e = e
-        self.u = u
+        self.m = float(m)
+        self.e = float(e)
+        self.u = str(u)
         self.error_type = error_type
 
     def __str__(self):
