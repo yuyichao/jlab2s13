@@ -78,6 +78,8 @@ class Ret(dict):
             return
         for k, v in zip(keys, items):
             dict.__setitem__(self, k, v)
+    def __dir__(self):
+        return list(self.keys()) + dict.__dir__(self)
 
 def a_pm_s(a_s, unit='', sci=None, tex=False):
     try:
