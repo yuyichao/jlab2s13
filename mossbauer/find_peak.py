@@ -30,18 +30,24 @@ def find_drop(it, thresh_area, thresh_height):
     min_max = start_v + s
     end_i = start_i
     end_v = start_v
+    zero_i = None
     for i, (v, s) in it:
         if v - s > min_max:
             break
         new_min = v + s
+        if v < 0 and zero_i is None:
+            zero_i = i
         if min_max > new_min:
             min_max = new_min
             end_i = i
             end_v = v
     d_v = start_v - end_v
-    if d_v > thresh_height and (end_i - start_i) * d_v > thresh_area:
-        return start_i, end_i
-    return None, None
+    if (d_v > thresh_height and
+        (end_i - start_i) * d_v > thresh_area and
+        (zero_i - start_i) * 3 > (end_i - zero_i) and
+        (end_i - zero_i) * 3 > (zero_i - start_i)):
+        return start_i, zero_i, end_i
+    return None, None, None
 
 def find_next(it, thresh_area, thresh_height):
     find_start(it)
@@ -76,11 +82,30 @@ def find_width(index, data, hint=None, w=30):
     data = data[_w:-_w]
     max_a = max(a)
     min_a = min(a)
+
+    # magic numbers
     thresh_height = (max_a - min_a) * .4 + max(s)
     thresh_area = w * (max_a - min_a) / 2
-    res = [(start, end) for start, end in
+
+    res = [(start, zero, end) for start, zero, end in
            FindRes(a, s, thresh_area, thresh_height) if start is not None]
     return jlab.Ret('a', 's', 'index', 'data', peaks=res)
+
+def find_exact_pos(zero, index, diff, diff_s):
+    center_i = int(zero - index[0])
+    l = min(center_i, len(diff) - center_i) // 2
+    diff_a = (diff[center_i - l] - diff[center_i + l]) / l / 2
+    for start_i in range(center_i - l, -1, -1):
+        if start_i == 0 or diff[start_i - 1] - diff[start_i] < diff_a:
+            break
+    for end_i in range(center_i + l, len(diff)):
+        if end_i == len(diff) or diff[end_i] - diff[end_i + 1] < diff_a:
+            break
+    fit_res = jlab.fitlin(diff[start_i:end_i], index[start_i:end_i])
+    a = fit_res.a[0]
+    s = sqrt((fit_res.s[0]**2 +
+             (mean(diff_s[start_i:end_i]) * fit_res.a[1])**2) / 3)
+    return jlab.Ret('a', 's')
 
 def find_peak(iname, fig_name):
     index, data = array([(d[0], d[2]) for d in
@@ -91,26 +116,52 @@ def find_peak(iname, fig_name):
         hint = None
     res = find_width(index, data, hint, 30)
 
+    find_exact_pos_data = array([res.index, res.a, res.s])
+    peaks = [find_exact_pos(res.index[z], *find_exact_pos_data[:, s:e])
+             for s, z, e in res.peaks]
+
     fig1 = figure()
     plot(res.index, res.data)
     xlim(res.index[0], res.index[-1])
     xlabel("Channel No.")
     ylabel("Count per channel")
-    for s, e in res.peaks:
-        axvline(res.index[s], color='r', linestyle='dashed', linewidth=2)
-        axvline(res.index[e], color='g', linestyle='dashed', linewidth=2)
+    for peak in peaks:
+        # uncertainty is multiplied by 4 or it can never be seen.
+        axvline(peak.a, color='r', linestyle='dashed')
+        axvline(peak.a + peak.s * 4, color='g', linestyle='dashed')
+        axvline(peak.a - peak.s * 4, color='g', linestyle='dashed')
     grid()
+    # show()
     savefig(fig_name + '_raw.png')
     close()
 
-    # for s, e in res.peaks:
-    #     plot(res.index[[s, e]], res.a[[s, e]], 'r-o')
-    # errorbar(res.index, res.a, res.s)
-    # xlim(res.index[0], res.index[-1])
+    fig2 = figure()
+    errorbar(res.index, res.a, res.s)
+    xlim(res.index[0], res.index[-1])
+    xlabel("Channel No.")
+    for peak in peaks:
+        # uncertainty is multiplied by 4 or it can never be seen.
+        axvline(peak.a, color='r', linestyle='dashed')
+        axvline(peak.a + peak.s * 4, color='g', linestyle='dashed')
+        axvline(peak.a - peak.s * 4, color='g', linestyle='dashed')
+    grid()
     # show()
+    savefig(fig_name + '_diff.png')
+    close()
+
+    return jlab.Ret(peaks=[list(peak['a', 's']) for peak in peaks])
 
 if __name__ == '__main__':
     import sys
-    iname, oname, fig_name = sys.argv[1:]
+    iname = sys.argv[1]
+    if iname.endswith('.py'):
+        base_name = iname[:-3]
+        oname = base_name + '_res.py'
+        fig_name = base_name
+    try:
+        oname = sys.argv[2]
+        fig_name = sys.argv[3]
+    except:
+        pass
     res = find_peak(iname, fig_name)
     print(res)
