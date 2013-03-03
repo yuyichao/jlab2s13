@@ -28,17 +28,19 @@ def find_start(it):
 def find_drop(it, thresh_area, thresh_height):
     start_i, (start_v, s) = next(it)
     min_max = start_v + s
-    i = start_i
-    v = start_v
+    end_i = start_i
+    end_v = start_v
     for i, (v, s) in it:
         if v - s > min_max:
             break
         new_min = v + s
         if min_max > new_min:
             min_max = new_min
-    d_v = start_v - v
-    if d_v > thresh_height and (i - start_i) * d_v > thresh_area:
-        return start_i, i
+            end_i = i
+            end_v = v
+    d_v = start_v - end_v
+    if d_v > thresh_height and (end_i - start_i) * d_v > thresh_area:
+        return start_i, end_i
     return None, None
 
 def find_next(it, thresh_area, thresh_height):
@@ -74,7 +76,7 @@ def find_width(index, data, hint=None, w=30):
     data = data[_w:-_w]
     max_a = max(a)
     min_a = min(a)
-    thresh_height = (max_a - min_a) / 4 + max(s)
+    thresh_height = (max_a - min_a) * .4 + max(s)
     thresh_area = w * (max_a - min_a) / 2
     res = [(start, end) for start, end in
            FindRes(a, s, thresh_area, thresh_height) if start is not None]
@@ -87,19 +89,25 @@ def find_peak(iname, fig_name):
         hint = jlab.load_pyfile(iname[:-3] + '_hint.py')
     except:
         hint = None
-    # filter_data = _filter_data(data)
-    # filter_data = _filter_data(data, filter_data)
-    # plot(index, [not v for v in filter_data] * data)
-    # plot(index, data)
     res = find_width(index, data, hint, 30)
-    for s, e in res.peaks:
-        plot(res.index[[s, e]], res.a[[s, e]], 'g-o')
-    errorbar(res.index, res.a, res.s)
-    xlim(res.index[0], res.index[-1])
-    figure()
+
+    fig1 = figure()
     plot(res.index, res.data)
     xlim(res.index[0], res.index[-1])
-    show()
+    xlabel("Channel No.")
+    ylabel("Count per channel")
+    for s, e in res.peaks:
+        axvline(res.index[s], color='r', linestyle='dashed', linewidth=2)
+        axvline(res.index[e], color='g', linestyle='dashed', linewidth=2)
+    grid()
+    savefig(fig_name + '_raw.png')
+    close()
+
+    # for s, e in res.peaks:
+    #     plot(res.index[[s, e]], res.a[[s, e]], 'r-o')
+    # errorbar(res.index, res.a, res.s)
+    # xlim(res.index[0], res.index[-1])
+    # show()
 
 if __name__ == '__main__':
     import sys
