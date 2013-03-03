@@ -193,7 +193,7 @@ def __numpy_repr(obj):
         return '{%s}' % ', '.join((repr(key) + ': ' + __numpy_repr(value))
                                   for (key, value) in obj.items())
     else:
-        return '[%s]' % ', '.join(__numpy_repr(value) for value in obj)
+        return '[%s]' % ', '.join(__numpy_repr(value) for value in array(obj))
 
 def save_pyfh(obj, fh):
     for key in obj:
