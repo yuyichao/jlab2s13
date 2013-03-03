@@ -32,7 +32,7 @@ def calib(iname, fig_name):
     plot(index, data, label="Measure")
     plot(index, fit.yfit, label="Fit")
     legend(loc=2)
-    xlim(index[0], len(data))
+    xlim(index[0], index[-1])
     xmin, xmax = xlim()
     ymin, ymax = ylim()
     b, a = jlab.a_pm_s(fit)
