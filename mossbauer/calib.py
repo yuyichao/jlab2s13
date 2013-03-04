@@ -64,9 +64,20 @@ class _Calib(object):
         self.cov = cov_a
     def _load(self, fname):
         self.a, self.cov = jlab.load_pyfile(fname)['a', 'cov']
+    def _convert(_peaks_a, _peaks_s):
+        _peaks_a = array(_peaks_a)
+        _peaks_s = array(_peaks_s)
+
+        peaks_e = self.a[0] + _peaks_a * self.a[1]
+        peaks_2 = repeat([peaks_e], len(peaks_e), axis=0)
+        peaks_cov = (self.cov[0, 0] + self.cov[0, 1] * (peaks_2 + peaks_2.T) +
+                     self.cov[1, 1] * peaks_2 * peaks_2.T)
+        peaks_cov += diag((_peaks_s * self.a[1])**2)
+        peaks_s = sqrt(diag(peaks_cov))
+        return jlab.Ret('peaks_e', 'peaks_s', 'peaks_cov')
 
 _calib = _Calib()
-_calib_data = jlab.load_pyfile('pos_cal_1/pos_cal.py')
+_calib_data = jlab.load_pyfile('pos_cal/pos_cal.py')
 _calib_e = array(_calib_data.peaks_e)
 _calib_cov = array(_calib_data.peaks_cov)
 
