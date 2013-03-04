@@ -5,6 +5,18 @@ from pylab import *
 
 calib_res = jlab.load_pyfile('pos_cal_1/res_v.py')
 
+def smooth(data, w):
+    l = len(data)
+    krnl_x = r_[-l:l]
+    krnl = exp(-(krnl_x / w)**2) / w / sqrt(pi)
+    krnl2 = krnl**2
+    f_krnl = fft(krnl)
+    f_krnl2 = fft(krnl2)
+    l_data = r_[data, data]
+    fl_data = fft(fftshift(l_data))
+    return (real(ifft(f_krnl * fl_data)[:l]),
+            sqrt(abs(ifft(f_krnl2 * fl_data)[:l])))
+
 def smooth_diff(data, w):
     l = len(data)
     krnl_x = r_[-l:l]
@@ -119,9 +131,15 @@ def find_peak(iname, fig_name):
     find_exact_pos_data = array([res.index, res.a, res.s])
     peaks = [find_exact_pos(res.index[z], *find_exact_pos_data[:, s:e])
              for s, z, e in res.peaks]
+    data_a, data_s = smooth(data, 20)
+    m = median(data_a)
+    max_s = max(data_s)
+    base = mean([d for d in data_a if d > m - max_s]) - max_s
 
     fig1 = figure()
-    plot(res.index, res.data)
+    plot(res.index, res.data, color='c')
+    errorbar(index, data_a, data_s, color='b')
+    axhline(base, color='r', linestyle='dashed', linewidth=2)
     xlim(res.index[0], res.index[-1])
     xlabel("Channel No.")
     ylabel("Count per channel")
@@ -149,7 +167,34 @@ def find_peak(iname, fig_name):
     savefig(fig_name + '_diff.png')
     close()
 
-    return jlab.Ret(peaks=[list(peak['a', 's']) for peak in peaks])
+    for peak in peaks:
+        cut = min(data_a) * .1 + base * .9
+        try:
+            start = where((index < peak.a) & (data_a > cut))[0][-1] + 1
+        except:
+            start = 0
+        try:
+            end = where((index > peak.a) & (data_a > cut))[0][0] - 1
+        except:
+            end = len(data_a) - 1
+        center = int(peak.a - index[0])
+        l = int(max(min(end - center, center - start) / 4, 30))
+        start = center - l
+        end = center + l
+        trans_x = (index[start:end] - peak.a)**2
+        trans_y = 1 / (base - data_a[start:end])
+        trans_s = trans_y * (max_s / (base - data_a[start:end]))
+        width_fit = jlab.fitlin(trans_x, trans_y)
+        width_fit.cov[0, 0] += mean(trans_s)**2
+        width_res = jlab.uncp_div(width_fit.a, cov=width_fit.cov)
+        width = sqrt(width_res.a)
+        width_s = width * (width_res.s / width_res.a / 2)
+        peak.width = width
+        peak.width_s = width_s
+
+    return jlab.Ret('base', peaks=[list(peak['a', 's']) for peak in peaks],
+                    peaks_width=[list(peak['width', 'width_s'])
+                                 for peak in peaks])
 
 if __name__ == '__main__':
     import sys
@@ -164,4 +209,4 @@ if __name__ == '__main__':
     except:
         pass
     res = find_peak(iname, fig_name)
-    print(res)
+    jlab.save_pyfile(res, oname)

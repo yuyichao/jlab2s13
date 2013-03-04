@@ -110,7 +110,7 @@ def fitpow(x, y, n, sig=None):
     a = inv_p * matrix(wyx_pow_s).T
     dady = array(inv_p * b_matrix)
 
-    yfit = array(matrix(x_pow[0:n + 1]).T * a).T
+    yfit = array(matrix(x_pow[0:n + 1]).T * a).T[0]
 
     epsilon2 = (y - yfit)**2
 
