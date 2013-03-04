@@ -21,7 +21,8 @@ def calib(v_fit, iname):
     peaks_2 = repeat([peaks_e], len(peaks_e), axis=0)
     peaks_cov = (v_cov[0, 0] + v_cov[0, 1] * (peaks_2 + peaks_2.T) +
                  v_cov[1, 1] * peaks_2 * peaks_2.T)
-    return jlab.Ret('peaks_e', 'peaks_cov')
+    peaks_s = sqrt(diag(peaks_cov))
+    return jlab.Ret('peaks_e', 'peaks_s', 'peaks_cov')
 
 if __name__ == '__main__':
     import sys
