@@ -3,29 +3,87 @@
 import jlab
 from pylab import *
 
-extra_fix = jlab.load_pyfile('extra_count/res.py')
+class _Calib(object):
+    __slots__ = ['a', 'cov']
+    def __init__(self, a=None, cov=None):
+        self.a = a
+        self.cov = cov
+    def _init(self, fname, *index):
+        l = len(index)
+        if l <= 1:
+            raise ValueError
+        peaks, peaks_s = zip(*jlab.load_pyfile(fname).peaks)
+        calib_e = _calib_e[list(index)]
+        calib_cov = _calib_cov[list(index), list(index)]
+        cov = matrix(zeros((l * 2, l * 2)))
+        cov[:l, :l] = diag(array(peaks_s)**2)
+        cov[l:, l:] = calib_cov
+        if l == 2:
+            self._init_2(peaks, calib_e, cov)
+        else:
+            self._init_n(peaks, calib_e, cov)
+    def _init_2(self, peaks, calib_e, cov):
+        a0 = ((peaks[1] * calib_e[0] - peaks[0] * calib_e[1]) /
+              (peaks[1] - peaks[0]))
+        da0 = [((peaks[1] * calib_e[0] - peaks[1] * calib_e[1]) /
+               (peaks[1] - peaks[0])**2),
+               ((peaks[0] * calib_e[1] - peaks[0] * calib_e[0]) /
+               (peaks[1] - peaks[0])**2),
+               peaks[1] / (peaks[1] - peaks[0]),
+               peaks[0] / (peaks[0] - peaks[1])]
+        a1 = (calib_e[1] - calib_e[0]) / (peaks[1] - peaks[0])
+        da1 = [(calib_e[1] - calib_e[0]) / (peaks[1] - peaks[0])**2,
+               (calib_e[0] - calib_e[1]) / (peaks[1] - peaks[0])**2,
+               1 / (peaks[0] - peaks[1]),
+               1 / (peaks[1] - peaks[0])]
+        da = array([da0, da1])
+        cov_a = da * cov * da.T
+        self.a = array([a0, a1])
+        self.cov = cov_a
+    def _init_n(self, peaks, calib_e, cov):
+        l = len(peaks)
+        peaks = array(peaks)
+        calib_e = array(calib_e)
+        mx = mean(peaks)
+        my = mean(calib_e)
+        mxy = mean(calib_e * peaks)
+        mxx = mean(peaks**2)
+        a = array([(mxx * my - mxy * mx) / (mxx - mx**2),
+                   (mxy - my * mx) / (mxx - mx**2)])
+        da = zeros((2, l * 2))
+        da[0, :l] = (((peaks * my - calib_e * mx) * (mxx - mx**2) -
+                      (mxx * my - mxy * mx) * (peaks - 2 * mx)) /
+                      (mxx - mx**2)**2 / l)
+        da[0, l:] = ((mxx * calib_e - peaks * mx) / (mxx - mx**2) / l)
+        da[1, :l] = (((calib_e - my) * (mxx - mx**2) -
+                      (mxy - my * mx) * (calib_e - 2 * mx)) /
+                      (mxx - mx**2)**2 / l)
+        da[1, l:] = (peaks - mx) / (mxx - mx**2) / l
+        cov_a = da * cov * da.T
+        self.a = a
+        self.cov = cov_a
 
-E_0 = 14.4e3
-c_0 = 299792458
-r_0 = E_0 / c_0
+_calib = _Calib()
+_calib_data = jlab.load_pyfile('pos_cal_1/pos_cal.py')
+_calib_e = array(_calib_data.peaks_e)
+_calib_cov = array(_calib_data.peaks_cov)
 
-def calib(v_fit, iname):
-    v_a, v_cov = jlab.load_pyfile(v_fit)['a', 'cov']
-    v_a = array(v_a)
-    v_cov = array(v_cov)
-    v_a *= r_0
-    v_cov *= r_0**2
-
-    peaks = array(jlab.load_pyfile(iname).peaks).T
-    peaks_e = v_a[0] + peaks[0] * v_a[1]
-    peaks_2 = repeat([peaks_e], len(peaks_e), axis=0)
-    peaks_cov = (v_cov[0, 0] + v_cov[0, 1] * (peaks_2 + peaks_2.T) +
-                 v_cov[1, 1] * peaks_2 * peaks_2.T)
-    peaks_s = sqrt(diag(peaks_cov))
-    return jlab.Ret('peaks_e', 'peaks_s', 'peaks_cov')
+def init(fname, *index):
+    return _calib._init(fname, *index)
 
 if __name__ == '__main__':
     import sys
-    v_fit, iname, oname = sys.argv[1:]
-    res = calib(v_fit, iname)
-    jlab.save_pyfile(res, oname)
+    iname = sys.argv[1]
+    if iname.endswith('_res.py'):
+        num_file = iname[:-6] + 'num.py'
+        oname = iname[:-6] + 'calib.py'
+    try:
+        num_file = sys.argv[2]
+    except:
+        pass
+    try:
+        oname = sys.argv[3]
+    except:
+        pass
+    init(iname, *jlab.load_pyfile(num_file).index)
+    jlab.save_pyfile(jlab.Ret(a=_calib.a, cov=_calib.cov), oname)
