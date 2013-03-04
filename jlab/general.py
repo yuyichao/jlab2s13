@@ -174,8 +174,8 @@ def redchi2(delta, sigma, n):
     return sum((delta / sigma)**2) / (delta.size - n)
 
 def load_pyfh(fh, fname=''):
-    gs = {}
-    ls = {}
+    gs = {'nan': float('nan')}
+    ls = {'nan': float('nan')}
     exec(compile(fh.read() + "\n", fname, 'exec'), gs, ls)
     return Ret(ls)
 

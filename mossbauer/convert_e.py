@@ -20,4 +20,5 @@ if __name__ == '__main__':
         pass
     calib_file = 'pos_cal/' + jlab.load_pyfile(calib_file).calib + '_calib.py'
     calib.load(calib_file)
-    print(jlab.Ret(a=calib._calib.a, cov=calib._calib.cov))
+    peaks = array(jlab.load_pyfile(iname).peaks).T
+    jlab.save_pyfile(calib.convert(peaks[0], peaks[1]), oname)
