@@ -187,7 +187,7 @@ def find_peak(iname, fig_name):
         width_fit = jlab.fitlin(trans_x, trans_y)
         width_fit.cov[0, 0] += mean(trans_s)**2
         width_res = jlab.uncp_div(width_fit.a, cov=width_fit.cov)
-        width = sqrt(width_res.a)
+        width = sqrt(width_res.a) * 2
         width_s = width * (width_res.s / width_res.a / 2)
         peak.width = width
         peak.width_s = width_s
