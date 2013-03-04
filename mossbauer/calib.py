@@ -62,6 +62,8 @@ class _Calib(object):
         cov_a = da * cov * da.T
         self.a = a
         self.cov = cov_a
+    def _load(self, fname):
+        self.a, self.cov = jlab.load_pyfile(fname)['a', 'cov']
 
 _calib = _Calib()
 _calib_data = jlab.load_pyfile('pos_cal_1/pos_cal.py')
@@ -70,6 +72,9 @@ _calib_cov = array(_calib_data.peaks_cov)
 
 def init(fname, *index):
     return _calib._init(fname, *index)
+
+def load(fname):
+    return _calib._load(fname)
 
 if __name__ == '__main__':
     import sys
