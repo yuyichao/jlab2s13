@@ -4,13 +4,16 @@ import jlab
 from pylab import *
 
 wavelength = 632.8e-9
+extra_fix = jlab.load_pyfile('extra_count/res.py')
+r_0 = 1 / (1 + extra_fix.extra_rate)
+rel_s = extra_fix.extra_unc / (1 + extra_fix.extra_rate)
 
 def read_cal_file(fname):
     f = jlab.load_pyfile(fname)
     index, data = array([(d[0], d[2]) for d in f.data]).T
     passes = int(f.elapsed_passes)
     c_time = float(f.mossbauer_dwell_time.split()[0]) * 1e-3
-    return index, wavelength * data / 2 / passes / c_time
+    return index, wavelength * data / 2 / passes / c_time * r_0
 
 def fit_v(iname, fig_name):
     index, data = read_cal_file(iname)
@@ -36,6 +39,10 @@ def fit_v(iname, fig_name):
     min_i = data.argmin()
     data[:min_i] = -data[:min_i]
     fit = jlab.fitlin(index, data)
+    rel_cov = jlab.abs2relcov(fit.a, fit.cov) + rel_s**2
+    abs_cov = array(jlab.rel2abscov(fit.a, rel_cov))
+    fit.cov = abs_cov
+    fit.s = sqrt([abs_cov[0, 0], abs_cov[1, 1]])
 
     fig2 = figure()
     plot(index, data * 1000, label="Measure")

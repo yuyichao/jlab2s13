@@ -3,14 +3,25 @@
 import jlab
 from pylab import *
 
+extra_fix = jlab.load_pyfile('extra_count/res.py')
+
+E_0 = 14.4e3
+c_0 = 299792458
+r_0 = E_0 / c_0
+
 def calib(v_fit, iname):
-    v_fit = jlab.load_pyfile(v_fit)
+    v_a, v_cov = jlab.load_pyfile(v_fit)['a', 'cov']
+    v_a = array(v_a)
+    v_cov = array(v_cov)
+    v_a *= r_0
+    v_cov *= r_0**2
+
     peaks = array(jlab.load_pyfile(iname).peaks).T
-    peaks_v = v_fit.a[0] + peaks[0] * v_fit.a[1]
-    peaks_2 = repeat([peaks_v], len(peaks_v), axis=0)
-    peaks_cov = (v_fit.cov[0][0] + v_fit.cov[0][1] * (peaks_2 + peaks_2.T) +
-                 v_fit.cov[1][1] * peaks_2 * peaks_2.T)
-    return jlab.Ret('peaks_v', 'peaks_cov')
+    peaks_e = v_a[0] + peaks[0] * v_a[1]
+    peaks_2 = repeat([peaks_e], len(peaks_e), axis=0)
+    peaks_cov = (v_cov[0, 0] + v_cov[0, 1] * (peaks_2 + peaks_2.T) +
+                 v_cov[1, 1] * peaks_2 * peaks_2.T)
+    return jlab.Ret('peaks_e', 'peaks_cov')
 
 if __name__ == '__main__':
     import sys
