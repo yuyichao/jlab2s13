@@ -31,7 +31,7 @@ def _uncp_prep_arg(a, s=None, cov=None):
     if cov != None:
         covm = matrix(cov)[0:l, 0:l]
     elif s:
-        covm = matrix(diag(a))
+        covm = matrix(diag(s)**2)
 
     return Ret('a', cov=covm)
 
