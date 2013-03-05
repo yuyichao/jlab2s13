@@ -3,7 +3,7 @@
 import jlab
 from pylab import *
 
-calib_res = jlab.load_pyfile('pos_cal_1/res_v.py')
+calib_res = jlab.load_pyfile('pos_cal/res_v.py')
 
 def smooth(data, w):
     l = len(data)
@@ -85,7 +85,7 @@ class FindIter(object):
     def __next__(self):
         return find_next(self.it, self.thresh_area, self.thresh_height)
 
-def find_width(index, data, hint=None, w=30):
+def find_width(index, data, w=30):
     a, s = smooth_diff(data, w)
     _w = w * 3
     a = a[_w:-_w]
@@ -122,11 +122,7 @@ def find_exact_pos(zero, index, diff, diff_s):
 def find_peak(iname, fig_name):
     index, data = array([(d[0], d[2]) for d in
                          jlab.load_pyfile(iname).data[calib_res.start:]]).T
-    try:
-        hint = jlab.load_pyfile(iname[:-3] + '_hint.py')
-    except:
-        hint = None
-    res = find_width(index, data, hint, 30)
+    res = find_width(index, data, 30)
 
     find_exact_pos_data = array([res.index, res.a, res.s])
     peaks = [find_exact_pos(res.index[z], *find_exact_pos_data[:, s:e])

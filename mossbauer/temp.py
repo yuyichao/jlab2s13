@@ -10,7 +10,13 @@ __temp_re = re.compile("[^-]-(?P<t>[-0-9][0-9]*)c")
 E_0 = 14.4e3
 
 def get_temp(fname):
-    return int(__temp_re.search(fname).group('t'))
+    return int(__temp_re.search(fname).group('t')) + 273.15
+
+def get_peak(fname):
+    data = jlab.load_pyfile(fname)
+    for i, peak in enumerate(data.peaks):
+        if data.peaks_width[i][0] == data.peaks_width[i][0]:
+            return peak
 
 if __name__ == '__main__':
     import sys
@@ -20,21 +26,23 @@ if __name__ == '__main__':
     calib_file = inames[0][:-6] + 'calib.py'
     calib_file = 'pos_cal/' + jlab.load_pyfile(calib_file).calib + '_calib.py'
     calib.load(calib_file)
-    peaks = array(list(zip(*(jlab.load_pyfile(iname).peaks[0]
-                             for iname in inames))))
+    peaks = array(list(zip(*(get_peak(iname) for iname in inames))))
     diff = (peaks[0, 0] - peaks[0, 1])
     unc = sqrt(peaks[1, 1]**2 + peaks[1, 0]**2)
     diff_res = calib.diff(diff, unc)
     diff_res.a /= E_0
     diff_res.s /= E_0
+    print(jlab.a_pm_s([diff_res.a, diff_res.s]))
 
     temps = [get_temp(iname) for iname in inames]
     dT4 = temps[1]**4 - temps[0]**4
     dT4_s = (6 / sqrt(3)) * 4 * temps[1]**3
 
     theta3 = (3 * pi**4 * consts.k * dT4 / 5 / consts.c**2 /
-              consts.atomic_mass / 57 / diff_res.a)
+              consts.atomic_mass / 57 / diff_res.a / 2)
     theta = theta3**(1 / 3)
     theta_s = sqrt((diff_res.s / diff_res.a)**2 + (dT4_s / dT4)**2) / 3 * theta
-    jlab.save_pyfile(jlab.Ret('theta', 'theta_s',
-                              delta=diff_res.a, delta_s=diff_res.s), oname)
+    print(jlab.a_pm_s([theta, theta_s]))
+    print(theta / 470)
+    # jlab.save_pyfile(jlab.Ret('theta', 'theta_s',
+    #                           delta=diff_res.a, delta_s=diff_res.s), oname)
