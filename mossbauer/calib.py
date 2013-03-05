@@ -76,6 +76,7 @@ class _Calib(object):
                      self.cov[1, 1] * peaks_2 * peaks_2.T)
         peaks_cov += diag((_peaks_s * self.a[1])**2)
         peaks_s = sqrt(diag(peaks_cov))
+        peaks_e -= mean(_calib_e)
         return jlab.Ret('peaks_e', 'peaks_s', 'peaks_cov')
     def _diff(self, _dc, _dc_s):
         _de = self.a[1] * _dc
