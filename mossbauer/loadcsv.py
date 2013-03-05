@@ -45,7 +45,6 @@ def load_moss(fname):
     with open(fname) as fh:
         return load_moss_fh(fh)
 
-
 if __name__ == '__main__':
     import sys
     iname = sys.argv[1]

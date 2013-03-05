@@ -78,6 +78,8 @@ class Ret(dict):
             return
         for k, v in zip(keys, items):
             dict.__setitem__(self, k, v)
+    def __dir__(self):
+        return list(self.keys()) + dict.__dir__(self)
 
 def a_pm_s(a_s, unit='', sci=None, tex=False):
     try:
@@ -172,8 +174,8 @@ def redchi2(delta, sigma, n):
     return sum((delta / sigma)**2) / (delta.size - n)
 
 def load_pyfh(fh, fname=''):
-    gs = {}
-    ls = {}
+    gs = {'nan': float('nan')}
+    ls = {'nan': float('nan')}
     exec(compile(fh.read() + "\n", fname, 'exec'), gs, ls)
     return Ret(ls)
 
@@ -191,7 +193,7 @@ def __numpy_repr(obj):
         return '{%s}' % ', '.join((repr(key) + ': ' + __numpy_repr(value))
                                   for (key, value) in obj.items())
     else:
-        return '[%s]' % ', '.join(__numpy_repr(value) for value in obj)
+        return '[%s]' % ', '.join(__numpy_repr(value) for value in array(obj))
 
 def save_pyfh(obj, fh):
     for key in obj:
