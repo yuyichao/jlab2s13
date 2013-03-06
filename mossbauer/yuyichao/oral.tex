@@ -200,22 +200,28 @@
       \end{tikzpicture}
     }
     \only<3>{
-      \begin{tikzpicture}[scale=.8]
-        \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 2 * (x - 2.3)**2)};
-        \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 2 * (x - 2.7)**2)};
-        \draw[->, black] (0, 0) -- (5, 0);
-        \draw[->, black, line width=1] (2.3, 2) -- (2.7, 2);
-        \draw[dashed] (2.3, 0) -- (2.3, 2);
-        \draw[dashed] (2.7, 0) -- (2.7, 2);
-      \end{tikzpicture}\\
-      \begin{tikzpicture}[scale=.8]
-        \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 25 * (x - 2.1)**2)};
-        \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 25 * (x - 2.9)**2)};
-        \draw[->, black] (0, 0) -- (5, 0);
-        \draw[->, black, line width=1] (2.1, 2) -- (2.9, 2);
-        \draw[dashed] (2.1, 0) -- (2.1, 2);
-        \draw[dashed] (2.9, 0) -- (2.9, 2);
-      \end{tikzpicture}
+      \begin{center}
+        \begin{tikzpicture}[scale=.8]
+          \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 2 * (x - 2.3)**2)};
+          \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 2 * (x - 2.7)**2)};
+          \draw[->, black] (0, 0) -- (5, 0);
+          \draw[->, black, line width=1] (2.3, 2) -- (2.7, 2);
+          \draw[dashed] (2.3, 0) -- (2.3, 2);
+          \draw[dashed] (2.7, 0) -- (2.7, 2);
+          \path (2.5, 0) node[below] {Atom};
+        \end{tikzpicture}
+      \end{center}
+      \begin{center}
+        \begin{tikzpicture}[scale=.8]
+          \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 25 * (x - 2.1)**2)};
+          \draw plot[id=x,domain=0:5,samples=1000] function{2 / (1 + 25 * (x - 2.9)**2)};
+          \draw[->, black] (0, 0) -- (5, 0);
+          \draw[->, black, line width=1] (2.1, 2) -- (2.9, 2);
+          \draw[dashed] (2.1, 0) -- (2.1, 2);
+          \draw[dashed] (2.9, 0) -- (2.9, 2);
+          \path (2.5, 0) node[below] {Nuclear};
+        \end{tikzpicture}
+      \end{center}
     }
   \end{columns}
 \end{frame}
@@ -296,6 +302,16 @@
       \draw[line width=1] (0, 0) -- (0, 2);
     }
   \end{tikzpicture}
+  \begin{block}{}
+    \begin{itemize}
+    \item
+      Source: ${}^{57}Co$.
+    \item
+      First turned into excited state of ${}^{57}Fe$.
+    \item
+      Energy $14.4keV$.
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}{Effects and samples.}
@@ -340,7 +356,7 @@
         \item
           $Fe_2O_3$
         \item
-          Stainless steel (Varying temperature).
+          \alert<10>{Stainless steel (Varying temperature).}
         \item
           $Na_4Fe(CN)_6$ For line width.
         \end{itemize}
