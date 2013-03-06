@@ -51,8 +51,7 @@ if __name__ == '__main__':
     dT4 = temps[1]**4 - temps[0]**4
     dT4_s = temps_s1 * 4 * temps[1]**3
 
-    Ue2 = (3 * pi**4 * consts.k * dT4 / 5 / consts.c**2 /
-           consts.atomic_mass / 57 / Theta**3 / 2 / consts.e)
+    Ue2 = (3 * pi**4 * consts.k * dT4 / 5 / Theta**3 / 2 / consts.e)
     Ue2_s = dT4_s / dT4 * Ue2
     print("Ue2 = ", jlab.a_pm_s([Ue2, Ue2_s], unit='eV'))
 

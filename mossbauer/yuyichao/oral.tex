@@ -350,32 +350,56 @@
 \end{frame}
 
 \def\timeleft{1:00}
-\section{Result of Rotation Curve.}
-\begin{frame}{Finding out the Maximum Doppler Shift.}
+\section{Data and result.}
+\begin{frame}{Calibration.}
   \begin{columns}
     \column{6cm}
     \visible<+->{
-      \only<-1>{
-        \begin{center}
-          Velocity distribution\\
-          at Galactic Longitude $\gamma=50^\circ$\\
-          \includegraphics[width=6.5cm]{vt-find.png}
-        \end{center}
-      }\only<+->{
-        \begin{center}
-          (Maximum relative velocities)\\
-          Contour plot of velocity distribution
-          \includegraphics[width=6.5cm]{../milkyway/data/gal_1_contour.png}
-        \end{center}
-      }
+      \includegraphics[width=6cm]{../pos_cal/res_v_raw.png}
     }
     \column{6cm}
     \visible<+->{
-      \begin{center}
-        (Transform into Absolute velocity)\\
-        Rotation curve of the Milky Way\\
-        \includegraphics[width=6.5cm]{../milkyway/data/gal_1_rot-curve.png}
-      \end{center}
+      \includegraphics[width=6cm]{../pos_cal/res_v_fit.png}
+    }
+  \end{columns}
+\end{frame}
+
+\begin{frame}{.}
+  \begin{columns}
+    \column{6cm}
+    \visible<+->{
+      \includegraphics[width=6cm]{../pos_cal/res_v_raw.png}
+    }
+    \column{6cm}
+    \visible<+->{
+      \includegraphics[width=6cm]{../pos_cal/res_v_fit.png}
+    }
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Temperature effect.}
+  \begin{columns}
+    \column{6cm}
+    \begin{block}{Samples}
+      \begin{itemize}[<+->]
+      \item Classic:
+        \[E_k=\frac{3}{2}k_BT\]
+      \item Debye $T^3$ approximation:
+        \[E_k=\frac{3\pi^4*k_B*T^4}{10\Theta_D^3}\]
+      \item Exact Debye Model:
+        \[E_k=\frac{9k_BT^4}{10\Theta_D^3}D_3\left(\frac{T}{\Theta_D}\right)\]
+      \end{itemize}
+    \end{block}
+    \column{6cm}
+    \visible<+->{
+      \begin{tabular}{|c|c|}
+        \hline
+        Model&$E_k$\\\hline
+        Classic&$1.409(12)\cdot 10^{-2}eV$\\\hline
+        Debye $T^3$&$4.59(22)\cdot 10^{-1}eV$\\\hline
+        Exact Debye&$1.304(84)\cdot 10^{-2}eV$\\\hline
+        (Measured)&$0.99(36)\cdot 10^{-2}eV$\\\hline
+      \end{tabular}
     }
   \end{columns}
 \end{frame}
@@ -387,11 +411,11 @@
   \begin{block}{}
     \begin{itemize}[<+->]
     \item
-      Measured the $21$cm spectrum for different longitude in the galactic plane.
+      Calibrated the velocity using laser.
     \item
-      Calculated the rotation curve of the Galaxy from $21$cm spectrum.
+      Measured Mössbauer spectrum of a variety of materials.
     \item
-      Saw the signature of dark matter.
+      Calculated different kinds of splitting and shifting.
     \end{itemize}
   \end{block}
 \end{frame}
