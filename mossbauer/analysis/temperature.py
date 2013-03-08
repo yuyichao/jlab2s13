@@ -12,7 +12,7 @@ class TempAbsorber(FeData):
 
 fe_cal = '../pos_cal_2/02-25-2.csv'
 if make_fe_cal:
-    fe_cal = FeData([fe_cal], peaks=2, channels_to_bin=2)
+    fe_cal = FeData([fe_cal], peaks=2, channels_to_bin=1)
     approx = j.Bundle()
     approx.peak_channel = array([665, 1335])
     approx.peak_max_count = max(fe_cal.y)*ones(2)/2
@@ -33,7 +33,7 @@ for i,(d,t) in enumerate([(25,21),(26,130)]):   #(22,21),(22,120),
     tao = None
     if make_ta:
         tao = TempAbsorber(['../temp/02-{}-{}c.csv'.format(d,t)],
-                peaks=1, channels_to_bin=2)
+                peaks=1, channels_to_bin=1)
 
         approx = j.Bundle()
         approx.peak_channel = array([967])
@@ -64,7 +64,7 @@ t_coeff = j.prop(de1/(t2-t1), de1 = de,
              units='eV/{^\circ}C')
 
 figure()
-title('Temperature Induced Shift in Absorption Peak in Stainless Steel')
+title('Temperature Induced Shift in Absorption Peak of Stainless Steel')
 c=['r','b','g','c','y','k']
 for i,x in enumerate(tac):
     errorbar(x.E, x.y, x.ye, c=c[i+2], label=r'{} $\degree C$'.format(x.temp),

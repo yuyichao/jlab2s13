@@ -1,6 +1,9 @@
 from __future__ import division, print_function
 import sys
 import os
+import matplotlib
+font={'family':'sans','weight':'normal','size':16}
+matplotlib.rc('font', **font)
 from pylab import *
 import jlab as j
 import cPickle
@@ -19,7 +22,7 @@ if __name__=='__main__' and 'fit' in sys.argv:
 
 ## Create Additional Data Bundle
 misc = j.Bundle()
-misc.E0 = 14.4 #keV
+misc.E0 = 14.4e3 #eV
 misc.lam = 6.328e-7 # wavelength of laser [m]
 misc.DT = 100.0e-6 # dwell time [sec]
 misc.N = 4000 # passes [1]
@@ -59,29 +62,12 @@ class Vel:
     def vel_count_func(self, v, a=None):
         if a == None:
             a = self.a
-        a1, b1, a2, b2 = a
-        min_point = (b2-b1)/(a1-a2)
-        if isscalar(v):
-            if v <= min_point:
-                return -a1*(v-min_point)
-            return a2*(v-min_point)
-        return concatenate([-a1*(v[v <= min_point]-min_point),
-            a2*(v[v > min_point]-min_point)])
+        a1, min_point = a
+        return a1*(v-min_point)
     def vel_count_func_error(self, ch, che):
-        a1, b1, a2, b2 = j.var('a1 b1 a2 b2')
-        va1, vb1, va2, vb2 = [j.fz(m,e) for m,e in zip(self.a, self.aerr)]
-        min_point = j.prop((b2-b1)/(a1-a2), a1=va1, b1=vb1, a2=va2, b2=vb2)
-        if isscalar(ch):
-            if ch <= min_point:
-                return sqrt((ch-min_point.m)**2*va1.e**2+(va1.m)**2*min_point.e**2+
-                        (va1.m)**2*che**2)
-            return sqrt((ch-min_point.m)**2*va2.e**2+(va2.m)**2*min_point.e**2+
-                    (va2.m)**2*che**2)
-        return concatenate([
-            sqrt((ch[ch <= min_point]-min_point.m)**2*va1.e**2+
-                (va1.m)**2*min_point.e**2+(va1.m)**2*che[ch <= min_point]**2),
-            sqrt((ch[ch > min_point]-min_point.m)**2*va2.e**2+
-                (va2.m)**2*min_point.e**2+(va1.m)**2*che[ch > min_point]**2)])
+        a1, min_point = self.a
+        return sqrt(((ch-min_point)**2*self.aerr[0]**2\
+                +(a1)**2*che**2+a1**2*self.aerr[1]**2))
     def ch_to_vel(self, chs, che=None):
         if che == None:
             che = zeros(chs.shape)
@@ -95,8 +81,8 @@ class Vel:
         cPickle.dump(self.__dict__, open(filename, 'wb'))
 
 class FeData:
-    def __init__(self, data_files, misc_data=None, channels_to_bin=4, peaks=6,
-            bin_cutoff=bin_cutoff):
+    def __init__(self, data_files, misc_data=None, channels_to_bin=1, peaks=6,
+            bin_cutoff=bin_cutoff, upper_cutoff=None):
         # data_files should be list
         if misc_data == None:
             misc_data = misc
@@ -110,6 +96,8 @@ class FeData:
 
         ## Bin Fe Data
         end = len(self.raw[:,0])-1
+        if upper_cutoff:
+            end = upper_cutoff
         bins = arange(bin_cutoff, end, channels_to_bin)
         digitized = np.digitize(range(len(self.raw[:,0])), bins)
         self.ch = (bins[1:]+bins[:-1])/2.
@@ -134,6 +122,7 @@ class FeData:
         peaks_func = lambda ch, a: self.peaks_func(ch, a)
         self.a, self.aerr, self.chisq, self.yfit = j.levmar(self.ch, self.y,
                 self.ye, peaks_func, self.a0, print_dev=True)[:-1]
+        self.nchisq = self.chisq/(len(self.ch)-len(self.a))
         self.peaks_ch = self.a[2*self.peaks:(2*self.peaks+self.peaks)]
         self.peaks_che = self.aerr[2*self.peaks:(2*self.peaks+self.peaks)]
 
@@ -157,7 +146,7 @@ class FeData:
 
     def gen_cal(self, fe, peaks=None):
         if peaks == None:
-            peaks = range(fe.peaks_E)
+            peaks = range(len(fe.peaks_E))
         self.ca,self.caerr,self.cchisq,self.cyfit = j.fitline(self.peaks_ch,
                 fe.peaks_E[peaks], fe.peaks_Ee[peaks])
 
@@ -176,16 +165,18 @@ class FeData:
 ## Compute Absolute Channel -> Velocity Calibration
 vel = None
 fe = None
+fe21 = None
+fe26 = None
 
 if make_vel:
-    vel = Vel('../pos_cal_1/02-14-V_2.csv')
-    vel.fit(array([-15000/800., 20000., 15000/800., -20000.]), bin_cutoff)
+    vel = Vel('../pos_cal/02-14-V_2.csv')
+    vel.fit(array([15000/800., 1000]), bin_cutoff)
     vel.save('storage/vel.p')
 else:
     vel = Vel('storage/vel.p')
 
 if make_fe:
-    fe = FeData(['../pos_cal_1/'+x+'.csv' for x in ['02-14-6_1',
+    fe = FeData(['../pos_cal/'+x+'.csv' for x in ['02-14-6_1',
         '02-14-6_2']])
 
     # Manual Intervention for Approximate location of peaks
@@ -200,8 +191,25 @@ if make_fe:
     fe.extract_cal(vel)
     fe.gen_cal(fe)
     fe.save('storage/fe.p')
+
+    # fe21
+    fe21 = FeData(['../pos_cal/02-21-6.csv'])
+    fe21.prep_fit(approx)
+    fe21.fit()
+    fe21.gen_cal(fe)
+    fe21.save('storage/fe21.p')
+
+    # fe26
+    fe26 = FeData(['../pos_cal/02-26-6.csv'])
+    fe26.prep_fit(approx)
+    fe26.fit()
+    fe26.gen_cal(fe)
+    fe26.save('storage/fe26.p')
+
 else:
     fe = FeData('storage/fe.p')
+    fe21 = FeData('storage/fe21.p')
+    fe26 = FeData('storage/fe26.p')
 
 #DE = vel.vel_per_channel[approx.peak_channel.astype(int)]/g.const.speed_of_light*misc.E0
 #T = abs(vel.vel_per_channel[(approx.peak_channel+approx.peak_fwhm/2).astype(int)]-
@@ -211,12 +219,6 @@ else:
 
 if __name__ == '__main__':
     ## Figures
-    # Raw Data Figure
-    figure()
-    plot(range(len(fe.raw[:,2])), fe.raw[:,2],'.')
-    axvline(bin_cutoff, -10, 10, c='r')
-    xlabel('Channels [1]')
-    ylabel('Counts [1]')
 
     # Vel Fit Figure
     figure()
@@ -224,8 +226,34 @@ if __name__ == '__main__':
     axvline(bin_cutoff, -10, 10, c='k')
     errorbar(vel.raw[:bin_cutoff,0], vel.raw[:bin_cutoff,2],
             sqrt(vel.raw[:bin_cutoff,2]),fmt='.', c='0.5')
-    plot(vel.raw[bin_cutoff:,0], vel.yfit, 'r')
-    plot(vel.raw[bin_cutoff:,0], vel.vel_count_func(vel.raw[bin_cutoff:,0]), 'b')
+    plot(vel.raw[bin_cutoff:,0], vel.yfit, 'r', lw=2)
+    grid()
+    #plot(vel.raw[bin_cutoff:,0], vel.vel_count_func(vel.raw[bin_cutoff:,0]), 'b')
+    xlabel('Channel')
+    ylabel('Counts [1]')
+    text(axis()[1]-100, axis()[3]-100, r'$\chi^2$: {}'.format(round(vel.chisq/(len(vel.ch)-len(vel.a)),2)),
+            va='top', ha='right')
+    savefig('graphics/vel_cal.png')
+
+    # Plot Fit Results
+    print('$chi^sq$: {}'.format(fe.chisq))
+    figure()
+    errorbar(fe.E-misc.E0, fe.y, fe.ye, fmt='k.', ecolor='0.75')
+    plot(fe.E-misc.E0, fe.yfit, 'r', lw=2)
+    [axvline(x-misc.E0,-10, 10, c='k') for x in fe.peaks_E]
+    xlabel('$\Delta E$ from 14.4e3[eV] in Electron Volts')
+    ylabel('Counts [1]')
+    savefig('graphics/fe_cal.png')
+
+    show();exit()
+
+    # Raw Data Figure
+    figure()
+    plot(range(len(fe.raw[:,2])), fe.raw[:,2],'.')
+    axvline(bin_cutoff, -10, 10, c='r')
+    xlabel('Channels [1]')
+    ylabel('Counts [1]')
+
 
     # Plot Fit Results
     print('$chi^sq$: {}'.format(fe.chisq))
