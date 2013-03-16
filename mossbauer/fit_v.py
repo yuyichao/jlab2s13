@@ -56,7 +56,7 @@ def fit_v(iname, fig_name):
          "$y = a\cdot x + b$\n$a=%s mm\cdot s^{-1}$\n$b=%s mm\cdot s^{-1}$" %
          (a, b), fontsize=20)
     xlabel("Channel No.")
-    ylabel(r"Speed ($mm\cdot s^{-1}$)")
+    ylabel(r"Velocity ($mm\cdot s^{-1}$)")
     grid()
     savefig(fig_name + '_fit.png')
     close()
