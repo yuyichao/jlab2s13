@@ -1,0 +1,250 @@
+\documentclass[aps,twocolumn,secnumarabic,balancelastpage,amsmath,amssymb,nofootinbib]{revtex4}
+% \documentclass[aps,twocolumn,secnumarabic,balancelastpage,amsmath,amssymb,nofootinbib]{revtex4}
+
+% Documentclass Options
+
+% nobalancelastpage doesn't attempt to equalize the lengths of the two columns
+% on the last page as might be desired in a journal where articles follow one
+% another closely
+% amsmath and amssymb are necessary for the subequations environment among
+% others secnumarabic identifies sections by number to aid electronic review
+% and commentary. nofootinbib forces footnotes to occur on the page where they
+% are first referenced and not in the bibliography
+
+% \usepackage{lgrind}        % convert program listings to a form includable in a LaTeX document
+\usepackage{chapterbib}    % allows a bibliography for each chapter (each labguide has it's own)
+\usepackage{color}         % produces boxes or entire pages with colored backgrounds
+\usepackage{graphics}      % standard graphics specifications
+\usepackage[pdftex]{graphicx}      % alternative graphics specifications
+\usepackage{longtable}     % helps with long table options
+\usepackage{epsf}          % old package handles encapsulated post script issues
+\usepackage{bm}            % special 'bold-math' package
+\usepackage{tikz}
+\usepackage{asymptote}     % For typesetting of mathematical illustrations
+
+% \usepackage{thumbpdf}
+
+\usepackage[colorlinks=true]{hyperref}  % this package should be added after all others
+% use as follows: \url{http://web.mit.edu/8.13}
+\newcommand{\drelectron}[1]{\node at #1 [circle, draw, inner sep=0pt, minimum size=1pt] {\_}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\ue}{\mathrm{e}}
+\newcommand{\ui}{\mathrm{i}}
+\newcommand{\res}{\mathrm{Res}}
+\newcommand{\Tr}{\mathrm{Tr}}
+\newcommand{\dsum}{\displaystyle\sum}
+\newcommand{\dprod}{\displaystyle\prod}
+\newcommand{\dlim}{\displaystyle\lim}
+\newcommand{\dint}{\displaystyle\int}
+\newcommand{\fsno}[1]{{\!\not\!{#1}}}
+\newcommand{\eqar}[1]
+{
+  \begin{align*}
+    #1
+  \end{align*}
+}
+\newcommand{\texp}[2]{\ensuremath{{#1}\times10^{#2}}}
+\newcommand{\dexp}[2]{\ensuremath{{#1}\cdot10^{#2}}}
+\newcommand{\eval}[2]{{\left.{#1}\right|_{#2}}}
+\newcommand{\paren}[1]{{\left({#1}\right)}}
+\newcommand{\lparen}[1]{{\left({#1}\right.}}
+\newcommand{\rparen}[1]{{\left.{#1}\right)}}
+\newcommand{\abs}[1]{{\left|{#1}\right|}}
+\newcommand{\sqr}[1]{{\left[{#1}\right]}}
+\newcommand{\crly}[1]{{\left\{{#1}\right\}}}
+\newcommand{\angl}[1]{{\left\langle{#1}\right\rangle}}
+\newcommand{\tpdiff}[4][{}]{{\paren{\frac{\partial^{#1} {#2}}{\partial {#3}{}^{#1}}}_{#4}}}
+\newcommand{\tpsdiff}[4][{}]{{\paren{\frac{\partial^{#1}}{\partial {#3}{}^{#1}}{#2}}_{#4}}}
+\newcommand{\pdiff}[3][{}]{{\frac{\partial^{#1} {#2}}{\partial {#3}{}^{#1}}}}
+\newcommand{\diff}[3][{}]{{\frac{\ud^{#1} {#2}}{\ud {#3}{}^{#1}}}}
+\newcommand{\psdiff}[3][{}]{{\frac{\partial^{#1}}{\partial {#3}{}^{#1}} {#2}}}
+\newcommand{\sdiff}[3][{}]{{\frac{\ud^{#1}}{\ud {#3}{}^{#1}} {#2}}}
+\newcommand{\tpddiff}[4][{}]{{\left(\dfrac{\partial^{#1} {#2}}{\partial {#3}{}^{#1}}\right)_{#4}}}
+\newcommand{\tpsddiff}[4][{}]{{\paren{\dfrac{\partial^{#1}}{\partial {#3}{}^{#1}}{#2}}_{#4}}}
+\newcommand{\pddiff}[3][{}]{{\dfrac{\partial^{#1} {#2}}{\partial {#3}{}^{#1}}}}
+\newcommand{\ddiff}[3][{}]{{\dfrac{\ud^{#1} {#2}}{\ud {#3}{}^{#1}}}}
+\newcommand{\psddiff}[3][{}]{{\frac{\partial^{#1}}{\partial{}^{#1} {#3}} {#2}}}
+\newcommand{\sddiff}[3][{}]{{\frac{\ud^{#1}}{\ud {#3}{}^{#1}} {#2}}}
+
+\begin{document}
+\tikzstyle{every picture}+=[remember picture]
+\title{Measurement of ${}^{57}Fe$ Nucleus using M\"{o}ssbauer Spectroscopy.}
+\author{Yichao Yu}
+\email{yuyichao@mit.edu}
+\homepage{http://yyc-arch.org/}
+\date{\today}
+\affiliation{MIT Department of Physics}
+
+\begin{abstract}
+  The M\"{o}ssbauer spectroscopy is a technique for recoil-free measurement of nucleus gamma ray absorption spectrum in solid based on the M\"{o}ssbauer effect. Because of the high resolution of the technique ($10^{12}$), it can be used to measure the tiny shift and splitting of nucleus energy levels when interacting with the environment. In this experiment, the M\"{o}ssbauer spectrum was measured for ${^{57}Fe}$ atom for a variety of substance and different effects on the nucleus energy levels were observed.
+\end{abstract}
+
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\section*{Introduction}
+The nuclear resonance absorption was predicted in the late 1920's\cite{first_attempt}. The idea was that the $\gamma$-ray emitted during a state transition from an excited state to ground state of a nucleus should be absorbed by another same nucleus in the exact reverse state transition. Although the same phenomenon was already be observed in atom radiation, the nuclear resonance absorption was not seen in experiment in the next $30$ years due to the recoil Doppler shift for atoms in the gas state. The M\"{o}ssbauer effect, discovered in $1958$, provides a solution of the problem by elimiating the recoil. Combining with a precise frequency scanning using Doppler effect as well as the narrow linewidth of nuclear radiation, M\"{o}ssbauer spectroscopy was invented to measure the spectrum of nucleus energy spectrum at a high resolution.
+
+In this experiment, we measured the M\"{o}ssbauer absorption spectrum of ${}^{57}Fe$ $14.4keV$ $\gamma$-ray in different substance including $Fe$, $Fe_2O_3$, $FeSO_4$, $Fe_2(SO_4)_3$, $Na_4Fe(CN)_6$, and stainless steel. A variety of effect that can shift or split the energy levels of the ${}^{57}Fe$ nucleus was observed including isomer shift, quadrupole splitting, zeeman effect and temperature shift.
+
+\section{Theory.}
+\subsection{M\"{o}ssbauer spectroscopy.}
+The recoil velocity and the Doppler shift caused by that are given by,
+\eqar{
+  v_{recoil}=&\frac{E}{2mc}\\
+  \frac{\Delta E_{recoil}}{E}=&\frac{E}{2mc^2}
+}
+where $E$ is the original radiation energy, and $m$ is the mass of the nucleus. For the $14.4keV$ radiation used in this experiment and free atom in the gas, the relative recoil shift is $\dexp{2.8}{-7}$, $5$ orders of magnitude greater than the relative natural linewidth of the radiation $10^{-12}$. In order to elimiate the recoil effect, M\"{o}ssbauer embed the atom into a solid and therefore increase the mass in the denominator to an effective mass equal the the mass of the whole solid. Since the whole solid is about $10^{20}$ times heavier than the nucleus, the recoil shift is negligible.
+
+By moving the source at a speed of the order $1cm\cdot s^{-1}$ under control, we are able to scan the energy of the $\gamma$-ray by $10^{10}-10^{11}$ and measure the absorption spectrum of the target material precisely in this small energy range.
+
+\subsection{Shift and Splitting of energy levels.}
+In this experiment, we are looking for several effects that can either shift or split the energy levels of a ${}^{57}Fe$ nucleus.
+
+\subsubsection{Isomer shift}
+This effect is caused by the non-zero electron density at the nucleus. Since the radius of the excited and ground state of the nucleus are slightly different, the energy shifts are also different for the two states and therefore also shift the energy of the radiation. The energy shift is given by,
+\[\delta = C\delta R\abs{\psi(0)}^2\]
+where $\delta R$ is the difference of the two radius, $\abs{\psi(0)}^2$ is the electron density at the nucleus, and $C$ is a constant. Since the isomer shift exists for all samples, what we are going to observe in the experiment is a relative difference between the shift for different sample.
+\subsubsection{Zeeman effect}
+\begin{figure}
+  \includegraphics[width=8cm]{../share/zeeman.png}
+  \caption{Zeeman effect.}
+  \label{zeeman}
+\end{figure}
+
+The excited state of the ${}^{57}Fe$ nucleus has a total angular momentum $I=\dfrac32$ and the ground state has a total angular momentum $I=\dfrac12$. Therefore, when there is a magnetic field at the nucleus generated by other electrons and atoms in the sample, the zeeman effect will split the excited and the ground states into $4$ and $2$ different energy levels respectively generating $\gamma$ radiation of $6$ possible energies as shown in figure \ref{zeeman}.
+
+The splitting and the energy correction of each levels are given by,
+\eqar{
+  \Delta E_I=&g_I\mu_NB\\
+  E_I=&g_Im_I\mu_NB
+}
+where $g_I$ is the $g$-factor, $\mu_N$ is the nuclear magneton, $m_I$ is the angular momentum projection quantum number, and $B$ is the magnetic field.
+
+\subsubsection{Quadrapole Splitting}
+\begin{figure}
+  \includegraphics[width=8cm]{../share/quad.png}
+  \caption{Quadrapole Splitting.}
+  \label{quad}
+\end{figure}
+
+This effect is caused by the interaction between nuclear quadrapole moment and the inhomogeneity of the electric field. This correction to the energy levels is given by,
+\[\Delta E_{quad}=\frac{qe^2Q}{4I(2I-1)}\sqr{3m_I^2-I(I+1)}\]
+where $q$ is the guadiant of the field, $Q$ the quadrapole moment. For the $I=\dfrac12$ ground state $\Delta E_{quad}=0$, whereas for the $I=\dfrac32$ excited state (Figure \ref{quad}),
+\eqar{
+  \Delta E_{quad}=\left\{\begin{array}{ll}
+      \dfrac{qe^2Q}{4}&m_I=\pm\dfrac12\\
+      -\dfrac{qe^2Q}{4}&m_I=\pm\dfrac32
+    \end{array}
+  \right.
+}
+\subsubsection{Temperature shift}
+This is a small effect caused by the relativistic time dilation caused by the random heat motion of the nucleus. The shift is given by,
+\[\frac{\delta}{E}=\frac{\angl{v^2}}{2c^2}=\frac{\angl{E_k}}{mc^2}\]
+where $\angl{v^2}$ is the averge speed square and $\angl{E_k}$ is the average kinetic energy of the nucleus.
+
+\subsubsection{Combination of multiple effects}
+Multiple effects can exist in the same sample and at most $6$ absorption peaks can be observed. The energy shifts of these peaks are (temperature effect is ignored since it is small compare to other effects and will not change unless the temperature of the sample changes dramatically),
+\eqar{
+  \Delta E_1=&\varepsilon-\frac\delta2-\frac32\Delta_1-\frac12\Delta_0\\
+  \Delta E_2=&\varepsilon+\frac\delta2-\frac12\Delta_1-\frac12\Delta_0\\
+  \Delta E_3=&\varepsilon+\frac\delta2+\frac12\Delta_1-\frac12\Delta_0\\
+  \Delta E_4=&\varepsilon+\frac\delta2-\frac12\Delta_1+\frac12\Delta_0\\
+  \Delta E_5=&\varepsilon+\frac\delta2+\frac12\Delta_1+\frac12\Delta_0\\
+  \Delta E_6=&\varepsilon-\frac\delta2+\frac32\Delta_1+\frac12\Delta_0
+}
+where $\varepsilon$ is the isomer shift, $\delta$ is the quadrapole splitting, $\Delta_1$ is the Zeeman splitting for the excited state and $\Delta_0$ is the Zeeman splitting for the ground state.
+
+\section{Apparatus and calibration}
+\subsection{Apparatus}
+\begin{figure}
+  \begin{tikzpicture}[scale=.8]
+    \path (2, 0) node[below] {Source};
+    \draw[line width=.5] (3.5, .9) -- (2.2, .9);
+    \draw[line width=.5] (2.2, 1.1) -- (3.5, 1.1);
+    \draw[line width=1] (3.5, 0) -- (3.5, 2);
+    \draw[line width=1] (2.2, 0.8) -- (2.2, 1.2) -- (1.8, 1.2) -- (1.8, 0.8) -- cycle;
+    \draw[<->, dashed, black, line width=1] (2.5, 2.2) -- (4.5, 2.2);
+    \path (3.5, 2.2) node[above] {Stage};
+    \draw[line width=.5] (3.5, .9) -- (4.2, .9);
+    \draw[line width=.5] (4.2, 1.1) -- (3.5, 1.1);
+
+    \draw[line width=.2, ->, gray] (1.7, 1.2) -- (-0.7, 2);
+    \draw[line width=.2, ->, gray] (1.7, 1.1) -- (-0.7, 1.5);
+    \draw[line width=.2, ->, gray] (1.7, 1.0) -- (-0.7, 1);
+    \draw[line width=.2, ->, gray] (1.7, .9) -- (-0.7, .5);
+    \draw[line width=.2, ->, gray] (1.7, .8) -- (-0.7, 0);
+
+    \draw[line width=1] (4.4, 1.5) -- (4.4, 0.5);
+    \draw[line width=.2] (4.4, 1.5) -- ++(-.2, -.2);
+    \draw[line width=.2] (4.4, 1.3) -- ++(-.2, -.2);
+    \draw[line width=.2] (4.4, 1.1) -- ++(-.2, -.2);
+    \draw[line width=.2] (4.4, 0.9) -- ++(-.2, -.2);
+    \draw[line width=.2] (4.4, 0.7) -- ++(-.2, -.2);
+
+    \draw[line width=.5] (5.5, 0.5) -- (6.5, 1.5);
+
+    \draw[line width=1] (5.5, -.3) -- (6.5, -.3);
+    \draw[line width=.2] (5.5, -.3) -- ++(.2, -.2);
+    \draw[line width=.2] (5.7, -.3) -- ++(.2, -.2);
+    \draw[line width=.2] (5.9, -.3) -- ++(.2, -.2);
+    \draw[line width=.2] (6.1, -.3) -- ++(.2, -.2);
+    \draw[line width=.2] (6.3, -.3) -- ++(.2, -.2);
+
+    \draw[line width=1] (7.5, 1.2) -- (7.5, 0.8) -- (8.5, 0.8) -- (8.5, 1.2) -- cycle;
+    \path (8, 0.8) node[below] {Laser};
+
+    \draw[line width=1] (5.8, 2.3) -- (6.2, 2.3) arc (0:180:.2);
+    \path (6, 2.5) node[above] {Photo Diode};
+
+    \draw[line width=1, red] (4.4, 1) -- (7.5, 1);
+    \draw[line width=1, red] (6, 2.3) -- (6, -.3);
+
+    \path (-1, 0) node[below] {Detector};
+    \draw[line width=1] (-1.2, 0) -- (-1.2, 2) -- (-.8, 2) -- (-.8, 0) -- cycle;
+
+    \path (0.5, 0) node[below] {Target};
+    \draw[line width=1] (0.5, 0) -- (0.5, 2);
+  \end{tikzpicture}
+  \caption{Apparatus.}
+  \label{apparatus}
+\end{figure}
+
+Figure \ref{apparatus} is a schematics of the apparatus used in this experiment. The source is attached on a stage that can be moved back and forth in cycles under control of the computer. A detector will measure the counting rate of radiation after absorbed by the target sample as a function of time in each scanning cycle and also send the data back to the computer.
+
+\subsection{Calibration of velocity using Michelson interferometer.}
+A Michelson interferometer with one mirror attached to the moving stage is used to calibrate the moving velocity of the stage (right half of figure \ref{apparatus}). By measuring the power using the photo diode, the speed of the stage is,
+\eqar{
+  \abs{v}=&2f\lambda
+}
+where $f$ is the frequency of the laser power and $\lambda=632.8nm$ is the wavelength of the $He$-$Ne$ laser used in the interferometer.
+\begin{figure}
+  \includegraphics[width=8cm]{../pos_cal/res_v_raw.png}
+  \caption{Measurement of stage speed in each cycle. Each channel number in the horizontal axis corresponds to a certain time point in each scanning cycle.}
+  \label{v_raw}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=8cm]{../pos_cal/res_v_fit.png}
+  \caption{Calibration fitting of velocity.}
+  \label{v_fit}
+\end{figure}
+
+Figure \ref{v_raw} shows the relation between the speed of the stage and the time in each cycle (which is shown as channel numbers). After removing the first part where the velocity is changing rapidly and flip the sign for the region where the velocity is negetive, the calibration line was obtained by fitting a straight line to the data, as shown in figure \ref{v_fit}.
+
+\section{Measurement of different samples}
+\subsection{$Fe$, $Fe_2O_3$, $FeSO_4$ and $Fe_2(SO_4)_3$}
+\begin{figure}
+  \includegraphics[width=8cm]{../pos_cal/02-14-6_2_raw.png}
+  \includegraphics[width=8cm]{../FeSO4_Fe2SO4_3/02-19-FeSO4_raw.png}
+  \caption{Measured absorption spectrum of $Fe$ and $FeSO_4$ samples. the light blue curves are the original data, the dark blue curves are the data after being smoothed. The vertical lines shows the position of peaks and the horizontal lines is an estimation of the total radiation level (without absorption of the target).}
+  \label{samples_raw}
+\end{figure}
+
+\subsection{Measurement of linewidth using $Na_4Fe(CN)_6$ sample.}
+
+\subsection{Measurement of temperature shift using stainless steel sample.}
+
+\section{Conclusion}
+% In this experiment, we finished out main goal of measuring the 21cm spectrum using the small radio telescope. Our measurement of the sun temperature shows the origin of microwave radiation from the sun is not only the surface, but also from inside the sun. We also successfully measured the rotation curve from the red shift of the 21cm radiation and the deviation from our result to the prediction from visible mass suggest the exsistance of dark matter.
+
+\bibliography{report}
+\end{document}
