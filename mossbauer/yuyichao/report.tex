@@ -287,6 +287,24 @@ The line width (FWHM) of the peaks for different amount of $Na_4Fe(CN)_6$ power 
   \caption{Measured absorption spectrum of stainless steel sample at \subref{temp_21_raw} $21^{\circ}C$ and \subref{temp_130_raw} $130^{\circ}C$. The red verticle lines show the position of the peak and the green verticle line shows the uncertainty of the position. The uncertainty is magnified by a factor of $4$ in order to be seen clearly on the plot.}
   \label{temp_raw}
 \end{figure}
+In order to measure the temperature shift caused by relativistic time dilation, we measured the stainless steel sample (which has no splitting effect) at $21(1)^{\circ}C$ and $130(5)^{\circ}C$. From the results shown in figure \ref{temp_raw} (The uncertainty is magnified by a factor of $4$ in order to be seen clearly on the plot), we found a relative energy shift in the $\gamma$-ray spectrum of $1.86(69)\cdot 10^{-13}$. Using a classic model and a Debye model of crystal vibration, we can calculate the expected value of the energy shift using the expression of average kinetic energy from different model,
+\eqar{
+  E_{classic}=&\frac32k_BT\\
+  E_{Debye}=&\frac{9k_BT^4}{10\Theta_D^3}D_3\paren{\frac{T}{\Theta_D}}
+}
+where $\Theta_D\approx470$ is the Debye temperature estimated using that of Iron. A comparison of the average kinetic energy of nucleus calculated using different methods is shown in table \ref{temp_model}. The value we have measured is within $1\sigma$ of the expected value from Debye model and it is also not far from the result of classic model since we are close to the high temperature limit.
+
+\begin{table}
+  \begin{tabular}{|c|c|}
+    \hline
+    Model&$E_k$\\\hline
+    Classic&$1.409(12)\cdot 10^{-2}eV$\\\hline
+    Debye&$1.304(84)\cdot 10^{-2}eV$\\\hline
+    (Measured)&$0.99(36)\cdot 10^{-2}eV$\\\hline
+  \end{tabular}
+  \caption{Average kinetic energy of nucleus calculated using different methods.}
+  \label{temp_model}
+\end{table}
 
 \section{Conclusion}
 In this experiment, we finished our main goal of measuring the spectrum of ${}^{57}Fe$ nucleus $14.4keV$ $\gamma$-radiation using M\"{o}ssbauer effect. By measuring the spectrum, we determined the energy correction caused by different effects which agrees very well with the accepted value. The natural line width we have measured is larger than the accepted onebecause of some broadening effects and our measurement of temperature shift agrees with theoritical perdiction very well.
