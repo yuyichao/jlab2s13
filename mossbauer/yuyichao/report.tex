@@ -21,6 +21,7 @@
 \usepackage{bm}            % special 'bold-math' package
 \usepackage{tikz}
 \usepackage{asymptote}     % For typesetting of mathematical illustrations
+\usepackage{subfigure}
 
 % \usepackage{thumbpdf}
 
@@ -233,15 +234,38 @@ Figure \ref{v_raw} shows the relation between the speed of the stage and the tim
 \section{Measurement of different samples}
 \subsection{$Fe$, $Fe_2O_3$, $FeSO_4$ and $Fe_2(SO_4)_3$}
 \begin{figure}
-  \includegraphics[width=8cm]{../pos_cal/02-14-6_2_raw.png}
-  \includegraphics[width=8cm]{../FeSO4_Fe2SO4_3/02-19-FeSO4_raw.png}
-  \caption{Measured absorption spectrum of $Fe$ and $FeSO_4$ samples. the light blue curves are the original data, the dark blue curves are the data after being smoothed. The vertical lines shows the position of peaks and the horizontal lines is an estimation of the total radiation level (without absorption of the target).}
+  \subfigure[$Fe$]{
+    \includegraphics[width=8cm]{../pos_cal/02-14-6_2_raw.png}
+    \label{fe_raw}
+  }
+  \subfigure[$FeSO_4$]{
+    \includegraphics[width=8cm]{../FeSO4_Fe2SO4_3/02-19-FeSO4_raw.png}
+    \label{feso4_raw}
+  }
+  \caption{Measured absorption spectrum of \subref{fe_raw} $Fe$ and \subref{feso4_raw} $FeSO_4$ samples. The light blue curves are the original data, the dark blue curves are the data after being smoothed. The vertical lines shows the position of peaks and the horizontal lines is an estimation of the total radiation level (without absorption of the target).}
   \label{samples_raw}
 \end{figure}
 
-\subsection{Measurement of linewidth using $Na_4Fe(CN)_6$ sample.}
+\subsection{Measurement of linewidth using $Na_4Fe(CN)_6$ samples.}
+\begin{figure}
+  \includegraphics[width=8cm]{../share/line_width.png}
+  \caption{FWHM ($2\Gamma$) of absorption peaks for different amount of $Na_4Fe(CN)_6$ samples.}
+  \label{line_width}
+\end{figure}
 
 \subsection{Measurement of temperature shift using stainless steel sample.}
+\begin{figure}
+  \subfigure[$21^{\circ}C$]{
+    \includegraphics[width=8cm]{../temp/02-25-21c_raw.png}
+    \label{temp_21_raw}
+  }
+  \subfigure[$130^{\circ}C$]{
+    \includegraphics[width=8cm]{../temp/02-26-130c_raw.png}
+    \label{temp_130_raw}
+  }
+  \caption{Measured absorption spectrum of stainless steel sample at \subref{temp_21_raw} $21^{\circ}C$ and \subref{temp_130_raw} $130^{\circ}C$. The red verticle lines show the position of the peak and the green verticle line shows the uncertainty of the position. The uncertainty is magnified by a factor of $4$ in order to be seen clearly on the plot.}
+  \label{temp_raw}
+\end{figure}
 
 \section{Conclusion}
 % In this experiment, we finished out main goal of measuring the 21cm spectrum using the small radio telescope. Our measurement of the sun temperature shows the origin of microwave radiation from the sun is not only the surface, but also from inside the sun. We also successfully measured the rotation curve from the red shift of the 21cm radiation and the deviation from our result to the prediction from visible mass suggest the exsistance of dark matter.
