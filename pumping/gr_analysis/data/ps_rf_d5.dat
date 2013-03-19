@@ -1,0 +1,13 @@
+# Shift of peaks in RF spectrum as function of frequency - day5
+# X=149.2 Y=19.015 Z=sweep
+# RF 1.390Vpp, 
+# Freq Filename
+100 PRINT_00.csv
+90 PRINT_01.csv
+80 PRINT_02.csv
+70 PRINT_03.csv
+60 PRINT_04.csv
+50 PRINT_05.csv
+40 PRINT_06.csv
+30 PRINT_07.csv
+20 PRINT_08.csv

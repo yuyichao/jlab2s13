@@ -1,0 +1,20 @@
+# X-Field Factor vs Filename for x-filed wave-form variations - Day 3
+# Y=19.32 Z=Tooth_Saw
+# X-Field(mA) Filename
+127.4 PRINT_16.csv
+#Emptied Floppy
+124.8 PRINT_00.csv 
+122.05 PRINT_01.csv 
+120.0 PRINT_02.csv
+117.15 PRINT_03.csv
+110.05 PRINT_04.csv
+129.2 PRINT_05.csv
+135.2 PRINT_06.csv
+140.05 PRINT_07.csv
+145.25 PRINT_08.csv
+147.0 PRINT_09.csv
+153.6 PRINT_10.csv
+159.1 PRINT_11.csv
+165.15 PRINT_12.csv
+170.15 PRINT_13.csv
+180.35 PRINT_14.csv

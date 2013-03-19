@@ -1,0 +1,15 @@
+# Changes in wave-form as function of temperature
+# X=149.2 Y=19.02 Z=6Vpp, 165VDC, 520mHz
+# Temperature Filename
+39.7 PRINT_00.csv
+40.0 PRINT_01.csv
+37.8 PRINT_03.csv
+37.0 PRINT_04.csv
+35.5 PRINT_05.csv
+34.6 PRINT_06.csv
+33.9 PRINT_07.csv
+33.5 PRINT_08.csv
+31.8 PRINT_09.csv
+29.9 PRINT_10.csv
+28.9 PRINT_11.csv
+27.4 PRINT_12.csv

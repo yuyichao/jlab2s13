@@ -1,0 +1,14 @@
+# OD Factor vs Filename for density filter variations - Day 3
+# X=127.4 Y=19.32 Z=Tooth_Saw
+# OD_Factor Filename
+0.40 PRINT_06.csv
+0.50 PRINT_05.csv
+#0.60 PRINT_07.csv <--Corrupted by floppy
+0.70 PRINT_08.csv
+0.10 PRINT_09.csv
+0.20 PRINT_10.csv
+0.30 PRINT_11.csv
+0.80 PRINT_12.csv
+0.90 PRINT_13.csv
+1.00 PRINT_14.csv
+1.10 PRINT_15.csv

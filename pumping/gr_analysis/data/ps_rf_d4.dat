@@ -1,0 +1,20 @@
+# Shift of peaks in RF spectrum as function of frequency - day4
+# X=149.2 Y=19.01 Z=-16.5 
+# # RF 4.3 Vpp
+# Freq Filename
+80 PRINT_01.csv
+75 PRINT_02.csv
+70 PRINT_03.csv
+65 PRINT_04.csv
+60 PRINT_05.csv
+55 PRINT_06.csv
+50 PRINT_07.csv
+50 PRINT_08.csv
+45 PRINT_09.csv
+40 PRINT_10.csv
+35 PRINT_11.csv
+30 PRINT_12.csv
+25 PRINT_13.csv
+20 PRINT_14.csv
+15 PRINT_15.csv
+10 PRINT_16.csv
