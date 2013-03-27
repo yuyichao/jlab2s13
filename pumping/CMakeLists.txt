@@ -10,10 +10,6 @@ set(BSCAN_RF_NAMES
   bscan_nf/03-15-bscan_nf_rf9
   )
 
-set(BSCAN_NAMES
-  ${BSCAN_RF_NAMES}
-  )
-
 set(BSWITCH_TEMP_NAMES
   bswitch_nf/03-15-bswitch_nf_temp10
   bswitch_nf/03-15-bswitch_nf_temp11
@@ -68,12 +64,6 @@ set(BSWITCH_X_NAMES
   bswitch_nf/03-19-bswitch_nf_x9
   )
 
-set(BSWITCH_NAMES
-  ${BSWITCH_TEMP_NAMES}
-  ${BSWITCH_Z_NAMES}
-  ${BSWITCH_OD_NAMES}
-  ${BSWITCH_X_NAMES})
-
 set(RFSCAN_Y_NAMES
   rfscan_nf/03-19-rfscan_nf_y10
   rfscan_nf/03-19-rfscan_nf_y11
@@ -88,8 +78,20 @@ set(RFSCAN_Y_NAMES
   rfscan_nf/03-19-rfscan_nf_y9
   )
 
+set(BSCAN_NAMES
+  ${BSCAN_RF_NAMES}
+  )
+
+set(BSWITCH_NAMES
+  ${BSWITCH_TEMP_NAMES}
+  ${BSWITCH_Z_NAMES}
+  ${BSWITCH_OD_NAMES}
+  ${BSWITCH_X_NAMES}
+  )
+
 set(RFSCAN_NAMES
-  ${RFSCAN_Y_NAMES})
+  ${RFSCAN_Y_NAMES}
+  )
 
 set(RFSWITCH_NAMES
   )
@@ -98,14 +100,19 @@ set(DATA_NAMES
   ${BSCAN_NAMES}
   ${BSWITCH_NAMES}
   ${RFSCAN_NAMES}
-  ${RFSWITCH_NAMES})
+  ${RFSWITCH_NAMES}
+  )
 
 foreach(DATA_NAME ${DATA_NAMES})
-  set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
-  jlab_add_command(OUTPUT "${output_file}"
+  jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py"
     COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/loadcsv.py" "${DATA_NAME}.csv"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     DEPENDS "${DATA_NAME}.csv" loadcsv.py)
+  jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.png"
+    COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/plot.py"
+    "${DATA_NAME}.py" "${DATA_NAME}.png"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    DEPENDS "${DATA_NAME}.py" plot.py)
 endforeach()
 
 # foreach(DATA_NAME ${DATA_NAMES})
