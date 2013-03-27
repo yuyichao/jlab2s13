@@ -115,6 +115,14 @@ foreach(DATA_NAME ${DATA_NAMES})
     DEPENDS "${DATA_NAME}.py" plot.py)
 endforeach()
 
+foreach(DATA_NAME ${BSWITCH_NAMES})
+  jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}_peaks.py"
+    COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/bswitch.py"
+    "${DATA_NAME}.py" "${DATA_NAME}_peaks.py"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    DEPENDS "${DATA_NAME}.py" bswitch.py)
+endforeach()
+
 # foreach(DATA_NAME ${DATA_NAMES})
 #   set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
 #   jlab_file_to_unique_name(target_name "${output_file}")
