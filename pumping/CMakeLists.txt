@@ -139,6 +139,12 @@ foreach(DATA_NAME ${BSCAN_NAMES})
     DEPENDS "${DATA_NAME}.py" bscan.py)
 endforeach()
 
+jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/all_data/coil_b.py"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/coil.py"
+  "all_data/coil.py" "all_data/coil_b.py"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS "all_data/coil.py" coil.py)
+
 # foreach(DATA_NAME ${DATA_NAMES})
 #   set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
 #   jlab_file_to_unique_name(target_name "${output_file}")
