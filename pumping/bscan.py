@@ -95,7 +95,10 @@ def fit_bscan(iname):
     ma = max(vs)
 
     peaks0 = find_0peaks(vs)
-    plot(vs)
+    peaks = []
+    peaks_s = []
+    heights = []
+    heights_s = []
     for peak0 in peaks0:
         deep1 = find_next_peak(vs, peak0, ma / 25, True, True)
         peak0_end = deep1
@@ -109,59 +112,52 @@ def fit_bscan(iname):
         peak_p1 = find_next_peak(vs, peak0_end, ma / 25, True, False)
         deep2 = find_next_peak(vs, peak_p1, ma / 25, True, True)
         peak_p2 = find_next_peak(vs, deep2, ma / 25, True, False)
+        deep6 = find_next_peak(vs, peak_p2, ma / 25, True, True)
+        if deep6 is None:
+            deep6 = l
 
         deep3 = find_next_peak(vs, peak0, ma / 25, False, True)
         peak_n1 = find_next_peak(vs, deep3, ma / 25, False, False)
         deep4 = find_next_peak(vs, peak_n1, ma / 25, False, True)
         peak_n2 = find_next_peak(vs, deep4, ma / 25, False, False)
         deep5 = find_next_peak(vs, peak_n2, ma / 25, False, True)
+        if deep5 is None:
+            deep5 = 0
 
         for i in (deep5, deep4, deep3, deep1, deep2):
-            if i is not None:
-                vs[i:l] -= vs[i] * exp(-r_[:l - i] / decay_b)
+            vs[i:l] -= vs[i] * exp(-r_[:l - i] / decay_b)
 
-        axvline(peak0, color='r')
-        axvline(peak_p1, color='g')
-        axvline(peak_p2, color='g')
-        axvline(peak_n1, color='g')
-        axvline(peak_n2, color='g')
-    plot(vs, 'r', linewidth=2)
-    show()
+        peaks5 = []
+        peaks5_s = []
+        heights5 = []
+        heights5_s = []
+        for p, d in ((peak_n2, deep4), (peak_n1, deep3), (peak0, deep1),
+                     (peak_p1, deep2), (peak_p2, deep6)):
+            start = p
+            end = (p + d) // 2
+            pos = argmax(vs[start:end]) + start
+            for i in range(pos, 0, -1):
+                if vs[i] < vs[pos] * .95:
+                    break
+            width = (pos - i)
+            peak_ys = vs[pos - width:pos + width + 1]
+            height = mean(peak_ys)
+            height_s = std(peak_ys)
+            pos_s = sqrt((pos - i)**2 + (pos - p)**2) / 2
 
-    return
+            peaks5.append(pos)
+            peaks5_s.append(pos_s)
+            heights5.append(height)
+            heights5_s.append(height_s)
+        peaks.append(peaks5)
+        peaks_s.append(peaks5_s)
+        heights.append(heights5)
+        heights_s.append(heights5_s)
 
-    pos = []
-    pos_s = []
-    height = []
-    height_s = []
-    for start, end in p_sections:
-        ys = vs[start:end]
-        xs = r_[start:end]
-        width = (end - start) // 10
-        if width < 1:
-            width = 1
-        y_smooth = smooth(ys, width * 2)
-
-        max_i = argmax(y_smooth) + start
-        max_i_s = width / 2
-        peaks = vs[max_i - width:max_i + width + 1]
-        peak = mean(peaks)
-        peak_s = std(peaks) / sqrt(width * 2)
-
-        decay = vs[max_i:end]
-        decay_x = r_[:end - max_i]
-        fit_res = fitexp(decay_x, decay, p0=[decay[0], (end - max_i) * 2])
-        yleft = fit_res.func(r_[:l - max_i])
-        vs[max_i:] -= yleft
-
-        pos.append(ts[max_i])
-        pos_s.append(dt * max_i_s)
-        height.append(peak)
-        height_s.append(peak_s)
-    return Ret('pos', 'pos_s', 'height', 'height_s')
+    return Ret('peaks', 'peaks_s', 'heights', 'heights_s')
 
 if __name__ == '__main__':
     import sys
     iname, oname = sys.argv[1:]
     res = fit_bscan(iname)
-    # save_pyfile(res, oname)
+    save_pyfile(res, oname)
