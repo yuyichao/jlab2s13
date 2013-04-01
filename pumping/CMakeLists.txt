@@ -145,6 +145,32 @@ jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/all_data/coil_b.py"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   DEPENDS "all_data/coil.py" coil.py)
 
+set(V_T_DATA
+  all_data/03-12-v_T.txt
+  )
+
+set(RFSCAN_14_X_DATA
+  rfscan_nf/03-14-rfscan_x.txt)
+set(RFSCAN_14_Y_DATA
+  rfscan_nf/03-14-rfscan_y.txt)
+set(RFSCAN_14_Z_DATA
+  rfscan_nf/03-14-rfscan_z.txt)
+
+set(BSCAN_15_RF_DATA
+  bscan_nf/03-15-bscan_nf_rf.txt)
+
+set(BSWITCH_15_TEMP_DATA
+  bswitch_nf/03-15-bswitch_nf_temp.txt)
+
+set(BSWITCH_19_OD_DATA
+  bswitch_nf/03-19-bswitch_nf_od.txt)
+
+set(BSWITCH_19_X_DATA
+  bswitch_nf/03-19-bswitch_nf_x.txt)
+
+set(RFSCAN_19_Y_DATA
+  rfscan_nf/03-19-rfscan_nf_y.txt)
+
 # foreach(DATA_NAME ${DATA_NAMES})
 #   set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
 #   jlab_file_to_unique_name(target_name "${output_file}")
