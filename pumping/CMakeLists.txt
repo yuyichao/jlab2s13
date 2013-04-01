@@ -195,22 +195,6 @@ set(RFSCAN_19_Y_DATA_RF
 set(RFSCAN_19_Y_DATA_PEAKS)
 jlab_add_with_suffix(RFSCAN_19_Y_DATA_PEAKS "_peaks.py" ${RFSCAN_Y_NAMES})
 
-# foreach(DATA_NAME ${DATA_NAMES})
-#   set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
-#   jlab_file_to_unique_name(target_name "${output_file}")
-#   set(STAMP_FILE "${PROJECT_BINARY_DIR}/.${target_name}.stamp")
-#   add_custom_command(OUTPUT "${STAMP_FILE}"
-#     COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/loadcsv.py" "${DATA_NAME}.csv"
-#     COMMAND "${CMAKE_COMMAND}" -E touch "${STAMP_FILE}"
-#     COMMAND "${CMAKE_COMMAND}" -E touch_nocreate "${output_file}"
-#     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-#     DEPENDS "${DATA_NAME}.csv" loadcsv.py)
-#   add_custom_target("${target_name}.internal" ALL DEPENDS "${STAMP_FILE}")
-#   add_custom_command(OUTPUT "${output_file}"
-#     DEPENDS ${target_name}.internal)
-#   add_custom_target("${target_name}" ALL DEPENDS "${output_file}")
-# endforeach()
-
 jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_x.py"
   "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_x_fit.png"
   COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_baxis.py"
