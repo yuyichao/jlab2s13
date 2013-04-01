@@ -166,25 +166,30 @@ endfunction()
 set(BSCAN_15_RF_DATA_RF
   bscan_nf/03-15-bscan_nf_rf.txt)
 set(BSCAN_15_RF_DATA_PEAKS)
-jlab_add_with_suffix(BSCAN_15_RF_DATA_PEAKS ".py" ${BSCAN_RF_NAMES})
+jlab_add_with_suffix(BSCAN_15_RF_DATA_PEAKS "_peaks.py" ${BSCAN_RF_NAMES})
 
+# TODO
 set(BSWITCH_15_TEMP_DATA_RF
   bswitch_nf/03-15-bswitch_nf_temp.txt)
 set(BSWITCH_15_TEMP_DATA_PEAKS)
-jlab_add_with_suffix(BSWITCH_15_TEMP_DATA_PEAKS ".py" ${BSWITCH_TEMP_NAMES})
+jlab_add_with_suffix(BSWITCH_15_TEMP_DATA_PEAKS
+  "_peaks.py" ${BSWITCH_TEMP_NAMES})
 
+# TODO
 set(BSWITCH_15_Z_DATA_PEAKS)
-jlab_add_with_suffix(BSWITCH_15_Z_DATA_PEAKS ".py" ${BSWITCH_Z_NAMES})
+jlab_add_with_suffix(BSWITCH_15_Z_DATA_PEAKS "_peaks.py" ${BSWITCH_Z_NAMES})
 
+# TODO
 set(BSWITCH_19_OD_DATA_RF
   bswitch_nf/03-19-bswitch_nf_od.txt)
 set(BSWITCH_19_OD_DATA_PEAKS)
-jlab_add_with_suffix(BSWITCH_19_OD_DATA_PEAKS ".py" ${BSWITCH_OD_NAMES})
+jlab_add_with_suffix(BSWITCH_19_OD_DATA_PEAKS "_peaks.py" ${BSWITCH_OD_NAMES})
 
+# TODO
 set(BSWITCH_19_X_DATA_RF
   bswitch_nf/03-19-bswitch_nf_x.txt)
 set(BSWITCH_19_X_DATA_PEAKS)
-jlab_add_with_suffix(BSWITCH_19_X_DATA_PEAKS ".py" ${BSWITCH_X_NAMES})
+jlab_add_with_suffix(BSWITCH_19_X_DATA_PEAKS "_peaks.py" ${BSWITCH_X_NAMES})
 
 set(RFSCAN_19_Y_DATA_RF
   rfscan_nf/03-19-rfscan_nf_y.txt)
@@ -243,3 +248,15 @@ jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${RFSCAN_19_Y_DATA}"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   DEPENDS "${RFSCAN_19_Y_DATA_RF}" rfscan_baxis_combine.py
   ${RFSCAN_19_Y_DATA_PEAKS})
+
+jlab_add_command(OUTPUT
+  "${CMAKE_CURRENT_SOURCE_DIR}/bscan_nf/03-15-bscan_nf_rf_fit.png"
+  "${CMAKE_CURRENT_SOURCE_DIR}/bscan_nf/03-15-bscan_nf_rf_fit.py"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/bscan_rf.py"
+  bscan_nf/03-15-bscan_nf_rf_fit.py
+  bscan_nf/03-15-bscan_nf_rf all_data/coil_b.py
+  "${BSCAN_15_RF_DATA_RF}"
+  ${BSCAN_15_RF_DATA_PEAKS}
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS bscan_rf.py all_data/coil_b.py "${BSCAN_15_RF_DATA_RF}"
+  ${RFSCAN_15_RF_DATA_PEAKS})

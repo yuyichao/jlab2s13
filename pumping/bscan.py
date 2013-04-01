@@ -86,9 +86,29 @@ def find_0peaks(vs):
 def fitexp(x, a, b):
     return a * exp(-x / b)
 
+def find_dz(zs):
+    min_i = argmin(zs)
+    max_i = argmax(zs)
+    l = len(zs)
+    if abs(min_i - l) > abs(max_i - l):
+        m_i = max_i
+        negetive = True
+    else:
+        m_i = min_i
+        negetive = False
+    if m_i * 2 > l:
+        increasing = False
+    else:
+        increasing = True
+    p_i = find_next_peak(zs, m_i, (zs[max_i] - zs[min_i]) / 50,
+                         increasing, negetive)
+    dz = abs((zs[p_i] - zs[m_i]) / (p_i - m_i))
+    return dz
+
 def fit_bscan(iname):
     ts, vs, zs = array(load_pyfile(iname).data)
     base = find_base(vs)
+    dz = find_dz(zs)
     vs = base - vs
     l = len(ts)
     dt = (ts[-1] - ts[0]) / (l - 1)
@@ -143,10 +163,10 @@ def fit_bscan(iname):
             peak_ys = vs[pos - width:pos + width + 1]
             height = mean(peak_ys)
             height_s = std(peak_ys)
-            pos_s = sqrt((pos - i)**2 + (pos - p)**2) / 2
+            pos_s = sqrt((pos - i)**2 + (pos - p)**2) / 8
 
-            peaks5.append(pos)
-            peaks5_s.append(pos_s)
+            peaks5.append(zs[pos])
+            peaks5_s.append(pos_s * dz)
             heights5.append(height)
             heights5_s.append(height_s)
         peaks.append(peaks5)
