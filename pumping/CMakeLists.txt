@@ -255,3 +255,12 @@ jlab_add_command(OUTPUT
   ${BSWITCH_19_OD_DATA_PEAKS}
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   DEPENDS bswitch_od.py "${BSWITCH_19_OD_DATA_RF}" ${BSWITCH_19_OD_DATA_PEAKS})
+
+jlab_add_command(OUTPUT
+  "${CMAKE_CURRENT_SOURCE_DIR}/abundance.py"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/heights.py"
+  rfscan_nf/03-19-rfscan_y_heights.txt bscan_nf/03-15-bscan_nf_rf_fit.py
+  abundance.py
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS heights.py
+  rfscan_nf/03-19-rfscan_y_heights.txt bscan_nf/03-15-bscan_nf_rf_fit.py)
