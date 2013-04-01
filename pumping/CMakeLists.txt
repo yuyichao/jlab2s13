@@ -146,8 +146,7 @@ jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/all_data/coil_b.py"
   DEPENDS "all_data/coil.py" coil.py)
 
 set(V_T_DATA
-  all_data/03-12-v_T.txt
-  )
+  all_data/03-12-v_T.txt)
 
 set(RFSCAN_14_X_DATA
   rfscan_nf/03-14-rfscan_x.txt)
@@ -156,20 +155,41 @@ set(RFSCAN_14_Y_DATA
 set(RFSCAN_14_Z_DATA
   rfscan_nf/03-14-rfscan_z.txt)
 
-set(BSCAN_15_RF_DATA
+function(jlab_add_with_suffix lst suf)
+  set(tmp_list ${${lst}})
+  foreach(ele ${ARGN})
+    set(tmp_list ${tmp_list} "${ele}${suf}")
+  endforeach()
+  set(${lst} ${tmp_list} PARENT_SCOPE)
+endfunction()
+
+set(BSCAN_15_RF_DATA_RF
   bscan_nf/03-15-bscan_nf_rf.txt)
+set(BSCAN_15_RF_DATA_PEAKS)
+jlab_add_with_suffix(BSCAN_15_RF_DATA_PEAKS ".py" ${BSCAN_RF_NAMES})
 
-set(BSWITCH_15_TEMP_DATA
+set(BSWITCH_15_TEMP_DATA_RF
   bswitch_nf/03-15-bswitch_nf_temp.txt)
+set(BSWITCH_15_TEMP_DATA_PEAKS)
+jlab_add_with_suffix(BSWITCH_15_TEMP_DATA_PEAKS ".py" ${BSWITCH_TEMP_NAMES})
 
-set(BSWITCH_19_OD_DATA
+set(BSWITCH_15_Z_DATA_PEAKS)
+jlab_add_with_suffix(BSWITCH_15_Z_DATA_PEAKS ".py" ${BSWITCH_Z_NAMES})
+
+set(BSWITCH_19_OD_DATA_RF
   bswitch_nf/03-19-bswitch_nf_od.txt)
+set(BSWITCH_19_OD_DATA_PEAKS)
+jlab_add_with_suffix(BSWITCH_19_OD_DATA_PEAKS ".py" ${BSWITCH_OD_NAMES})
 
-set(BSWITCH_19_X_DATA
+set(BSWITCH_19_X_DATA_RF
   bswitch_nf/03-19-bswitch_nf_x.txt)
+set(BSWITCH_19_X_DATA_PEAKS)
+jlab_add_with_suffix(BSWITCH_19_X_DATA_PEAKS ".py" ${BSWITCH_X_NAMES})
 
-set(RFSCAN_19_Y_DATA
+set(RFSCAN_19_Y_DATA_RF
   rfscan_nf/03-19-rfscan_nf_y.txt)
+set(RFSCAN_19_Y_DATA_PEAKS)
+jlab_add_with_suffix(RFSCAN_19_Y_DATA_PEAKS ".py" ${RFSCAN_Y_NAMES})
 
 # foreach(DATA_NAME ${DATA_NAMES})
 #   set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
