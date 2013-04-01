@@ -11,10 +11,6 @@ set(BSCAN_RF_NAMES
   )
 
 set(BSWITCH_TEMP_NAMES
-  bswitch_nf/03-15-bswitch_nf_temp10
-  bswitch_nf/03-15-bswitch_nf_temp11
-  bswitch_nf/03-15-bswitch_nf_temp12
-  bswitch_nf/03-15-bswitch_nf_temp13
   bswitch_nf/03-15-bswitch_nf_temp1
   bswitch_nf/03-15-bswitch_nf_temp2
   bswitch_nf/03-15-bswitch_nf_temp3
@@ -24,6 +20,10 @@ set(BSWITCH_TEMP_NAMES
   bswitch_nf/03-15-bswitch_nf_temp7
   bswitch_nf/03-15-bswitch_nf_temp8
   bswitch_nf/03-15-bswitch_nf_temp9
+  bswitch_nf/03-15-bswitch_nf_temp10
+  bswitch_nf/03-15-bswitch_nf_temp11
+  bswitch_nf/03-15-bswitch_nf_temp12
+  bswitch_nf/03-15-bswitch_nf_temp13
   )
 
 set(BSWITCH_Z_NAMES
@@ -35,9 +35,6 @@ set(BSWITCH_Z_NAMES
   )
 
 set(BSWITCH_OD_NAMES
-  bswitch_nf/03-19-bswitch_nf_od10
-  bswitch_nf/03-19-bswitch_nf_od11
-  bswitch_nf/03-19-bswitch_nf_od12
   bswitch_nf/03-19-bswitch_nf_od1
   bswitch_nf/03-19-bswitch_nf_od2
   bswitch_nf/03-19-bswitch_nf_od3
@@ -47,12 +44,12 @@ set(BSWITCH_OD_NAMES
   bswitch_nf/03-19-bswitch_nf_od7
   bswitch_nf/03-19-bswitch_nf_od8
   bswitch_nf/03-19-bswitch_nf_od9
+  bswitch_nf/03-19-bswitch_nf_od10
+  bswitch_nf/03-19-bswitch_nf_od11
+  bswitch_nf/03-19-bswitch_nf_od12
   )
 
 set(BSWITCH_X_NAMES
-  bswitch_nf/03-19-bswitch_nf_x10
-  bswitch_nf/03-19-bswitch_nf_x11
-  bswitch_nf/03-19-bswitch_nf_x12
   bswitch_nf/03-19-bswitch_nf_x1
   bswitch_nf/03-19-bswitch_nf_x2
   bswitch_nf/03-19-bswitch_nf_x3
@@ -62,11 +59,12 @@ set(BSWITCH_X_NAMES
   bswitch_nf/03-19-bswitch_nf_x7
   bswitch_nf/03-19-bswitch_nf_x8
   bswitch_nf/03-19-bswitch_nf_x9
+  bswitch_nf/03-19-bswitch_nf_x10
+  bswitch_nf/03-19-bswitch_nf_x11
+  bswitch_nf/03-19-bswitch_nf_x12
   )
 
 set(RFSCAN_Y_NAMES
-  rfscan_nf/03-19-rfscan_nf_y10
-  rfscan_nf/03-19-rfscan_nf_y11
   rfscan_nf/03-19-rfscan_nf_y1
   rfscan_nf/03-19-rfscan_nf_y2
   rfscan_nf/03-19-rfscan_nf_y3
@@ -76,6 +74,8 @@ set(RFSCAN_Y_NAMES
   rfscan_nf/03-19-rfscan_nf_y7
   rfscan_nf/03-19-rfscan_nf_y8
   rfscan_nf/03-19-rfscan_nf_y9
+  rfscan_nf/03-19-rfscan_nf_y10
+  rfscan_nf/03-19-rfscan_nf_y11
   )
 
 set(BSCAN_NAMES
@@ -189,7 +189,7 @@ jlab_add_with_suffix(BSWITCH_19_X_DATA_PEAKS ".py" ${BSWITCH_X_NAMES})
 set(RFSCAN_19_Y_DATA_RF
   rfscan_nf/03-19-rfscan_nf_y.txt)
 set(RFSCAN_19_Y_DATA_PEAKS)
-jlab_add_with_suffix(RFSCAN_19_Y_DATA_PEAKS ".py" ${RFSCAN_Y_NAMES})
+jlab_add_with_suffix(RFSCAN_19_Y_DATA_PEAKS "_peaks.py" ${RFSCAN_Y_NAMES})
 
 # foreach(DATA_NAME ${DATA_NAMES})
 #   set(output_file "${CMAKE_CURRENT_SOURCE_DIR}/${DATA_NAME}.py")
@@ -206,3 +206,40 @@ jlab_add_with_suffix(RFSCAN_19_Y_DATA_PEAKS ".py" ${RFSCAN_Y_NAMES})
 #     DEPENDS ${target_name}.internal)
 #   add_custom_target("${target_name}" ALL DEPENDS "${output_file}")
 # endforeach()
+
+jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_x.py"
+  "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_x_fit.png"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_baxis.py"
+  "${RFSCAN_14_X_DATA}" "rfscan_nf/rfscan_x.py" "x" "all_data/coil_b.py"
+  "rfscan_nf/rfscan_x"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS "all_data/coil_b.py" rfscan_baxis.py "${RFSCAN_14_X_DATA}")
+
+jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_z.py"
+  "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_z_fit.png"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_baxis.py"
+  "${RFSCAN_14_Z_DATA}" "rfscan_nf/rfscan_z.py" "z" "all_data/coil_b.py"
+  "rfscan_nf/rfscan_z"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS "all_data/coil_b.py" rfscan_baxis.py "${RFSCAN_14_Z_DATA}")
+
+set(RFSCAN_19_Y_DATA
+  rfscan_nf/03-19-rfscan_y.txt)
+jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_y.py"
+  "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_nf/rfscan_y_fit.png"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_baxis.py"
+  "${RFSCAN_19_Y_DATA}" "rfscan_nf/rfscan_y.py" "y" "all_data/coil_b.py"
+  "rfscan_nf/rfscan_y"
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS "all_data/coil_b.py" rfscan_baxis.py "${RFSCAN_19_Y_DATA}")
+
+set(RFSCAN_19_Y_HEIGHTS
+  rfscan_nf/03-19-rfscan_y_heights.txt)
+jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${RFSCAN_19_Y_DATA}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/${RFSCAN_19_Y_HEIGHTS}"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/rfscan_baxis_combine.py"
+  "${RFSCAN_19_Y_DATA}" "${RFSCAN_19_Y_HEIGHTS}" "${RFSCAN_19_Y_DATA_RF}"
+  ${RFSCAN_19_Y_DATA_PEAKS}
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS "${RFSCAN_19_Y_DATA_RF}" rfscan_baxis_combine.py
+  ${RFSCAN_19_Y_DATA_PEAKS})
