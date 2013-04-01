@@ -127,7 +127,7 @@ def fit_peaks_short_decay(p_sections, vs):
         fit_res = fitexp(xs, ys, p0=[ys[-1] - ys[0], width, ys[-1]])
         hs.append(fit_res.a[0])
         ts.append(fit_res.a[1])
-        covs.append(fit_res.cov)
+        covs.append(fit_res.cov[0:2, 0:2])
     return hs, ts, covs
 
 def fit_peaks(res, t_s, vs):
@@ -158,8 +158,8 @@ def fit_peaks(res, t_s, vs):
     h = mean(hs)
     t = mean(ts)
     cov = mean(covs, axis=0)
-    cov[0][0] += std(hs)**2 / (len(hs) - 1)
-    cov[1][1] += std(ts)**2 / (len(ts) - 1)
+    cov[0][0] += std(hs)**2
+    cov[1][1] += std(ts)**2
 
     dt = (t_s[-1] - t_s[0]) / (len(t_s) - 1)
     t *= dt
@@ -168,6 +168,8 @@ def fit_peaks(res, t_s, vs):
     res.h = h
     res.tau = t
     res.h_tau_cov = cov
+    res.h_s = sqrt(cov[0, 0])
+    res.tau_s = sqrt(cov[1, 1])
 
 def fit_bswitch(iname):
     res = Ret()

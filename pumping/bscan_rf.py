@@ -59,5 +59,4 @@ if __name__ == '__main__':
     import sys
     oname, figprefix, coil_file, rfname, *inames = sys.argv[1:]
     res = bscan_rf(figprefix, coil_file, rfname, inames)
-    print(res)
     save_pyfile(res, oname)

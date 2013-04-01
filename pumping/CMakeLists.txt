@@ -179,7 +179,6 @@ jlab_add_with_suffix(BSWITCH_15_TEMP_DATA_PEAKS
 set(BSWITCH_15_Z_DATA_PEAKS)
 jlab_add_with_suffix(BSWITCH_15_Z_DATA_PEAKS "_peaks.py" ${BSWITCH_Z_NAMES})
 
-# TODO
 set(BSWITCH_19_OD_DATA_RF
   bswitch_nf/03-19-bswitch_nf_od.txt)
 set(BSWITCH_19_OD_DATA_PEAKS)
@@ -260,3 +259,15 @@ jlab_add_command(OUTPUT
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
   DEPENDS bscan_rf.py all_data/coil_b.py "${BSCAN_15_RF_DATA_RF}"
   ${RFSCAN_15_RF_DATA_PEAKS})
+
+jlab_add_command(OUTPUT
+  "${CMAKE_CURRENT_SOURCE_DIR}/bswitch_nf/03-19-bswitch_nf_od_height.png"
+  "${CMAKE_CURRENT_SOURCE_DIR}/bswitch_nf/03-19-bswitch_nf_od_tau.png"
+  "${CMAKE_CURRENT_SOURCE_DIR}/bswitch_nf/03-19-bswitch_nf_od_fit.py"
+  COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/bswitch_od.py"
+  bswitch_nf/03-19-bswitch_nf_od_fit.py
+  bswitch_nf/03-19-bswitch_nf_od
+  "${BSWITCH_19_OD_DATA_RF}"
+  ${BSWITCH_19_OD_DATA_PEAKS}
+  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+  DEPENDS bswitch_od.py "${BSWITCH_19_OD_DATA_RF}" ${BSWITCH_19_OD_DATA_PEAKS})
