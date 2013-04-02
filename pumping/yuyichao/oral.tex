@@ -206,30 +206,51 @@
       \draw[line width=2] (0, 0) -- (6, 0) node[right] {$0$};
       \draw[line width=2] (0, -0.5) -- (6, -0.5) node[right] {$-1$};
 
-      \draw[red, ->, line width=2] (0.2, -0.5) -- (0.7, 5) -- (0.7, 0)
-      -- (1.2, 5) -- (1.2, 0) -- (1.7, 5.5) -- (1.7, 0.5);
-      \draw[red, ->, line width=2] (3.2, 0) -- (3.7, 5.5) -- (3.7, 0.5);
+      \only<1> {
+        \draw[line width=1.5, fill=black] (0.2, -0.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.2, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.2, 0.5) circle (0.2);
+      }
 
-      \draw[->, line width=3] (1.7, 0.5) -- (2.2, 0);
-      \draw[->, line width=3] (3.7, 0.5) -- (4.2, 0);
-      \draw[->, line width=3] (5.2, 0.5) -- (5.7, 0);
+      \only<2> {
+        \draw[red, ->, line width=2] (0.2, -0.5) -- (0.7, 5) -- (0.7, 0)
+        -- (1.2, 5.5) -- (1.2, 0) -- (1.7, 5.5) -- (1.7, 0.5);
+        \draw[red, ->, line width=2] (3.2, 0) -- (3.7, 5.5) -- (3.7, 0.5);
 
-      \draw[line width=1.5, fill=white] (0.2, -0.5) circle (0.2);
-      \draw[line width=1.5, fill=white] (0.7, 5) circle (0.2);
-      \draw[line width=1.5, fill=white] (0.7, 0) circle (0.2);
-      \draw[line width=1.5, fill=white] (1.2, 5) circle (0.2);
-      \draw[line width=1.5, fill=white] (1.2, 0) circle (0.2);
-      \draw[line width=1.5, fill=white] (1.7, 5.5) circle (0.2);
-      \draw[line width=1.5, fill=white] (1.7, 0.5) circle (0.2);
-      \draw[line width=1.5, fill=white] (2.2, 0) circle (0.2);
+        \draw[line width=1.5, fill=white] (0.2, -0.5) circle (0.2);
+        \draw[line width=1.5, fill=white] (0.7, 5) circle (0.2);
+        \draw[line width=1.5, fill=white] (0.7, 0) circle (0.2);
+        \draw[line width=1.5, fill=white] (1.2, 5.5) circle (0.2);
+        \draw[line width=1.5, fill=white] (1.2, 0) circle (0.2);
+        \draw[line width=1.5, fill=white] (1.7, 5.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (1.7, 0.5) circle (0.2);
 
-      \draw[line width=1.5, fill=white] (3.2, 0) circle (0.2);
-      \draw[line width=1.5, fill=white] (3.7, 5.5) circle (0.2);
-      \draw[line width=1.5, fill=white] (3.7, 0.5) circle (0.2);
-      \draw[line width=1.5, fill=white] (4.2, 0) circle (0.2);
+        \draw[line width=1.5, fill=white] (3.2, 0) circle (0.2);
+        \draw[line width=1.5, fill=white] (3.7, 5.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.7, 0.5) circle (0.2);
 
-      \draw[line width=1.5, fill=white] (5.2, 0.5) circle (0.2);
-      \draw[line width=1.5, fill=white] (5.7, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.2, 0.5) circle (0.2);
+      }
+
+      \only<3> {
+        \draw[line width=1.5, fill=black] (1.7, 0.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.7, 0.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.2, 0.5) circle (0.2);
+      }
+
+      \only<4> {
+        \draw[->, line width=3] (1.7, 0.5) -- (2.2, 0);
+        \draw[->, line width=3] (3.7, 0.5) -- (4.2, 0);
+        \draw[->, line width=3] (5.2, 0.5) -- (5.7, 0);
+        \draw[line width=1.5, fill=white] (1.7, 0.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (2.2, 0) circle (0.2);
+
+        \draw[line width=1.5, fill=white] (3.7, 0.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (4.2, 0) circle (0.2);
+
+        \draw[line width=1.5, fill=white] (5.2, 0.5) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.7, 0) circle (0.2);
+      }
     \end{tikzpicture}
   \end{columns}
 \end{frame}
@@ -280,15 +301,52 @@
 \def\timeleft{7:30 -> 4:00}
 % goal
 \begin{frame}{}
+  \visible<+->{
+    \begin{block}{}
+      \[ f_{RF}=\frac{g_F\mu_B}{h}\sqrt{(B_x+B_{x0})^2+(B_y+B_{y0})^2+(B_z+B_{z0})^2} \]
+    \end{block}
+  }
   \begin{columns}
     \column{5.5cm}
     \begin{block}{}
       \begin{itemize}[<+->]
       \item
+        Scan RF frequency.
+      \item
+        Scan $B$ field.
+      \item
+        Switch $B$ field.
       \end{itemize}
     \end{block}
     \column{5.5cm}
-    % figure
+    \only<2>{
+      \begin{block}{Scaning RF frequency at different $B$ field.}
+        \begin{itemize}
+        \item
+          Measure/cancel earth magnetic field.
+        \item
+          Absorption strength (Natural Abundance).
+          \[ I_{absorb}\propto NA\cdot g_F^2 \]
+        \end{itemize}
+      \end{block}
+    }
+    \only<3>{
+      \begin{block}{Scan $B$ field at different RF frequency.}
+        \begin{itemize}
+        \item
+          Measure resonance frequency.
+        \end{itemize}
+      \end{block}
+    }
+    \only<4>{
+      \begin{block}{Switch $B$ at different light intensity.}
+        \begin{itemize}
+        \item
+          Measure pumping rate.
+          \[ R\propto I_{light} \]
+        \end{itemize}
+      \end{block}
+    }
   \end{columns}
 \end{frame}
 
