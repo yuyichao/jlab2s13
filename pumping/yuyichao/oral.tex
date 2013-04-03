@@ -150,7 +150,7 @@
 
 % Intro
 \def\timeleft{14:55->14:20}
-\begin{frame}{}
+\begin{frame}{Introduction}
   \begin{block}{}
     \begin{itemize}[<+->]
     \item
@@ -177,14 +177,14 @@
 \def\timeleft{13:50->11:40}
 % Theory
 \section{Atom energy levels and optical pumping.}
-\begin{frame}{}
+\begin{frame}{Atom energy levels and optical pumping.}
   \begin{columns}
     \column{6cm}
     \begin{block}{}
       \begin{itemize}[<+->]
       \item
         Fine, hyperfine structure, Zeeman splitting.
-        \[ n\propto\mathbf{e}^{-\beta E} \]
+        \[ \left.\frac{n_1}{n_2}\right|_{fine}=\mathbf{e}^{-\beta\Delta E}\approx1 \]
       \item
         Optical pumping in $m_z$ states.\\
         Circular polarization light, $\Delta m=+1$.\\
@@ -259,7 +259,7 @@
 \def\timeleft{10:00 -> 7:30}
 % apparatus
 \section{Apparatus and measurement.}
-\begin{frame}{}
+\begin{frame}{Apparatus.}
   \begin{center}
     \begin{tikzpicture}[scale=.8]
       \draw[line width=.2, dashed, red] (0, 0) -- (3, 1) -- (7, 1) -- (9, 0);
@@ -269,11 +269,11 @@
       \draw (0, 0) circle (.2);
       \path (0, -.3) node[below] {$Rb$ Lamp};
 
-      \draw[line width=1.2] (1, -1) -- (1, 1) node[above] {\visible<2->{$P$}};
-      \draw[line width=1.2] (2, -1) -- (2, 1) node[above] {\visible<2->{$\dfrac{\lambda}{4}$}};
+      \draw[line width=1.2] (1, -1) -- (1, 1) node[above] {{\visible<2->{$P$}}};
+      \draw[line width=1.2] (2, -1) -- (2, 1) node[above] {{\visible<2->{$\dfrac{\lambda}{4}$}}};
       \draw[line width=1.2, <->] (3, -1) -- (3, 1);
 
-      \draw (5, 0) circle (.6) node {\visible<3->{$Rb$}};
+      \draw (5, 0) circle (.6) node {{\visible<3->{$Rb$}}};
 
       \visible<5->{
         \draw (5, .7) ellipse (.7 and .05);
@@ -308,7 +308,7 @@
 
 \def\timeleft{7:30 -> 4:00}
 % goal
-\begin{frame}{}
+\begin{frame}{Measurement}
   \visible<+->{
     \begin{block}{}
       \[ \Delta\mu B=hf \]
@@ -369,7 +369,7 @@
     \includegraphics[width=6cm]{../bscan_nf/03-15-bscan_nf_rf1.png}\\
     Light intensity when scanning $B$ field.
     \column{6cm}
-    \only<3>{
+    \only<2>{
       \begin{block}{$g_F$ factor.}
         \begin{center}
           \begin{tabular}{|c|c|c|}
