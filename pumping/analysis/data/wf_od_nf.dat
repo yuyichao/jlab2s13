@@ -1,0 +1,15 @@
+# Changes in wave-form as function of od - no filter
+# X=149.2 Y=19.02 Z=6Vpp, 165VDC, 520mHz
+# OD Identifier
+.0 1
+.1 2
+.2 3
+.3 4
+.4 5
+.5 6
+.6 7
+.7 8
+.8 9
+.9 10
+1.0 11
+1.1 12
