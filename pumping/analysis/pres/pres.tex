@@ -1,6 +1,6 @@
 \documentclass{beamer}
 \mode<presentation>{\usetheme{boxes}\setbeamercovered{transparent}}
-\usepackage{graphics, graphicx, hyperref}
+\usepackage{graphics, graphicx, hyperref, amsmath}
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \graphicspath{{../graphics/}{../drawings/}}
 \beamertemplatenavigationsymbolsempty
@@ -18,8 +18,8 @@
 \begin{itemize}
 \item Light Intensity
 \item Vapor Temperature
-\item Magnetic Field Tangent to Optical Axis
-\item Magnetic Field Along Optical Axis 
+%\item Magnetic Field Tangent to Optical Axis
+%\item Magnetic Field Along Optical Axis 
 \end{itemize}
 \item Measurements of Rabi oscillation period with varying,
 \begin{itemize}
@@ -34,6 +34,21 @@
 \includegraphics[width=1.0\linewidth]{h_structure.png}
 \end{figure}
 %\[H = H(l) + I\cdotJ-\frac{\mu_j}{J} J \cdot B - \frac{\mu_I}{I} I \cdot B\] 
+}
+
+\frame{\frametitle{Energy Structures of $Rb^{87}$}
+\begin{columns}
+\begin{column}{.85\linewidth}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb_87.png}
+\end{figure}
+\end{column}
+\begin{column}{.15\linewidth}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{vec_diag.png}
+\end{figure}
+\end{column}
+\end{columns}
 }
 
 \frame{\frametitle{Photon Induced Energy Transitions in a Magnetic Field}
@@ -90,6 +105,12 @@ Right-Handed Circularly Polarized Light
 \end{figure}
 }
 
+\frame{\frametitle{Fit of Exponential to Re-population Signal}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{temp_sig_fit.png}
+\end{figure}
+}
+
 \frame{\frametitle{Simulation of Optical Pumping of Atomic Models with Different Numbers of $M_z$ Levels}
 \begin{figure}
 \includegraphics[width=0.9\linewidth]{theory_wf_fit.png}
@@ -105,8 +126,84 @@ Assuming a Hydrogen like, three $M_z$ level structure,
 \intertext{hence,}
 \frac{d^2n_0}{dt^2}&=-(a_{-1}+a_{0})\frac{dn_0}{dt}-a_{-1}a_{0}n_0
 \intertext{Assuming $a_{-1} = a_{0}$,}
-I(x) &= c_4-c_0(t+c_1)\exp\left({-c_2(t-c_3)}\right)
+I(x) &= c_4-(c_0t+c_1)\exp\left({-c_2(t-c_3)}\right)
 \end{align*}
+}
+
+\frame{\frametitle{Dependency of Inverse Decay Time on Light Intensity}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{od_decay_time.png}
+\end{figure}
+}
+ 
+\frame{\frametitle{Dependency of Signal Amplitude on Light Intensity}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{od_amplitude.png}
+\end{figure}
+}
+
+\frame{\frametitle{Dependency of Decay Time on Temperature}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{temp_decay_constant.png}
+\end{figure}
+}
+
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{h_structure.png}
+\end{figure}
+}
+
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb1.png}
+\end{figure}
+}
+      
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb2.png}
+\end{figure}
+\begin{align*}
+\omega_0 &= \gamma B_0 & \gamma = g_f \frac{\mu_0}{\hbar}
+\end{align*}
+}
+ 
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb3.png}
+\end{figure}
+\begin{align*}
+\omega_{RF} &= \omega_0
+\end{align*}
+}
+ 
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb4.png}
+\end{figure}
+}
+ 
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb5.png}
+\end{figure}
+}
+ 
+\frame{\frametitle{Classical Description of Rabi Oscillations}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rb6.png}
+\end{figure}
+\begin{align*}
+\omega_M &= \gamma \frac{B_{RF}}{2} &&\rightarrow&& T = \frac{4\pi}{\gamma B_{RF}}
+\end{align*}
+}
+
+\frame{\frametitle{Theoretical Predictions for Period of Rabi Oscillations}
+Key relationships,
+\[T \propto \frac{1}{B_{RF}} \propto \frac{1}{V_{RF}}\]
+and,
+\[\frac{T_{85}}{T_{87}} = \frac{\gamma_{87}}{\gamma_{85}} = \frac{g_{f87}}{g_{f85}} = \frac{3}{2}\]
 }
 
 \frame{\frametitle{Rabi Oscillations Signal Overview}
@@ -115,10 +212,35 @@ I(x) &= c_4-c_0(t+c_1)\exp\left({-c_2(t-c_3)}\right)
 \end{figure}
 }
 
+\frame{\frametitle{Rabi Oscillation Extraction of Period}
+\begin{figure}
+\includegraphics[width=1.0\linewidth]{rabi_T_extraction_example.png}
+\end{figure}
+}
+
 \frame{\frametitle{Rabi Oscillation Period vs RF Amplitude}
 \begin{figure}
 \includegraphics[width=1.0\linewidth]{rabi_fit.png}
 \end{figure}
+}
+
+\frame{\frametitle{Rubidium Rabi Oscillation Period Ratio}
+\begin{align*}
+\frac{T_{85}}{T_{87}} = \frac{a_{85}}{a_{87}} 
+\end{align*}
+\begin{center}
+\begin{tabular}{c c c}
+Measured & Accepted & $\sigma$ Off \\
+\hline
+$(1.563\pm0.077)[1]$ & $1.50$ & 0.81  
+\end{tabular}
+\end{center}
+}
+
+\frame{\frametitle{Concluding Remarks}
+\begin{itemize}
+\item Rabi oscillations would make a lovely addition to lab procedure
+\end{itemize}
 }
 
 \frame{}

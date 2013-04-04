@@ -3,7 +3,8 @@ import jlab as j
 import pylab as p
 
 # Get X,Y,Z data
-d = [(x,p.genfromtxt('data/'+x+'_cal_d4.dat')) for x in ['x','y','z']]
+d = [(x,p.genfromtxt('data/{}_cal_d{}.dat'.format(x,k)))
+        for x,k in [('x',4),('y',5),('z',4)]]
 
 f = lambda x, a: a[0]*(p.exp(a[1]*(x-a[2]))+p.exp(-a[1]*(x-a[2])))+a[3]
 

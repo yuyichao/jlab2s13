@@ -375,8 +375,7 @@ def levmar(x, y, sig, fitfun, a0, lamda=0.001, dYda=None, print_dev=False):
     '''
     ## Useful Functions
     # FIXME: Below just calculates chisq
-    calcchi2 = lambda x, y, sig, fitfun, a : _np.sum(((y-fitfun(x,
-                                                                a))/sig)**2)
+    calcchi2 = lambda x, y, sig, fitfun, a : _np.sum(((y-fitfun(x, a))/sig)**2)
 
     def calcderiv(x, y, sig, fitfun, a, stepsize, dYda):
         nparm = len(a)

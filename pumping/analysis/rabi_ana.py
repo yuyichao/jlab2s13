@@ -6,8 +6,9 @@ csv = lambda x: p.genfromtxt(x, skip_header=2, skip_footer=19, delimiter=',')
 d = csv('../5/PRINT_01.CSV')
 p.figure()
 # FIXME: something strange
-p.plot(30*d[p.argmin(abs(d[:,0])):p.argmin(abs(d[:,0]-.8)),0]/d[p.argmin(abs(d[:,0]-.8)),0]+15,
-        d[p.argmin(abs(d[:,0])):p.argmin(abs(d[:,0]-.8)),1])
+p.plot(25*(d[p.argmin(abs(d[:,0])):p.argmin(abs(d[:,0]-.8))+1,0]-d[p.argmin(abs(d[:,0])),0])/(
+    d[p.argmin(abs(d[:,0]-.8))+1,0]-d[p.argmin(abs(d[:,0])),0])+15,
+        d[p.argmin(abs(d[:,0])):p.argmin(abs(d[:,0]-.8))+1,1])
 [p.axvline(x,-10,10,c='r') for x in [23,24]]
 [p.axvline(x,-10,10,c='b') for x in [34,35,36]]
 p.xlabel('Frequency [kHz]')

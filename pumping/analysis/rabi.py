@@ -24,11 +24,15 @@ for ireg in reg:
     g = sq_peak_detect(d)
     if False:
         p.figure()
-        p.title(str(ireg))
-        p.plot(g.x, g.y)
-        p.plot(d[:,0],d[:,1]-p.mean(g.iy))
-        p.plot(g.ix,abs(g.iy-p.mean(g.iy)),'o')
+        #p.title(str(ireg))
+        #p.plot(g.x, g.y)
+        #p.plot(d[:,0],d[:,1]-p.mean(g.iy))
+        #p.plot(g.ix,abs(g.iy-p.mean(g.iy)),'o')
+        p.plot(d[:,0],d[:,1])
+        p.plot(g.ix,g.iy,'o')
         [p.axvline(i,-10,10,c='r') for i in g.xpeaks]
+        p.xlabel('Time [sec]')
+        p.ylabel('Voltage [V]')
     T = [g.ix[x]-g.ix[x-1] for x in range(1,min([len(g.ix),4]))]
     error = j.error(p.array(T))
     tv[str(int(freq))].append([vpp, p.mean(T), error if abs(error) > 1e-13 else 1e-6])
@@ -61,7 +65,12 @@ p.figure()
 [p.plot(tv[k][:,0],fits[k][3],'-') for k in ['34','35','36']]
 p.xlabel('RF Amplitude [mV]')
 p.ylabel('Oscillation Period [$\mu$sec]')
-p.text(410,240,'Decay Ratio:{}'.format(ratio))
+p.text(310,250, 'Model: T=a/V+b')
+p.text(410,245,'Weighted Values for $Rb^{{85}}$\n$a_{{85}}$:{} [mV $\mu$sec]\n$b_{{85}}$:{} [$\mu$sec]'.format(j.fmt_m_e(*Rb85),
+    j.fmt_m_e(*j.weighted_mean([fits[i][0][0] for i in ['23','24']], [fits[i][1][0] for i in ['23','24']]))), va='top')
+p.text(310,105,'Weighted Values for $Rb^{{87}}$\n$a_{{87}}$:{} [mV $\mu$sec]\n$b_{{87}}$:{} [$\mu$sec]'.format(j.fmt_m_e(*Rb87),
+    j.fmt_m_e(*j.weighted_mean([fits[i][0][0] for i in ['34','35','36']], [fits[i][1][0] for i in ['34','35','36']]))), va='bottom')
+p.text(780,180,'$a_{{85}}/a_{{87}}$:{}'.format(ratio), ha='right')
 p.legend()
 p.savefig('graphics/rabi_fit.png')
 p.show()
