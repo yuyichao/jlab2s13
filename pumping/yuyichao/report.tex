@@ -69,7 +69,7 @@
 
 \begin{document}
 \tikzstyle{every picture}+=[remember picture]
-\title{Measurement of ${}^{57}Fe$ Nucleus using M\"{o}ssbauer Spectroscopy.}
+\title{Optical Pumping of Rubidium Atoms in the Magnetic Field.}
 \author{Yichao Yu}
 \email{yuyichao@mit.edu}
 \homepage{http://yyc-arch.org/}
@@ -77,18 +77,24 @@
 \affiliation{MIT Department of Physics}
 
 \begin{abstract}
-  The M\"{o}ssbauer spectroscopy is a technique for recoil-free measurement of nucleus gamma ray absorption spectrum in solid based on the M\"{o}ssbauer effect. Because of the high resolution of the technique ($10^{12}$), it can be used to measure the tiny shift and splitting of nucleus energy levels when interacting with the environment. In this experiment, the M\"{o}ssbauer spectrum was measured for ${^{57}Fe}$ atom for a variety of substance and different effects on the nucleus energy levels were observed.
+  The optical pumping is a technique that uses light to obtain non-thermal energy level distribution. It is important for atomic physics for state preparation and maintaining and is used in some standard laser cooling and trapping techniques. In this experiment, we studied the optical pumping between Zeeman levels in a magnetic field of rubidium atoms causing by a polaried light. We were able to measure some steady state properties like Landr\'e $g$-factors, abundance and ambient magnetic field as well as observe the transient state and measure the pumping rate and Rabi frequency.
 \end{abstract}
 
 \maketitle
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Introduction}
-The nuclear resonance absorption was predicted in the late 1920's\cite{first_attempt}. The idea was that the $\gamma$-ray emitted during a state transition from an excited state to ground state of a nucleus should be absorbed by another same nucleus in the exact reverse state transition. Although the same phenomenon was already be observed in atom radiation, the nuclear resonance absorption was not seen in experiment in the next $30$ years due to the recoil Doppler shift for atoms in the gas state. The M\"{o}ssbauer effect, discovered in $1958$, provides a solution of the problem by elimiating the recoil. Combining with a precise frequency scanning using Doppler effect as well as the narrow linewidth of nuclear radiation, M\"{o}ssbauer spectroscopy was invented to measure the spectrum of nucleus energy spectrum at a high resolution.
+At thermal equilibrium, the population of energy levels of atoms is given by the Maxwell-Boltzmann distribution,
+\[ \frac{n_1}{n_2}=\exp\paren{\frac{E_2-E_1}{k_BT}} \]
 
-In this experiment, we measured the M\"{o}ssbauer absorption spectrum of ${}^{57}Fe$ $14.4keV$ $\gamma$-ray in different substance including $Fe$, $Fe_2O_3$, $FeSO_4$, $Fe_2(SO_4)_3$, $Na_4Fe(CN)_6$, and stainless steel. A variety of effect that can shift or split the energy levels of the ${}^{57}Fe$ nucleus was observed including isomer shift, quadrupole splitting, zeeman effect and temperature shift.
+In the case of rubidium atoms at around room temperature ($300K$), the hyperfine splitting (around $20\mu eV$) and the Zeeman splitting in a weak ($<1Gs$) magnetic field (around $1neV$) is several orders of magnetude smaller than the thermal energy scale ($k_BT\approx20meV$) and therefore have equal occupation numbers in the thermal equilibrium. Optical pumping, however, can be used to break this equilibrium and ``pump'' almost all the atoms into a single Zeeman level using a circularly polarized light. The technique is very important and useful in atomic physics experiment either to prepare a starting state or to keep atoms in a certain state. It is also used in some standard laser cooling and trapping techniques like Zeeman slower and magnetic trap.
+
+In our experiment, we studied the optical pumping of both ${}^{85}Rb$ and ${}^{87}Rb$ atoms using a rubidium lamp and a rubidium vapor cell at around $320K$. By changing the magnetic field and applying a radio frequency signal, we were able to measure the condition when the pumping happens or is destroyed as well as the transient state of the process.
 
 \section{Theory.}
-\subsection{M\"{o}ssbauer spectroscopy.}
+\subsection{Optical pumping between Zeeman levels using circularly polarized light.}
+When placing atoms in a magnetic field, the energy level with
+
+
 The recoil velocity and the Doppler shift caused by that are given by,
 \eqar{
   v_{recoil}=&\frac{E}{2mc}\\
