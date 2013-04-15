@@ -77,7 +77,7 @@
 \affiliation{MIT Department of Physics}
 
 \begin{abstract}
-  The optical pumping is a technique that uses light to obtain non-thermal energy level distribution. It is important for atomic physics for state preparation and maintaining and is used in some standard laser cooling and trapping techniques. In this experiment, we studied the optical pumping between Zeeman levels in a magnetic field of rubidium atoms causing by a polaried light. We were able to measure some steady state properties like Landr\'e $g$-factors, abundance and ambient magnetic field as well as observe the transient state and measure the pumping rate and Rabi frequency.
+  The optical pumping is a technique that uses light to obtain non-thermal energy level distribution. It is important for atomic physics for state preparation and maintaining and is used in some standard laser cooling and trapping techniques. In this experiment, we studied the optical pumping between Zeeman levels in a magnetic field of rubidium atoms causing by a polarized light. We were able to measure some steady state properties like Landr\'e $g$-factors, abundance and ambient magnetic field as well as observe the transient state and measure the pumping rate and Rabi frequency.
 \end{abstract}
 
 \maketitle
@@ -86,234 +86,180 @@
 At thermal equilibrium, the population of energy levels of atoms is given by the Maxwell-Boltzmann distribution,
 \[ \frac{n_1}{n_2}=\exp\paren{\frac{E_2-E_1}{k_BT}} \]
 
-In the case of rubidium atoms at around room temperature ($300K$), the hyperfine splitting (around $20\mu eV$) and the Zeeman splitting in a weak ($<1Gs$) magnetic field (around $1neV$) is several orders of magnetude smaller than the thermal energy scale ($k_BT\approx20meV$) and therefore have equal occupation numbers in the thermal equilibrium. Optical pumping, however, can be used to break this equilibrium and ``pump'' almost all the atoms into a single Zeeman level using a circularly polarized light. The technique is very important and useful in atomic physics experiment either to prepare a starting state or to keep atoms in a certain state. It is also used in some standard laser cooling and trapping techniques like Zeeman slower and magnetic trap.
+In the case of rubidium atoms at around room temperature ($300K$), the hyper-fine splitting (around $20\mu eV$) and the Zeeman splitting in a weak ($<1Gs$) magnetic field (around $1neV$) is several orders of magnitude smaller than the thermal energy scale ($k_BT\approx20meV$) and therefore have equal occupation numbers in the thermal equilibrium. Optical pumping, however, can be used to break this equilibrium and ``pump'' almost all the atoms into a single Zeeman level using a circularly polarized light. The technique is very important and useful in atomic physics experiment either to prepare a starting state or to keep atoms in a certain state. It is also used in some standard laser cooling and trapping techniques like Zeeman slower and magnetic trap.
 
 In our experiment, we studied the optical pumping of both ${}^{85}Rb$ and ${}^{87}Rb$ atoms using a rubidium lamp and a rubidium vapor cell at around $320K$. By changing the magnetic field and applying a radio frequency signal, we were able to measure the condition when the pumping happens or is destroyed as well as the transient state of the process.
 
 \section{Theory.}
 \subsection{Optical pumping between Zeeman levels using circularly polarized light.}
-When placing atoms in a magnetic field, the energy level with
-
-
-The recoil velocity and the Doppler shift caused by that are given by,
-\eqar{
-  v_{recoil}=&\frac{E}{2mc}\\
-  \frac{\Delta E_{recoil}}{E}=&\frac{E}{2mc^2}
-}
-where $E$ is the original radiation energy, and $m$ is the mass of the nucleus. For the $14.4keV$ radiation used in this experiment and free atom in the gas, the relative recoil shift is $\dexp{2.8}{-7}$, $5$ orders of magnitude greater than the relative natural linewidth of the radiation $10^{-12}$. In order to elimiate the recoil effect, M\"{o}ssbauer embed the atom into a solid and therefore increase the mass in the denominator to an effective mass equal the the mass of the whole solid. Since the whole solid is about $10^{20}$ times heavier than the nucleus, the recoil shift is negligible.
-
-By moving the source at a speed of the order $1cm\cdot s^{-1}$ under control, we are able to scan the energy of the $\gamma$-ray by $10^{10}-10^{11}$ and measure the absorption spectrum of the target material precisely in this small energy range.
-
-\subsection{Shift and Splitting of energy levels.}
-In this experiment, we are looking for several effects that can either shift or split the energy levels of a ${}^{57}Fe$ nucleus.
-
-\subsubsection{Isomer shift}
-This effect is caused by the non-zero electron density at the nucleus. Since the radius of the excited and ground state of the nucleus are slightly different, the energy shifts are also different for the two states and therefore also shift the energy of the radiation. The energy shift is given by,
-\[\delta = C\delta R\abs{\psi(0)}^2\]
-where $\delta R$ is the difference of the two radius, $\abs{\psi(0)}^2$ is the electron density at the nucleus, and $C$ is a constant. Since the isomer shift exists for all samples, what we are going to observe in the experiment is a relative difference between the shift for different sample.
-\subsubsection{Zeeman effect}
-\begin{figure}
-  \includegraphics[width=8cm]{../share/zeeman.png}
-  \caption{Zeeman effect.}
-  \label{zeeman}
-\end{figure}
-
-The excited state of the ${}^{57}Fe$ nucleus has a total angular momentum $I=\dfrac32$ and the ground state has a total angular momentum $I=\dfrac12$. Therefore, when there is a magnetic field at the nucleus generated by other electrons and atoms in the sample, the zeeman effect will split the excited and the ground states into $4$ and $2$ different energy levels respectively generating $\gamma$ radiation of $6$ possible energies as shown in figure \ref{zeeman}.
-
-The splitting and the energy correction of each levels are given by,
-\eqar{
-  \Delta E_I=&g_I\mu_NB\\
-  E_I=&g_Im_I\mu_NB
-}
-where $g_I$ is the $g$-factor, $\mu_N$ is the nuclear magneton, $m_I$ is the angular momentum projection quantum number, and $B$ is the magnetic field.
-
-\subsubsection{Quadrapole Splitting}
-\begin{figure}
-  \includegraphics[width=8cm]{../share/quad.png}
-  \caption{Quadrapole Splitting.}
-  \label{quad}
-\end{figure}
-
-This effect is caused by the interaction between nuclear quadrapole moment and the inhomogeneity of the electric field. This correction to the energy levels is given by,
-\[\Delta E_{quad}=\frac{qe^2Q}{4I(2I-1)}\sqr{3m_I^2-I(I+1)}\]
-where $q$ is the guadiant of the field, $Q$ the quadrapole moment. For the $I=\dfrac12$ ground state $\Delta E_{quad}=0$, whereas for the $I=\dfrac32$ excited state (Figure \ref{quad}),
-\eqar{
-  \Delta E_{quad}=\left\{\begin{array}{ll}
-      \dfrac{qe^2Q}{4}&m_I=\pm\dfrac12\\
-      -\dfrac{qe^2Q}{4}&m_I=\pm\dfrac32
-    \end{array}
-  \right.
-}
-\subsubsection{Temperature shift}
-This is a small effect caused by the relativistic time dilation caused by the random heat motion of the nucleus. The shift is given by,
-\[\frac{\delta}{E}=\frac{\angl{v^2}}{2c^2}=\frac{\angl{E_k}}{mc^2}\]
-where $\angl{v^2}$ is the averge speed square and $\angl{E_k}$ is the average kinetic energy of the nucleus.
-
-\subsubsection{Combination of multiple effects}
-Multiple effects can exist in the same sample and at most $6$ absorption peaks can be observed. The energy shifts of these peaks are (temperature effect is ignored since it is small compare to other effects and will not change unless the temperature of the sample changes dramatically),
-\eqar{
-  \Delta E_1=&\varepsilon-\frac\delta2-\frac32\Delta_1-\frac12\Delta_0\\
-  \Delta E_2=&\varepsilon+\frac\delta2-\frac12\Delta_1-\frac12\Delta_0\\
-  \Delta E_3=&\varepsilon+\frac\delta2+\frac12\Delta_1-\frac12\Delta_0\\
-  \Delta E_4=&\varepsilon+\frac\delta2-\frac12\Delta_1+\frac12\Delta_0\\
-  \Delta E_5=&\varepsilon+\frac\delta2+\frac12\Delta_1+\frac12\Delta_0\\
-  \Delta E_6=&\varepsilon-\frac\delta2+\frac32\Delta_1+\frac12\Delta_0
-}
-where $\varepsilon$ is the isomer shift, $\delta$ is the quadrapole splitting, $\Delta_1$ is the Zeeman splitting for the excited state and $\Delta_0$ is the Zeeman splitting for the ground state.
-
-\section{Apparatus and calibration}
-\subsection{Apparatus}
 \begin{figure}
   \begin{tikzpicture}[scale=.8]
-    \path (2, 0) node[below] {Source};
-    \draw[line width=.5] (3.5, .9) -- (2.2, .9);
-    \draw[line width=.5] (2.2, 1.1) -- (3.5, 1.1);
-    \draw[line width=1] (3.5, 0) -- (3.5, 2);
-    \draw[line width=1] (2.2, 0.8) -- (2.2, 1.2) -- (1.8, 1.2) -- (1.8, 0.8) -- cycle;
-    \draw[<->, dashed, black, line width=1] (2.5, 2.2) -- (4.5, 2.2);
-    \path (3.5, 2.2) node[above] {Stage};
-    \draw[line width=.5] (3.5, .9) -- (4.2, .9);
-    \draw[line width=.5] (4.2, 1.1) -- (3.5, 1.1);
+    \path (6, 6) node[right] {$m_z$};
+    \draw[line width=1] (0, 3.5) -- (6, 3.5) node[right] {$+1$};
+    \draw[line width=1] (0, 3) -- (6, 3) node[right] {$0$};
+    \draw[line width=1] (0, 2.5) -- (6, 2.5) node[right] {$-1$};
 
-    \draw[line width=.2, ->, gray] (1.7, 1.2) -- (-0.7, 2);
-    \draw[line width=.2, ->, gray] (1.7, 1.1) -- (-0.7, 1.5);
-    \draw[line width=.2, ->, gray] (1.7, 1.0) -- (-0.7, 1);
-    \draw[line width=.2, ->, gray] (1.7, .9) -- (-0.7, .5);
-    \draw[line width=.2, ->, gray] (1.7, .8) -- (-0.7, 0);
+    \draw[line width=1] (0, 0.5) -- (6, 0.5) node[right] {$+1$};
+    \draw[line width=1] (0, 0) -- (6, 0) node[right] {$0$};
+    \draw[line width=1] (0, -0.5) -- (6, -0.5) node[right] {$-1$};
 
-    \draw[line width=1] (4.4, 1.5) -- (4.4, 0.5);
-    \draw[line width=.2] (4.4, 1.5) -- ++(-.2, -.2);
-    \draw[line width=.2] (4.4, 1.3) -- ++(-.2, -.2);
-    \draw[line width=.2] (4.4, 1.1) -- ++(-.2, -.2);
-    \draw[line width=.2] (4.4, 0.9) -- ++(-.2, -.2);
-    \draw[line width=.2] (4.4, 0.7) -- ++(-.2, -.2);
+    \draw[line width=1, fill=white] (0.2, -0.5) circle (0.15);
+    \draw[line width=1, fill=white] (0.7, 3) circle (0.15);
+    \draw[line width=1, fill=white] (0.7, 0) circle (0.15);
+    \draw[line width=1, fill=white] (1.2, 3.5) circle (0.15);
+    \draw[line width=1, fill=white] (1.2, 0) circle (0.15);
+    \draw[line width=1, fill=white] (1.7, 3.5) circle (0.15);
+    \draw[line width=1, fill=black] (1.7, 0.5) circle (0.15);
 
-    \draw[line width=.5] (5.5, 0.5) -- (6.5, 1.5);
+    \draw[line width=1, fill=white] (3.2, 0) circle (0.15);
+    \draw[line width=1, fill=white] (3.7, 3.5) circle (0.15);
+    \draw[line width=1, fill=black] (3.7, 0.5) circle (0.15);
 
-    \draw[line width=1] (5.5, -.3) -- (6.5, -.3);
-    \draw[line width=.2] (5.5, -.3) -- ++(.2, -.2);
-    \draw[line width=.2] (5.7, -.3) -- ++(.2, -.2);
-    \draw[line width=.2] (5.9, -.3) -- ++(.2, -.2);
-    \draw[line width=.2] (6.1, -.3) -- ++(.2, -.2);
-    \draw[line width=.2] (6.3, -.3) -- ++(.2, -.2);
+    \draw[line width=1, fill=black] (5.2, 0.5) circle (0.15);
 
-    \draw[line width=1] (7.5, 1.2) -- (7.5, 0.8) -- (8.5, 0.8) -- (8.5, 1.2) -- cycle;
-    \path (8, 0.8) node[below] {Laser};
-
-    \draw[line width=1] (5.8, 2.3) -- (6.2, 2.3) arc (0:180:.2);
-    \path (6, 2.5) node[above] {Photo Diode};
-
-    \draw[line width=1, red] (4.4, 1) -- (7.5, 1);
-    \draw[line width=1, red] (6, 2.3) -- (6, -.3);
-
-    \path (-1, 0) node[below] {Detector};
-    \draw[line width=1] (-1.2, 0) -- (-1.2, 2) -- (-.8, 2) -- (-.8, 0) -- cycle;
-
-    \path (0.5, 0) node[below] {Target};
-    \draw[line width=1] (0.5, 0) -- (0.5, 2);
+    \draw[red, ->, line width=1.5] (0.2, -0.5) -- (0.7, 3) -- (0.7, 0)
+    -- (1.2, 3.5) -- (1.2, 0) -- (1.7, 3.5) -- (1.7, 0.5);
+    \draw[red, ->, line width=1.5] (3.2, 0) -- (3.7, 3.5) -- (3.7, 0.5);
   \end{tikzpicture}
-  \caption{Apparatus.}
+  \caption{Zeeman levels pumping process by circularly polarized light.}
+  \label{pumping}
+\end{figure}
+When placing atoms in a magnetic field, the energy levels with the same total angular momentum $F > 0$ but different angular momentum projection in the field direction $m_F$ will split into $2F + 1$ equally spacing Zeeman levels with a separation given by,
+\[ \Delta E=g_F\mu_BB \]
+where $\mu_B$ is the Bohr magneton and $g_F$ is the Landr\'e $g$-factor. In the approximation of electron spin $g$-factor $g_e=2$ and ignoring the nuclear magnetic momentum (which is $3$ orders of magnitude smaller), $g_F$ is given by,
+\eqar{
+  g_J=&\frac{3}{2}+\frac{S(S+1)-L(L+1)}{2J(J+1)}\\
+  g_F=&g_J\frac{F(F+1)-I(I+1)+J(J+1)}{2F(F+1)}
+}
+where $S=\dfrac12$ is the electron spin, $L=0$ and $J=\dfrac12$ for ground of $Rb$ atoms are the orbit angular momentum and spin-orbit coupled angular momentum and $I$ and $F$ are the nuclear and total angular momentum. For the states we are interested in this experiment, $I=\dfrac52$ and $F=3$ for ${}^{85}Rb$ atoms and $I=\dfrac32$ and $F=2$ for ${}^{87}Rb$ atoms.
+
+The interaction between a incident photon and the Zeeman levels is sensitive to the light polarization. For a left handed circularly polarized light along the field direction, the transition when absorbing a photon must have $\Delta m_F=+1$ ($-1$ for right handed light). The spontaneous emission shortly after this can have $\Delta m_F=0, \pm1$. Therefore, using a circularly polarized, we can on average increase $m_F$ by $+1$ (or $-1$ for opposite polarization) for each transition cycle. After several transition as shown in figure \ref{pumping}, (almost) all atoms will end up in the state with largest $m_F$ ($F=3$ $m_F=3$ for ${}^{85}Rb$ atoms and $F=2$ $m_F=2$ for ${}^{87}Rb$ atoms.). Since the excited state of the $D_1$ transition we are using in the experiment $5P_{1/2}$ has the same maximum $m_F$ as the ground state, the result of the pumping is a dark state in which the atoms are not able to absorb the pump light because there is not a state with higher $m_F$ for the atom to go and the absorption of the pump light will change as a result.
+
+\subsection{Depolarization using radio frequency.}
+In order to measure the pumping more accurately, instead of directly measuring the absolute absorption of the pumping light, which can change because of ambient light as well as the fluctuation in the light source, we can measure the change of absorption when the dark state is forming or being destroyed. This can be done either by changing the magnetic field non-adiabatically or by applying a radio frequency field.
+Since different Zeeman levels have different magnetic momentum, a radio frequency field in resonance with the Zeeman splitting is able to cause a magnetic dipole transition with probability,
+\[ P\propto\abs{\Delta \mu B}^2\propto\abs{g_F\mu B}^2 \]
+By either changing the magnetic field or the radio frequency and looking for when the resonance happens, we will be able to measure the relation between Zeeman splitting and the magnetic field.
+
+\subsection{Transient Effects}
+Besides the steady property of the dark state, there are also some transient effect we can study in the experiment.
+\subsubsection{Pumping rate}
+The pumping process is a decay to the final state with the time constant(s) of the decay determined by the pumping rate and various spontaneous transition (causing by e.g. atoms collision). By measuring the decay time at different light intensity, we can study the relation between pumping light intensity and the pumping rate.
+
+\subsubsection{Rabi Oscillation}
+When driven by the radio frequency field, the atom will undergo a Rabi oscillation before decaying to the stable point. The frequency of this oscillation (Rabi frequency) is related to the coupling between the field and the states. Within the precision of this experiment we are able to measure the Rabi frequency when turning on the radio frequency field as well as their proportionality to the Landr\'e $g$-factor of the two isotopes.
+
+\section{Apparatus}
+\begin{figure}
+  \begin{tikzpicture}[scale=.8]
+    \draw[line width=.2, dashed, red] (0, 0) -- (3, 1) -- (7, 1) -- (9, 0);
+    \draw[line width=.2, dashed, red] (0, 0) -- (3, -1) -- (7, -1) -- (9, 0);
+    \draw[line width=.2, dashed, red] (0, 0) -- (3, 0) -- (7, 0) -- (9, 0);
+
+    \draw (0, 0) circle (.2);
+    \path (0, -.3) node[below] {$Rb$ Lamp};
+
+    \draw[line width=1.2] (1, -1) -- (1, 1) node[above] {$P$};
+    \draw[line width=1.2] (2, -1) -- (2, 1) node[above] {$\dfrac{\lambda}{4}$};
+    \draw[line width=1.2, <->] (3, -1) -- (3, 1);
+
+    \draw (5, 0) circle (.6) node {$Rb$};
+
+    \draw (5, .7) ellipse (.7 and .05);
+    \draw (5, -.7) ellipse (.7 and .05);
+    \path (5, -.75) node[below] {rf};
+
+    \draw[line width=2, brown] (4, 0) ellipse (.3 and 2);
+    \draw[line width=2, brown] (6, 0) ellipse (.3 and 2);
+    \path (5, 1.7) node[above] {$B$};
+
+    \draw[line width=1.2, <->] (7, -1) -- (7, 1);
+    \draw (9, 0) circle (.2);
+    \path (9, -.3) node[below] {Detector};
+  \end{tikzpicture}
+  \caption{Experimental apparatus. Only one of the three pairs of Helmholtz coils is drawn for simplicity.}
   \label{apparatus}
 \end{figure}
 
-Figure \ref{apparatus} is a schematics of the apparatus used in this experiment. The source is attached on a stage that can be moved back and forth in cycles under control of the computer. A detector will measure the counting rate of radiation after absorbed by the target sample as a function of time in each scanning cycle and also send the data back to the computer. The source used in the experiment is ${}^{57}Co$, which will first decay by a $K$ capture to a ${}^{57}Fe$ nucleus. After another $\gamma$ decay, the nucleus finally go to its ground state by emitting a $\gamma$-ray photon at the energy $14.4keV$, which is the $\gamma$-ray we are using in the experiment.
+Figure \ref{apparatus} shows the basic setup of this experiment. The light from a rubidium lamp is first turned into circular polarization using a circular polarizer consists of a linear polarizer and a quarter wave plate and then collimated using a lens. The light after absorbed by a rubidium vapor cell is then focused again by a lens onto a photo detector to measure the power. Three pairs of Helmholtz coils (with only one shown on the sketch) are used to control the magnetic field. There are also smaller coils to apply the radio frequency field used to depolarize the pumped atoms.
 
-\subsection{Calibration of velocity using Michelson interferometer.}
-A Michelson interferometer with one mirror attached to the moving stage is used to calibrate the moving velocity of the stage (right half of figure \ref{apparatus}). By measuring the power using the photo diode, the speed of the stage is,
-\eqar{
-  \abs{v}=&2f\lambda
-}
-where $f$ is the frequency of the laser power and $\lambda=632.8nm$ is the wavelength of the $He$-$Ne$ laser used in the interferometer.
+\section{Measurements and Results}
+\subsection{Measurement of Landr\'e $g$-factors by scanning magnetic field at different radio frequency.}
 \begin{figure}
-  \includegraphics[width=8cm]{../pos_cal/res_v_raw.png}
-  \caption{Measurement of stage speed in each cycle. Each channel number in the horizontal axis corresponds to a certain time point in each scanning cycle.}
-  \label{v_raw}
+  \includegraphics[width=8cm]{../bscan_nf/03-15-bscan_nf_rf1.png}
+  \caption{Light intensity when scanning magnetic field with radio frequency field at $100kHz$.}
+  \label{bscan_raw}
 \end{figure}
-\begin{figure}
-  \includegraphics[width=8cm]{../pos_cal/res_v_fit.png}
-  \caption{Calibration fitting of velocity.}
-  \label{v_fit}
-\end{figure}
-
-Figure \ref{v_raw} shows the relation between the speed of the stage and the time in each cycle (which is shown as channel numbers). After removing the first part where the velocity is changing rapidly and flip the sign for the region where the velocity is negetive, the calibration line was obtained by fitting a straight line to the data, as shown in figure \ref{v_fit}.
-
-\section{Measurement of different samples}
-\subsection{$Fe$, $Fe_2O_3$, $FeSO_4$ and $Fe_2(SO_4)_3$ samples}
-\begin{figure}
-  \subfigure[$Fe$]{
-    \includegraphics[width=8cm]{../pos_cal/02-14-6_2_raw.png}
-    \label{fe_raw}
-  }
-  \subfigure[$FeSO_4$]{
-    \includegraphics[width=8cm]{../FeSO4_Fe2SO4_3/02-19-FeSO4_raw.png}
-    \label{feso4_raw}
-  }
-  \caption{Measured absorption spectrum of \subref{fe_raw} $Fe$ and \subref{feso4_raw} $FeSO_4$ samples. The light blue curves are the original data, the dark blue curves are the data after being smoothed. The vertical lines shows the position of peaks and the horizontal lines is an estimation of the total radiation level (without absorption of the target).}
-  \label{samples_raw}
-\end{figure}
-
-Each of the $Fe$, $Fe_2O_3$, $FeSO_4$ and $Fe_2(SO_4)_3$ samples has one or more effects among isomer shift, zeeman effect and quadrapole splitting. By determining the position of peaks in the measured spectrum (figure \ref{samples_raw}) and using the expression of the correction for each peaks given in section 1.2.5, we can calculate the correction caused by different effects on each samples. The results of the calculation as well as the accepted value for each energy corrections are shown in table \ref{res_table}. All of our measurement agree with the accepted value very well and the deviations are all not greater than $1.5\sigma$.
-
 \begin{table}
-  \begin{tabular}{|c|c|c|c|c|}
+  \begin{tabular}{|c|c|c|}
     \hline
-    Sample&Effect&Measured&Accepted&Deviation\\\hline
-    $Fe$\cite{data3}&$\Delta_0$&$188.2(1.3)$&$188.38(38)$&$0.1\sigma$\\\cline{2-5}
-    &$\Delta_1$&$107.4(1.3)$&$107.83(24)$&$0.3\sigma$\\\hline
-    $Fe_2O_3$\cite{data1}\cite{data2}&$\Delta_0$&$296.8(1.7)$&$293.5(2.4)$&$0.8\sigma$\\\cline{2-5}
-    &$\Delta_1$&$171.8(1.7)$&$165.7(2.4)$&$1.5\sigma$\\\cline{2-5}
-    &$\delta$&$9.4(1.6)$&$11.5(1.4)$&$0.7\sigma$\\\cline{2-5}
-    &$\varepsilon$&$39(18)$&$22.6(1.4)$&$0.8\sigma$\\\hline
-    $FeSO_4$\cite{data1}&$\delta$&$156.2(0.2)$&$153.7(2.4)$&$0.96\sigma$\\\cline{2-5}
-    &$\varepsilon$&$59(14)$&$67.2(2.4)$&$0.5\sigma$\\\hline
-    $Fe_2(SO_4)_3$\cite{data1}&$\varepsilon$&$29(16)$&$31.2(2.4)$&$0.1\sigma$\\\hline
+    Isotope&Measured&Expected\\\hline
+    ${}^{85}Rb$&$0.498(19)$&$0.500$\\\hline
+    ${}^{87}Rb$&$0.331(13)$&$0.333$\\\hline
   \end{tabular}
-  \caption{Results for different energy level corrections on different samples. $\Delta_0$ and $\Delta_1$ are the Zeeman splitting of the groud state and the excited state respectively. $\delta$ is the quadrapole splitting and $\varepsilon$ is the isomer shift. (Unit of energy $10^{-9}eV$).}
-  \label{res_table}
+  \caption{Landr\'e $g$-factors of the two isotopes with theoretical values.}
+  \label{g_factor_res}
 \end{table}
+By sweeping the magnetic field in one direction, we can find the field for the radio frequency to be resonance with the Zeeman splitting. Figure \ref{bscan_raw} shows the light intensity as well as the voltage to create the bias field in $z$ direction of one scan with a $100kHz$ radio frequency field. The larger two dips in the light intensity correspond to the magnetic field to be zero when the Zeeman levels are degenerate and no pumping can happen. The eight smaller dips are the resonance dips when the radio frequency is in resonance with the Zeeman splitting of the two isotopes and increases the absorption and the even smaller dips in the intensity are because of the higher order resonance in the radio frequency field which will resonance with the Zeeman levels at a stronger field.
 
-\subsection{Measurement of natural line width using $Na_4Fe(CN)_6$ samples.}
+After finding the position of the dips in the intensity and calculating the energy gap as well as the corresponding field from the radio frequency and the voltage we apply on the coil, we can fit them with a straight line and calculate the Landr\'e $g$-factors for the two isotopes. Table \ref{g_factor_res} shows the results from our data, which agree with the theoretical values within less than one $\sigma$.
+
+\subsection{Measurement of ambient magnetic field and natural abundance by scanning radio frequency at different magnetic field.}
 \begin{figure}
-  \includegraphics[width=8cm]{../share/line_width.png}
-  \caption{FWHM ($2\Gamma$) of absorption peaks for different amount of $Na_4Fe(CN)_6$ power samples.}
-  \label{line_width}
+  \includegraphics[width=8cm]{../rfscan_nf/rfscan_y_fit.png}
+  \caption{Peak positions at different $y$ current}
+  \label{rfscan_fit}
 \end{figure}
-The line width (FWHM) of the peaks for different amount of $Na_4Fe(CN)_6$ power samples are shown in figure \ref{line_width}. By fitting a straight line to the data, the natural line width (FWHM) of the absorption at thin sample limit we measured in the experiment is $\dexp{1.60(30)}{-8}eV$. Comparing to the accepted value of the line width $\dexp{9.4}{-9}eV$, the value we measured is $2.2\sigma$ larger. This different can caused by a variety of broadening effect in our measurement including a finite temperature and the velocity uncertainty of the stage.
-
-\subsection{Measurement of temperature shift using stainless steel sample.}
-\begin{figure}
-  \subfigure[$21^{\circ}C$]{
-    \includegraphics[width=8cm]{../temp/02-25-21c_raw.png}
-    \label{temp_21_raw}
-  }
-  \subfigure[$130^{\circ}C$]{
-    \includegraphics[width=8cm]{../temp/02-26-130c_raw.png}
-    \label{temp_130_raw}
-  }
-  \caption{Measured absorption spectrum of stainless steel sample at \subref{temp_21_raw} $21^{\circ}C$ and \subref{temp_130_raw} $130^{\circ}C$. The red verticle lines show the position of the peak and the green verticle line shows the uncertainty of the position. The uncertainty is magnified by a factor of $4$ in order to be seen clearly on the plot.}
-  \label{temp_raw}
-\end{figure}
-In order to measure the temperature shift caused by relativistic time dilation, we measured the stainless steel sample (which has no splitting effect) at $21(1)^{\circ}C$ and $130(5)^{\circ}C$. From the results shown in figure \ref{temp_raw} (The uncertainty is magnified by a factor of $4$ in order to be seen clearly on the plot), we found a relative energy shift in the $\gamma$-ray spectrum of $1.86(69)\cdot 10^{-13}$. Using a classic model and a Debye model of crystal vibration, we can calculate the expected value of the energy shift using the expression of average kinetic energy from different model,
-\eqar{
-  E_{classic}=&\frac32k_BT\\
-  E_{Debye}=&\frac{9k_BT^4}{10\Theta_D^3}D_3\paren{\frac{T}{\Theta_D}}
-}
-where $\Theta_D\approx470$ is the Debye temperature estimated using that of Iron. A comparison of the average kinetic energy of nucleus calculated using different methods is shown in table \ref{temp_model}. The value we have measured is within $1\sigma$ of the expected value from Debye model and it is also not far from the result of classic model since we are close to the high temperature limit.
-
 \begin{table}
   \begin{tabular}{|c|c|}
     \hline
-    Model&$E_k$\\\hline
-    Classic&$1.409(12)\cdot 10^{-2}eV$\\\hline
-    Debye&$1.304(84)\cdot 10^{-2}eV$\\\hline
-    (Measured)&$0.99(36)\cdot 10^{-2}eV$\\\hline
+    $B_x/mGs$&$361(10)$\\\hline
+    $B_y/mGs$&$72.2(1.6)$\\\hline
+    $B_z/mGs$&$191.6(5.2)$\\\hline
   \end{tabular}
-  \caption{Average kinetic energy of nucleus calculated using different methods.}
-  \label{temp_model}
+  \caption{Ambient magnetic field in each directions. The $x$ direction is pointing downward whereas the other two axes are determined by the orientation of the equipment but not aligned with any geometry axis.}
+  \label{ambient_field_res}
 \end{table}
+\begin{table}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Isotope&Measured&Expected\\\hline
+    ${}^{85}Rb$&$72.0(2.2)\%$&$72.168\%$\\\hline
+    ${}^{87}Rb$&$28.0(2.2)\%$&$27.835\%$\\\hline
+  \end{tabular}
+  \caption{Abundance of different $Rb$ isotopes with acceptable values.}
+  \label{abundance_res}
+\end{table}
+By sweeping the radio frequency with different bias magnetic field in each directions, we can find the resonance frequency for each field configuration. By fitting the resonance position with the bias field using a hyperbolic function with taken into account the field in all directions, we can find the minimum resonance frequency for each direction which is the point when the field in this direction is cancelled by the bias field. We also calculated the abundance of the isotopes using this measurement since it appears to be the cleanest measurement. Since the depth of the dips are proportional to the number of atoms the radio frequency signal is able to pull down from the dark state, the depth is not only depending on the abundance of different isotopes but is also proportional to the transition probability causing by the radio frequency field which is proportional to $g_F^2$.
+
+Figure \ref{rfscan_fit} shows the result of this measurement for both isotopes when changing the field in $y$ direction. The resonance point is shown as the position of the dips within the linear frequency scan. The result of this ambient field measurement is shown in table \ref{ambient_field_res}. The total field appears to be smaller than the expected earth field and possible reason that causes this may be the field from other equipment in the lab. Using the amplitude of the intensity dips and the $g_F$ factors we got from previous measurement the result of the abundance of the two isotopes are shown in table \ref{abundance_res}, which are also within one $\sigma$ with the expected natural abundance.
+
+\subsection{Measurement of pumping rate by switching magnetic field on and off at different pumping light intensity.}
+\begin{figure}
+  \includegraphics[width=8cm]{../bswitch_nf/03-19-bswitch_nf_od_tau.png}
+  \caption{Pumping rate at different light intensity.}
+  \label{rate_fit}
+\end{figure}
+When changing the magnetic field non-adiabatically (e.g. suddenly change the direction of the field in one axis) the already pumped atoms will not be able to follow the new pumped state and will be pumped after each time the field changes. By switching the magnetic field back and forth in the $z$ direction without any radio frequency field, we are able to measure the light intensity during each pumping process. By fitting a exponential decay to the intensity, the inverse of the decay time constant will give us a measure of the pumping rate.
+
+The result of this measurement at different light intensity is shown in plot \ref{rate_fit}. By fitting a straight line to the data, we have found that the pumping rate is linear to the intensity of the pumping light as one would expected intuitively.
+
+\subsection{Measurement of Rabi Oscillation by switching radio frequency on and off at different magnetic field and frequency.}
+\begin{figure}
+  \includegraphics[width=8cm]{../analysis/graphics/rabi_overview.png}
+  \caption{Rabi oscillation observed when applying radio frequency. A short pumping time is used in order to see the very short Rabi oscillation period and the pumping period at the same time.}
+  \label{rabi_overview}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=8cm]{../analysis/graphics/rabi_fit.png}
+  \caption{Relation between Rabi frequency and the amplitude of the radio frequency signal.}
+  \label{rabi_fit}
+\end{figure}
+
+By turning the radio frequency field on and off and zooming into the region right after the radio frequency field is turn on we can observe the Rabi oscillation causing by the RF signal as shown in figure \ref{rabi_overview}. The gray region in the plot is when the radio frequency pulse is turned on and the white region is when it is turn off to allow the atom being pumped back to the dark state. The results of the Rabi-frequency measurement at different frequency around the two resonance point and at different RF amplitudes are shown in figure \ref{rabi_fit}. With good approximation at small detuning of radio frequency, the inverse of the RF amplitude is linear with the period of the oscillation frequency and the fitting shown in the plot agree with this prediction. The ratio between the Rabi frequency ($a_{85}/a_{87}$) also agree with the theoretical prediction $g_{85}/g_{87}=1.50$ within one $\sigma$.
 
 \section{Conclusion}
-In this experiment, we finished our main goal of measuring the spectrum of ${}^{57}Fe$ nucleus $14.4keV$ $\gamma$-radiation using M\"{o}ssbauer effect. By measuring the spectrum, we determined the energy correction caused by different effects which agrees very well with the accepted value. The natural line width we have measured is larger than the accepted onebecause of some broadening effects and our measurement of temperature shift agrees with theoritical perdiction very well.
+In this experiment, we finished our main goal of optical pumping of rubidium atoms using its $D_1$ transition. By using different techniques to depolarize the atom, we are able to measure the Zeeman splitting and calculate the Landr\'e $g$-factor, abundance of the two rubidium isotopes as well as the ambient magnetic field. The Landr\'e $g$-factor and abundance we measured agree with the expected values within one $sigma$. The ambient magnetic field we measured is smaller than the earth field probably because of interference from other equipment. We are also able to observe and measure the transient effect in the pumping including a pumping rate that is linear to light intensity and Rabi oscillation causing by a radio frequency field. The ratio of the Rabi frequency of the two isotopes also agrees with the expected value very well (within one $sigma$).
 
 \bibliography{report}
 \end{document}

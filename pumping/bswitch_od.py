@@ -36,7 +36,7 @@ def bswitch_od(figprefix, rfname, inames):
             fontsize=18, ha='right', va='bottom',
             bbox={'boxstyle': 'round', 'facecolor': 'wheat'})
     xlabel("Light Intensity")
-    ylabel("Inverse Decay Time Constant / $s^{-1}$")
+    ylabel("Pumping rate / $s^{-1}$")
     grid()
     savefig(figprefix + '_tau.png')
     # show()
