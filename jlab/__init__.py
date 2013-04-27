@@ -27,6 +27,7 @@ from .fit import *
 from .unc_prop import *
 from .tex import *
 from .unicode import *
+from .jplot import *
 
 __import__("matplotlib").rcParams.update({'axes.labelsize': 20,
                                           'axes.titlesize': 30})

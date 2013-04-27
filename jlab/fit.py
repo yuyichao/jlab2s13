@@ -210,3 +210,24 @@ def curve_fit_wrapper(fitfun):
         return Ret('x', 'a', 'yfit', 'cov', 'func', s=sqrt(diag(cov)),
                    chi2=redchi2(y - yfit, sig, len(a)) if sig != None else None)
     return curve_fitter
+
+def fit_lin_comb(A, b, cov):
+    cov = array(cov)
+    cov = (cov + cov.T) / 2
+    A = array(A)
+    b = array(b)
+
+    # rescale to cov = 1
+    evalue, evector = eig(cov)
+    trans = (evector / sqrt(evalue)).T
+    b2 = trans.dot(b)
+    A2 = trans.dot(A)
+
+    # a = C * b
+    C = inv(A2.T.dot(A2)).dot(A2.T)
+    a = C.dot(b2)
+    cov = C.dot(C.T)
+    s = sqrt(diag(cov))
+    b_fit = A.dot(a)
+    b_e = b - b_fit
+    return Ret('a', 's', 'cov', 'b_fit', 'b_e', 'b', 'A')
