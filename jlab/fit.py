@@ -25,6 +25,7 @@
 from .general import *
 
 from scipy.optimize import curve_fit, leastsq
+from scipy.linalg import block_diag
 
 def _init_l_w_sig(x, sig0):
     l = len(x)

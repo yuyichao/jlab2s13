@@ -1,5 +1,5 @@
 set(ALL_DOPPLER_DATAS
-  all_data/4-18/20130418-11_35_44
+  # all_data/4-18/20130418-11_35_44
   all_data/4-18/20130418-12_52_13
   all_data/4-18/20130418-12_54_15
   all_data/4-18/20130418-12_56_31
@@ -27,4 +27,12 @@ foreach(data ${ALL_DOPPLER_DATAS})
     COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/loadcsv.py" "${data}.csv"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     DEPENDS "${data}.csv" loadcsv.py)
+endforeach()
+
+foreach(data ${ALL_DOPPLER_DATAS})
+  jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${data}_combine.py"
+    COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/combine_regions.py"
+    "${data}.py" "${data}_region.py" "${data}_combine.py"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    DEPENDS "${data}.py" "${data}_region.py" combine_regions.py)
 endforeach()
