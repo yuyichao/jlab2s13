@@ -28,6 +28,7 @@ from .unc_prop import *
 from .tex import *
 from .unicode import *
 from .jplot import *
+from .peak_finder import find_next_peak
 
 __import__("matplotlib").rcParams.update({'axes.labelsize': 20,
                                           'axes.titlesize': 30})

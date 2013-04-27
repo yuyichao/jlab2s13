@@ -4,8 +4,8 @@ from jlab import *
 
 def select_region(iname):
     data = load_pyfile(iname).data
-    plot(data[0], data[2])
-    plot(data[0], data[3])
+    plot(data[2])
+    plot(data[3])
     title(iname)
     selector = RegionSelect()
     return [(rect.x1, rect.x2) for rect in selector.run()]
