@@ -31,6 +31,9 @@ class SelectionRect:
         self.__y2 = y2
 
     def get_handle(self, x, y, threshx, threshy):
+        if (x < self.x1 - threshx or x > self.x2 + threshx or
+            y < self.y1 - threshy or y > self.y2 + threshy):
+            return
         dx = abs(self.__x1 - x), abs(self.__x2 - x)
         dy = abs(self.__y1 - y), abs(self.__y2 - y)
         if dx[0] < dx[1] and dx[0] < threshx:
