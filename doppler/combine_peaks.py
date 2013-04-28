@@ -3,6 +3,8 @@
 from jlab import *
 
 def cal_peak(name, pos, pos_s, data):
+    pos_i = pos
+    pos_i_s = pos_s
     scan = data[4]
     pos_v = scan[int(pos)]
     for i in range(int(pos), len(scan)):
@@ -28,7 +30,7 @@ def cal_peak(name, pos, pos_s, data):
                  (fitres.func(pos + pos_s) - fitres.func(pos - pos_s))**2)
     pos = fitres.func(pos)
 
-    return Ret('name', 'pos_s', 'pos')
+    return Ret('name', 'pos_s', 'pos', 'pos_i', 'pos_i_s')
 
 def combine_for_peak(data_fname, combine_fname, peaks_fname,
                      peak_names_fname, line_fname):
@@ -40,13 +42,15 @@ def combine_for_peak(data_fname, combine_fname, peaks_fname,
 
     fit_a = combine_data.fit_a
     fit_s = combine_data.fit_s
+    fit2_a = combine_data.fit2_a
+    fit2_s = combine_data.fit2_s
 
     peaks = [cal_peak(name, pos, pos_s, data)
              for ((pos, pos_s), name)
              in zip(peaks, peak_names)
              if name]
 
-    return Ret('fit_a', 'fit_s', 'peaks')
+    return Ret('fit_a', 'fit_s', 'fit2_a', 'fit2_s', 'peaks')
 
 if __name__ == '__main__':
     import sys

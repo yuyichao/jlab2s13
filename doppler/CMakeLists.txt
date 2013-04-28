@@ -43,6 +43,6 @@ foreach(data ${ALL_DOPPLER_DATAS})
     "${data}.py" "${data}_combine.py" "${data}_peaks_type.py"
     "${data}_peaks_name.py" "all_data/peaks_value.py" "${data}_peak_combine.py"
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-    DEPENDS combine_regions.py "${data}.py" "${data}_combine.py"
+    DEPENDS combine_peaks.py "${data}.py" "${data}_combine.py"
     "${data}_peaks_type.py" "${data}_peaks_name.py" "all_data/peaks_value.py")
 endforeach()

@@ -90,9 +90,12 @@ def fit_wave(x, y):
     min_max_s = (fix_min_max(m, area, y) for m in min_max_s)
     points = list(wave_point_iter(min_max_s, y))
     fit_y = x[points]
-    fit_x = arange(len(points))
+    fit_x = arange(len(points)) / 4
     fitres = fitlin(fit_x, fit_y)
-    return fitres.a[1] * 4, fitres.s[1] * 4
+
+    fit_y2 = points
+    fitres2 = fitlin(fit_x, fit_y2)
+    return fitres.a[1], fitres.s[1], fitres2.a[1], fitres2.s[1]
 
 def fit_scan(start_i, end_i, data, regions):
     interesting_regions = [(int(max(r_start, start_i)), int(max(r_end, end_i)))
@@ -100,8 +103,9 @@ def fit_scan(start_i, end_i, data, regions):
                            if r_end > start_i and r_start < end_i]
     if not interesting_regions:
         return
-    fit_a, fit_s = fit_wave(data[4][start_i:end_i], data[1][start_i:end_i])
-    return fit_a, fit_s, interesting_regions
+    fit_a, fit_s, fit2_a, fit2_s = fit_wave(data[4][start_i:end_i],
+                                            data[1][start_i:end_i])
+    return fit_a, fit_s, fit2_a, fit2_s, interesting_regions
 
 def combine_regions(data_name, region_name):
     data = array(load_pyfile(data_name).data)
@@ -121,9 +125,9 @@ def combine_regions(data_name, region_name):
     it = tuple(v for v in it if v is not None)
     if not it:
         return {}
-    fit_a, fit_s, interesting_regions = zip(*it)
+    fit_a, fit_s, fit2_a, fit2_s, interesting_regions = zip(*it)
     interesting_regions = tuple(itertools.chain(*interesting_regions))
-    return Ret('fit_a', 'fit_s', 'interesting_regions')
+    return Ret('fit_a', 'fit_s', 'fit2_a', 'fit2_s', 'interesting_regions')
 
 if __name__ == '__main__':
     import sys
