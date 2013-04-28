@@ -7,9 +7,10 @@ def select_peaks(data_name, combine_name):
     regions = load_pyfile(combine_name).interesting_regions
     peaks = []
     for start_i, end_i in regions:
-        plot(data[2][start_i:end_i])
-        plot(data[3][start_i:end_i])
-        plot((data[3] - data[2])[start_i:end_i])
+        xs = r_[start_i:end_i]
+        plot(xs, data[2][start_i:end_i])
+        plot(xs, data[3][start_i:end_i])
+        plot(xs, (data[3] - data[2])[start_i:end_i])
         title(data_name)
         selector = RegionSelect()
         for rect in selector.run():
