@@ -17,7 +17,6 @@ def select_peaks(data_name, combine_name):
             peaks.append((rect.x1, rect.x2))
     return peaks
 
-
 if __name__ == '__main__':
     import sys
     data_name, combine_name, oname = sys.argv[1:]

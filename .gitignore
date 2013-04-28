@@ -27,5 +27,5 @@ __pycache__/
 *.pyc
 *.pya
 *.fdb_latexmk
-*.x.table
-*.x.gnuplot
+*.table
+*.gnuplot
