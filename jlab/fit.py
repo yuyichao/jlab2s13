@@ -69,7 +69,8 @@ def fitlin(x, y, sig=None):
 
     a = array([0, dxy / dx])
     a[0] = ya - a[1] * xa
-    yfit = a[0] + a[1] * x
+    func = lambda x: a[0] + a[1] * x
+    yfit = func(x)
 
     if sig is None:
         chi2 = None
@@ -83,7 +84,7 @@ def fitlin(x, y, sig=None):
     Da[0, 0] = Da[1, 1] * x2a
     s = sqrt(array([Da[0, 0], Da[1, 1]]))
     Da[1, 0] = Da[0, 1] = -Da[1, 1] * xa
-    return Ret('a', 's', 'x', 'yfit', 'chi2', cov=Da)
+    return Ret('a', 's', 'x', 'yfit', 'chi2', 'func', cov=Da)
 
 def fitpow(x, y, n, sig=None):
     x = array(x)
