@@ -36,3 +36,13 @@ foreach(data ${ALL_DOPPLER_DATAS})
     WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     DEPENDS "${data}.py" "${data}_region.py" combine_regions.py)
 endforeach()
+
+foreach(data ${ALL_DOPPLER_DATAS})
+  jlab_add_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/${data}_peak_combine.py"
+    COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/combine_peaks.py"
+    "${data}.py" "${data}_combine.py" "${data}_peaks_type.py"
+    "${data}_peaks_name.py" "all_data/peaks_value.py" "${data}_peak_combine.py"
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    DEPENDS combine_regions.py "${data}.py" "${data}_combine.py"
+    "${data}_peaks_type.py" "${data}_peaks_name.py" "all_data/peaks_value.py")
+endforeach()
