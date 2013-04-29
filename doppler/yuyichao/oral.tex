@@ -138,7 +138,7 @@
 }
 \def\timeleft{15:00->14:55}
 
-\title[Doppler-free spectroscopy using saturated absorption\hspace{2em}\tiny{\timeleft}]{Doppler-free spectroscopy}
+\title[Doppler-free spectroscopy\hspace{2em}\tiny{\timeleft}]{Doppler-free spectroscopy using saturated absorption}
 \author{Yichao Yu}
 \institute{MIT}
 
@@ -170,8 +170,8 @@
 
 \def\timeleft{13:50->11:40}
 % Theory
-\section{Saturated absorption and atom hyperfine structure.}
-\begin{frame}{Doppler broadening and spectral hole buning.}
+\section{Doppler broadening and saturated absorption.}
+\begin{frame}{Doppler broadening and spectral hole burning.}
   \begin{columns}
     \column{6cm}
     \begin{block}{}
@@ -184,16 +184,95 @@
       \item
         Cooling.
       \item
-        Saturated absorption: whole burning without doppler broadening.
+        He-Ne spectral whole burning discovered by Bennett in 1962.\only<+->{}
+      \item
+        Saturated absorption in vapor cell.
+      \end{itemize}
+    \end{block}
+    \column{6cm}
+    \visible<4-> {
+      \begin{tikzpicture}[scale=.8]
+        \only<4> {
+          \draw[smooth,domain=-2.5:2.5] plot function{2*exp(-x**2)};
+        }
+        \only<5-> {
+          \draw[smooth,domain=-2.5:2.5,dashed] plot function{2*exp(-x**2)};
+          \draw[smooth,domain=-2.5:2.5] plot function{2*exp(-x**2)-1.2*exp(-x**2 * 40)};
+        }
+        \draw[->,black] (-3,0) -- (3,0) node[right] {$f$};
+        \draw[->,black] (0,0) -- (0,3);
+      \end{tikzpicture}
+    }
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Saturated absorption.}
+  \begin{columns}
+    \column{6cm}
+    \begin{block}{}
+      \begin{itemize}[<+->]
+      \item
+        Saturation intensity.\only<+->{}
+      \item
+        Saturate absorption with two beams and Lamb dip.
+      \item
+        Crossover peaks.
       \end{itemize}
     \end{block}
     \column{6cm}
     \begin{tikzpicture}[scale=.8]
-      \draw[smooth,domain=-2.5:2.5] plot function{2*exp(-x**2)};
-      \draw[smooth,domain=-2.5:2.5,dashed] plot function{2*exp(-x**2)};
-      \draw[smooth,domain=-2.5:2.5] plot function{2*exp(-x**2)-1.2*exp(-x**2 * 40)};
-      \draw[->,black] (-3,0) -- (3,0) node[right] {$f$};
-      \draw[->,black] (0,0) -- (0,3);
+      \visible<4-> {
+        \draw[line width=2] (0, 7) -- (6, 7) node[right] {$E_2$};
+        \draw[red, line width=2] (0, 6) -- (6, 6) node[right, black] {$E_{laser}$};
+        \draw[<->, blue, line width=2] (2, 6) -- (2, 7);
+        \draw[<->, blue, line width=2] (2, 6) -- (2, 5);
+        \path (2, 6.5) node[right] {$+\Delta E_{doppler}$};
+        \path (2, 5.5) node[right] {$-\Delta E_{doppler}$};
+      }
+      \draw[line width=2] (0, 5) -- (6, 5) node[right] {\only<-3>{$E$}\only<4->{$E_1$}};
+      \draw[line width=2] (0, 0) -- (6, 0) node[right] {$G$};
+
+      \only<1> {
+        \draw[line width=6, red, ->] (0, 2) -- (5, 2)
+        node[right, black, align=center] {weak\\beam};
+        \draw[line width=2, red, ->] (2, 2) -- (4, 1)
+        node[right, black, align=center] {scatter};
+        \draw[line width=1.5, fill=black] (0.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (1.0, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (1.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (2.0, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (2.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.0, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (4.0, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (4.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.0, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (3, 5) circle (0.2);
+      }
+
+      \only<2-3> {
+        \draw[line width=18, red, ->] (0, 2) -- (5, 2)
+        node[right, black, align=center] {strong\\beam};
+        \draw[line width=6, red, ->] (1, 2) -- (2.5, .5)
+        node[right, black, align=center] {scatter};
+        \draw[line width=1.5, fill=black] (0.5, 5) circle (0.2);
+        \draw[line width=1.5, fill=black] (0.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (1.5, 5) circle (0.2);
+        \draw[line width=1.5, fill=black] (1.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (2.5, 5) circle (0.2);
+        \draw[line width=1.5, fill=black] (2.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.5, 5) circle (0.2);
+        \draw[line width=1.5, fill=black] (3.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (4.5, 5) circle (0.2);
+        \draw[line width=1.5, fill=black] (4.5, 0) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.5, 5) circle (0.2);
+        \draw[line width=1.5, fill=black] (5.5, 0) circle (0.2);
+      }
+      \only<3> {
+        \draw[line width=4, red, ->] (6, 4) -- (1, 4)
+        node[left, black, align=center] {second\\beam};
+      }
     \end{tikzpicture}
   \end{columns}
 \end{frame}
@@ -204,46 +283,41 @@
 \begin{frame}{Apparatus.}
   \begin{center}
     \begin{tikzpicture}[scale=.8]
-      \draw[line width=.2, dashed, red] (0, 0) -- (3, 1) -- (7, 1) -- (9, 0);
-      \draw[line width=.2, dashed, red] (0, 0) -- (3, -1) -- (7, -1) -- (9, 0);
-      \draw[line width=.2, dashed, red] (0, 0) -- (3, 0) -- (7, 0) -- (9, 0);
+      \draw[line width=2] (1, -.2) rectangle (2, .2) node[above] {Diode laser};
+      \draw (-.5, -0.5) -- ++(-1, 1) -- ++(-.2, -.2) -- ++(1, -1) -- ++(.2, .2);
 
-      \draw (0, 0) circle (.2);
-      \path (0, -.3) node[below] {$Rb$ Lamp};
-
-      \draw[line width=1.2] (1, -1) -- (1, 1) node[above] {{\visible<2->{$P$}}};
-      \draw[line width=1.2] (2, -1) -- (2, 1) node[above] {{\visible<2->{$\dfrac{\lambda}{4}$}}};
-      \draw[line width=1.2, <->] (3, -1) -- (3, 1);
-
-      \draw (5, 0) circle (.6) node {{\visible<3->{$Rb$}}};
-
-      \visible<5->{
-        \draw (5, .7) ellipse (.7 and .05);
-        \draw (5, -.7) ellipse (.7 and .05);
-        \path (5, -.75) node[below] {rf};
+      \visible<2-> {
+        \draw[red, line width=2] (1, 0) -- (-1, 0) -- ++(-.3, -.1) -- (-7, -.1);
+        \draw[red, line width=.7] (-7, -.1) -- (-9, -.1);
+        \draw[red, line width=2] (-7, -.1) -- (-1.36, 3.24);
+      }
+      \visible<3-> {
+        \draw[red, line width=1] (-1, 0) -- (-1, 3);
+        \draw[red, line width=1] (-1.3, -.1) -- (-1.3, 3.2);
+        \draw[red, line width=.7] (-1.27, 3.18) -- (-6.94, -.16) -- (-8.074, -.828);
+        \draw[red, line width=.7] (-.97, 2.98) -- (-6.7, -.4) -- (-7.846, -1.076) node[below, black] {measure power};
       }
 
-      \visible<4->{
-        \draw[line width=2, brown] (4, 0) ellipse (.3 and 1.7);
-        \draw[line width=2, brown] (6, 0) ellipse (.3 and 1.7);
-        \path (5, 1.7) node[above] {$B$};
+      \visible<4-> {
+        \draw[line width=1, dashed] (-.3, -.3) -- (.3, .3);
+        \draw[red, dashed, line width=1] (0, 0) -- (0, -1) node[black, below] {FP cavity};
       }
 
-      \draw[line width=1.2, <->] (7, -1) -- (7, 1);
-      \draw (9, 0) circle (.2);
-      \path (9, -.3) node[below] {Detector};
+      \draw[line width=2] (-.7, 2.8) -- (-1.6, 3.4);
+      \draw[line width=2] (-9, -.6) --  (-9, .4);
+      \draw[line width=1] (-6.5, -.6) --  (-7.5, .4);
+
+      \draw[blue, line width=1] (-2.906, 1.563) -- (-4.786, 0.449) -- (-5.287, 1.295) -- (-3.407, 2.409) -- cycle node[black, above] {Rb cell};
     \end{tikzpicture}
   \end{center}
   \begin{block}{}
     \begin{itemize}
     \item<2->
-      Circular polarization.
+      Pump beam
     \item<3->
-      ${}^{85}Rb$ and ${}^{87}Rb$
+      Probe and reference beam.
     \item<4->
-      $B$ field.
-    \item<5->
-      RF field.
+      Fabry-P\'erot cavity
     \end{itemize}
   \end{block}
 \end{frame}
@@ -251,114 +325,55 @@
 \def\timeleft{7:30 -> 4:00}
 % goal
 \begin{frame}{Measurement}
-  \visible<+->{
-    \begin{block}{}
-      \[ \Delta\mu B=hf \]
-      \uncover<+->{
-        \[ f_{RF}=\frac{g_F\mu_B}{h}\sqrt{(B_x+B_{x0})^2+(B_y+B_{y0})^2+(B_z+B_{z0})^2} \]
-      }
-    \end{block}
-  }
-  \begin{columns}
-    \column{5.5cm}
-    \begin{block}{}
-      \begin{itemize}[<+->]
-      \item
-        Scan RF frequency.
-      \item
-        Scan $B$ field.
-      \item
-        Switch $B$ field.
-      \end{itemize}
-    \end{block}
-    \column{5.5cm}
-    \only<3>{
-      \begin{block}{Scaning RF frequency at different $B$ field.}
-        \begin{itemize}
-        \item
-          Measure/cancel earth magnetic field.
-        \item
-          Natural Abundance. \alert{Different from the strength of the absorption.}
-          \[ I_{absorb}\propto NA\cdot g_F^2 \]
-        \end{itemize}
-      \end{block}
-    }
-    \only<4>{
-      \begin{block}{Scan $B$ field at different RF frequency.}
-        \begin{itemize}
-        \item
-          Measure resonance frequency.
-        \end{itemize}
-      \end{block}
-    }
-    \only<5>{
-      \begin{block}{Switch $B$ at different light intensity.}
-        \begin{itemize}
-        \item
-          Measure pumping rate.
-          \[ R\propto I_{light} \]
-        \end{itemize}
-      \end{block}
-    }
-  \end{columns}
+  \begin{block}{Hyperfine structure of Rubidium $D_2$ line.}
+    \begin{itemize}[<+->]
+    \item
+      $D_2$ line\\
+      $5^2S_{1/2}\rightarrow 5^2P_{3/2}$
+    \item
+      $2$ ``doppler distinguishable'' ``ground states'', each couples with $3$ non-``doppler distinguishable'' excited states.
+    \item
+      \begin{align*}
+        \Delta E_{hfs}=&\frac12A_{hfs}K+B_{hfs}\frac{3K(K + 1) - 2I(I + 1)J(J + 1)}{8I(2I - 1)J(2J - 1)}\\
+        K=&F(F + 1) - I(I + 1) - J(J + 1)
+      \end{align*}
+    \item
+      Quantities to measure\\
+      $A_{5^2S_{1/2}}$, $A_{5^2P_{3/2}}$ and $B_{5^2P_{3/2}}$ for ${}^{85}Rb$ and ${}^{87}Rb$.
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \def\timeleft{4:00->3:00}
 \section{Data and result.}
-\begin{frame}{Scanning $B$ field.}
+\begin{frame}{Spectrum measurment.}
   \begin{columns}
     \column{6cm}
-    % \includegraphics[width=6cm]{../bscan_nf/03-15-bscan_nf_rf1.png}\\
-    Light intensity when scanning $B$ field.
+    \includegraphics[width=6.2cm]{../all_data/4-18/20130418-14_12_48_probe.png}\\
+    Probe beam intensity of the whole scan.
     \column{6cm}
-    \only<2>{
-      \begin{block}{$g_F$ factor.}
-        \begin{center}
-          \begin{tabular}{|c|c|c|}
-            \hline
-            Isotrope&Measured&Expected\\\hline
-            ${}^{85}Rb$&$0.498(19)$&$0.500$\\\hline
-            ${}^{87}Rb$&$0.331(13)$&$0.333$\\\hline
-          \end{tabular}
-        \end{center}
-      \end{block}
+    \visible<2>{
+      \includegraphics[width=6.2cm]{../all_data/4-18/20130418-12_52_13_balance.png}\\
+      Difference between probe and reference beam intensity of the ${}^{87}Rb$ $F=2$ lines.
     }
   \end{columns}
 \end{frame}
 
-\begin{frame}{Scanning RF frequency.}
-  \begin{columns}
-    \column{6cm}
-    % \includegraphics[width=6cm]{../rfscan_nf/03-19-rfscan_nf_y7.png}\\
-    Light intensity when scanning RF frequency.
-    \column{6cm}
-    \only<2>{
-      % \includegraphics[width=6cm]{../rfscan_nf/rfscan_y_fit.png}\\
-      Peak positions at different $y$ current
-      \begin{block}{Ambient magnetic field.}
-        \begin{center}
-          \begin{tabular}{|c|c|}
-            \hline
-            $B_x/mGs$&$361(10)$\\\hline
-            $B_y/mGs$&$72.2(1.6)$\\\hline
-            $B_z/mGs$&$191.6(5.2)$\\\hline
-          \end{tabular}
-        \end{center}
-      \end{block}
-    }
-    \only<3>{
-      \begin{block}{Natural Abundance.}
-        \begin{center}
-          \begin{tabular}{|c|c|c|}
-            \hline
-            Isotrope&Measured&Expected\\\hline
-            ${}^{85}Rb$&$72.0(2.2)\%$&$72.168\%$\\\hline
-            ${}^{87}Rb$&$28.0(2.2)\%$&$27.835\%$\\\hline
-          \end{tabular}
-        \end{center}
-      \end{block}
-    }
-  \end{columns}
+\begin{frame}{Hyperfine Structure Constants.}
+  \begin{block}{Hyperfine Structure Constants.}
+    \begin{center}
+      \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Isotrope&Constant&Measured&Expected&Deviation\\\hline
+        &$A_{5^2S_{1/2}}$&$0.986(40)GHz$&$1.0119GHz$&$0.6\sigma$\\\cline{2-5}
+        ${}^{85}Rb$&$A_{5^2P_{3/2}}$&$24.44(81)MHz$&$25.0020(99)MHz$&$0.7\sigma$\\\cline{2-5}
+        &$B_{5^2P_{3/2}}$&$32.2(4.8)MHz$&$25.790(93)MHz$&$1.3\sigma$\\\hline
+        &$A_{5^2S_{1/2}}$&$3.285(65)GHz$&$3.4173GHz$&$2\sigma$\\\cline{2-5}
+        ${}^{87}Rb$&$A_{5^2P_{3/2}}$&$84.58(52)MHz$&$84.7185(20)MHz$&$0.2\sigma$\\\cline{2-5}
+        &$B_{5^2P_{3/2}}$&$16.03(80)MHz$&$12.4965(37)MHz$&$4\sigma$\\\hline
+      \end{tabular}
+    \end{center}
+  \end{block}
 \end{frame}
 
 \def\timeleft{0:30->0:00}
@@ -367,13 +382,9 @@
   \begin{block}{}
     \begin{itemize}[<+->]
     \item
-      Observed optical pumping and depolarization.
+      Observed Lamb dip.
     \item
-      Ambient megnetic field.
-    \item
-      $g_F$ factors.
-    \item
-      Natural abundance of ${}^{85}Rb$ and  ${}^{87}Rb$.
+      Measured hyperfine splitting and the hyperfine structure constants.
     \end{itemize}
   \end{block}
 \end{frame}
@@ -382,38 +393,6 @@
 \end{frame}
 
 \begin{frame}{}
-  \begin{block}{Landé g-factor}
-    \[g_J\approx\frac{3}{2}+\frac{S(S+1)-L(L+1)}{2J(J+1)}\]
-    \[g_F\approx g_J\frac{F(F+1)-I(I+1)+J(J+1)}{2F(F+1)}\]
-  \end{block}
-  \begin{columns}
-    \column{5.5cm}
-    \begin{block}{}
-      \begin{center}
-        $S=\dfrac12$\qquad$L=0$\qquad$J=\frac12$\\
-        $I=\left\{\begin{array}{ll}
-            \dfrac52&({}^{85}Rb)\\
-            \dfrac32&({}^{87}Rb)
-          \end{array}
-        \right.$
-        $F=\left\{\begin{array}{ll}
-            3&({}^{85}Rb)\\
-            2&({}^{87}Rb)
-          \end{array}
-        \right.$
-      \end{center}
-    \end{block}
-    \column{5.5cm}
-    \begin{block}{}
-      \begin{center}
-        $g_F=\left\{\begin{array}{ll}
-            \dfrac13&(Rb^{85})\\
-            \dfrac12&(Rb^{87})
-          \end{array}
-        \right.$
-      \end{center}
-    \end{block}
-  \end{columns}
 \end{frame}
 
 \end{document}
