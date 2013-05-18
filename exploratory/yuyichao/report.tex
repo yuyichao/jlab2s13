@@ -77,22 +77,32 @@
 \affiliation{MIT Department of Physics}
 
 \begin{abstract}
+  Nonlinear optics is an important branch of optics which studies the behavior of light in a nonlinear media in which the polariztion is not a linear function of the electric field. The nonlinear effect in the media can cause interaction between light and an external field or even between two light beams for higher order nonlinear effects. These interactions give rise to the optical information processing that can possibly make computing faster using less energy. However, for classical nonlinear media, there is a compromise between nonlinearity and reaction speed. Recently, people have been hoping on using quantum effect to design a fast and effecient non-linear media. Several ways have been proposed including using optical crystal and atomic energy levels. In our experiment, we studied the non-linear effect and pattern formation in a Rubidium vapor cell and partialy reproduced one possible way of making an all-optics switch.
 \end{abstract}
 
 \maketitle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Introduction}
+Optical information processing, which uses light instead of electrisity (like a modern computer), is thought to be one of candidates of next generation computing. It can be faster and also more energy effecient. The realization of such processing requires nonlinear media where the relation between polarization and electric field is no longer linear. In such media, the effective index of refraction as well as other properties can be affected by an external field or even another light beam which can be used to make electric-optics switches and even all-optics switches. These effects have been studied thoroughly in arround 1980s and a lot of possible applications had been proposed. However, when using classical nonlinear media, there is a compromise between the reaction time and nonlinear coefficients. Materials like liquid crystal have really big nonlinear effect but they also have a reaction time in the order of $1$ms. Other media usually have a really small nonlinear effect and will require high light power to work. These properties are really limiting the advantage of optical information processing and making it impossible to use classical nonlinear media.
+
+Recently, people have been trying to solve the problem using quantum physics and the control of energy levels. One possible way is using a optical crystal in which one can introduce and control the nonlinear effects by designing certain band structures. Another way is using a close resonance beam of certain atomic line. Using the strong interaction between light and atom close to resonance, a pattern forming effect had been observed in both experiment\cite{rb_exp} and simulation\cite{rb_sim} and the possible application of making all-optics switch has also been studied experimentally\cite{rb_switch}.
+
+In our experiment, we have used a similar setup with that used in the all-optics switch\cite{rb_switch} and studied the light generated when two conterpropergating beams are close to resonance with the Rubidium atom in the cell. We were able to see several patterns appears in the generated light and partially reproduce some effect for the all-optics switch.
 
 \section{Theory}
 \subsection{Saturated absorption and non-linear effect.}
+When a close resonance laser beam is interacting with atoms, part of the beam will be absorbed and scattered by the atoms. At the same time, if the intensity of the laser is strong enough, the stimulated emission will be comparable or stronger than the spontaneous emission, atoms will be pumped to the excited state, there will be almost equal number of atoms in the excited and ground states and the scattering will also reach a maximum. This effect is called saturated absorption and the intensity is called saturation intensity ($I_{set}$). Since the stimulated emission is important in this regime, the reaction to light of the atoms is not linear anymore and there can be interaction between multiple beams. Since the scattering is already saturated, the close resonance light will no longer be strongly absorbed which makes it possible to do observations.
+
 \subsection{Scattering in a standing wave and interference rings.}
+By using a mirror to retroreflect the laser beam, we can create a standing wave in the cell. The distance between each wave crest where the constructive interferience happens is half the incedent wave length. Therefore, the phase of the light at each wave crest is alternating between $0$ and $\pi$ and the light scattered at each point will have the same phase relation. If the incident beam is red detuned
+
 \subsection{Flower like patterns from four wave mixing.}
 
 \section{Apparatus}
 \subsection{Beam path setup.}
 \begin{figure}
   \includegraphics[width=9cm]{apparatus.png}
-  \caption{}
+  \caption{Beam path setup of the experiment. The aperture is used to make the elliptical beam coming out of the diode laser more circular. The polarization beam splitter (PBS) is used to split the weak generated light with an orthogonal polarization from the main beam. A photo diode can be put in the beam path to measure the power helping to find the resonance frequency.}
   \label{apparatus}
 \end{figure}
 \subsection{Heater design.}
